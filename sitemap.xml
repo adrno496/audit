@@ -2,21 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Pages principales (FR) -->
+  <!-- ============ Pages principales (FR) ============ -->
   <url>
     <loc>https://convertaudit.app/</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/landing.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://convertaudit.app/landing.html"/>
-  </url>
-  <url>
-    <loc>https://convertaudit.app/landing.html</loc>
-    <lastmod>2026-05-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://convertaudit.app/"/>
   </url>
   <url>
     <loc>https://convertaudit.app/about.html</loc>
@@ -39,15 +33,19 @@
     <lastmod>2026-05-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/privacy.html"/>
   </url>
   <url>
     <loc>https://convertaudit.app/legal.html</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/legal.html"/>
   </url>
 
-  <!-- Articles (FR) -->
+  <!-- ============ Articles (FR) ============ -->
   <url>
     <loc>https://convertaudit.app/blog/auditer-landing-page-2026.html</loc>
     <lastmod>2026-05-10</lastmod>
@@ -89,24 +87,30 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/social-proof-formats.html"/>
   </url>
 
-  <!-- Pages principales (EN) -->
+  <!-- ============ Pages principales (EN) ============ -->
   <url>
     <loc>https://convertaudit.app/en/landing.html</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/landing.html"/>
   </url>
   <url>
     <loc>https://convertaudit.app/en/about.html</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/about.html"/>
   </url>
   <url>
     <loc>https://convertaudit.app/en/blog.html</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog.html"/>
   </url>
   <url>
     <loc>https://convertaudit.app/en/privacy.html</loc>
@@ -121,7 +125,7 @@
     <priority>0.4</priority>
   </url>
 
-  <!-- Articles (EN) -->
+  <!-- ============ Articles (EN) ============ -->
   <url>
     <loc>https://convertaudit.app/en/blog/audit-landing-page-2026.html</loc>
     <lastmod>2026-05-10</lastmod>
@@ -152,5 +156,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!--
+    Note: l'app d'audit (/analyse.html) n'est PAS référencée volontairement.
+    C'est un outil interactif sans contenu indexable utile pour les moteurs.
+    Le fichier landing.html n'existe plus (renommé en index.html, servi sur /).
+  -->
 
 </urlset>

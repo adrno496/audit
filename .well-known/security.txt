@@ -1,0 +1,5 @@
+Contact: mailto:security@convertaudit.app
+Expires: 2027-05-10T00:00:00.000Z
+Preferred-Languages: fr, en
+Canonical: https://convertaudit.app/.well-known/security.txt
+Policy: https://convertaudit.app/legal.html

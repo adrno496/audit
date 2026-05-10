@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d9488">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
   <title>ConvertAudit — Audite ta landing page en 30s, score 0-100, actions concrètes</title>
   <meta name="description" content="Analyse IA de ta landing page sur 8 dimensions de conversion. Score sur 100, plan d'action priorisé, rapport téléchargeable. 30 secondes, aucune inscription. À partir de 4,90 €.">
   <meta name="robots" content="index,follow">
@@ -10,6 +14,10 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://convertaudit.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ConvertAudit — Audit IA de landing page, score 0-100">
   <meta property="og:title" content="ConvertAudit — Audite ta landing page en 30s">
   <meta property="og:description" content="Score 0-100, 8 dimensions de conversion analysées par IA, plan d'action concret. À partir de 4,90 €.">
   <meta property="og:url" content="https://convertaudit.app/">
@@ -18,6 +26,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://convertaudit.app/og-image.svg">
+  <meta name="twitter:image:alt" content="ConvertAudit — Audit IA de landing page">
   <meta name="twitter:title" content="ConvertAudit — Audite ta landing page en 30s">
   <meta name="twitter:description" content="Score 0-100, 8 dimensions de conversion, plan d'action concret. À partir de 4,90 €.">
 
@@ -361,8 +371,24 @@
     .footer-links a { color: var(--text-muted); }
     .footer-links a:hover { color: var(--text); }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Combien de temps prend un audit ?", "acceptedAnswer": { "@type": "Answer", "text": "Entre 15 et 30 secondes. La page est récupérée, analysée par l'IA selon 8 dimensions, et le rapport interactif s'affiche. Tu peux le télécharger en HTML autonome." } },
+      { "@type": "Question", "name": "Sur quoi se base le scoring ?", "acceptedAnswer": { "@type": "Answer", "text": "Sur 15 ans de bonnes pratiques CRO : Hero (×2), CTA (×2), Copywriting (×1.5), et 5 autres dimensions à parts égales. Mention finale : Faible <40, Moyen 40-60, Bon 60-80, Excellent >80." } },
+      { "@type": "Question", "name": "Mon site est en anglais, ça marche ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui. Tu choisis la langue du rapport (FR ou EN) au moment de l'audit, indépendamment de la langue du site analysé." } },
+      { "@type": "Question", "name": "Puis-je tester avec ma propre clé API ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui — c'est même gratuit côté ConvertAudit. Active le mode BYOK depuis l'app avec ta clé Anthropic, OpenAI, Groq, Grok (xAI), Mistral ou OpenRouter. Tu paies ton fournisseur directement, aucun crédit ConvertAudit n'est consommé." } },
+      { "@type": "Question", "name": "Mes données sont-elles stockées ?", "acceptedAnswer": { "@type": "Answer", "text": "Non. L'audit est traité à la volée : la page est récupérée, analysée, le rapport te revient. Aucun stockage côté serveur. Tes URL et résultats restent dans ton navigateur." } },
+      { "@type": "Question", "name": "Sites protégés par Cloudflare / login obligatoire ?", "acceptedAnswer": { "@type": "Answer", "text": "Les pages publiques (sans login) fonctionnent dans 90-95 % des cas. Cloudflare avec challenge JS strict ou pages derrière auth ne sont pas auditables." } },
+      { "@type": "Question", "name": "Puis-je obtenir un remboursement ?", "acceptedAnswer": { "@type": "Answer", "text": "Si le rapport ne s'affiche pas correctement à cause d'un bug, oui. Pas de remboursement sur audits réussis — le coût IA est immédiat côté serveur." } }
+    ]
+  }
+  </script>
 </head>
 <body>
+<a href="#main" class="skip-link">Aller au contenu principal</a>
 
   <!-- ============ HEADER ============ -->
   <header class="site">
@@ -380,10 +406,10 @@
       </nav>
       <div class="header-actions">
         <div class="lang-switch">
-          <a href="landing.html" class="active">FR</a>
+          <a href="index.html" class="active">FR</a>
           <a href="en/landing.html">EN</a>
         </div>
-        <a href="index.html" class="btn btn-primary">Auditer mon site</a>
+        <a href="analyse.html" class="btn btn-primary">Auditer mon site</a>
       </div>
     </div>
   </header>
@@ -400,7 +426,7 @@
             les points faibles précis, et un plan d'action concret. En 30 secondes, sans inscription.
           </p>
           <div class="hero-cta">
-            <a href="index.html" class="btn btn-primary lg">Auditer mon site →</a>
+            <a href="analyse.html" class="btn btn-primary lg">Auditer mon site →</a>
             <a href="#how" class="btn btn-ghost">Voir comment ça marche</a>
           </div>
           <div class="hero-bullets">
@@ -600,7 +626,7 @@
     <div class="container">
       <h2>Audite ton site en 30 secondes</h2>
       <p>Entre l'URL, reçois le score, applique le plan d'action. Aucune inscription requise.</p>
-      <a href="index.html" class="btn btn-primary lg">Auditer mon site maintenant →</a>
+      <a href="analyse.html" class="btn btn-primary lg">Auditer mon site maintenant →</a>
     </div>
   </section>
 
@@ -612,7 +638,7 @@
         <span>ConvertAudit</span>
       </div>
       <div class="footer-links">
-        <a href="index.html">Auditer mon site</a>
+        <a href="analyse.html">Auditer mon site</a>
         <a href="blog.html">Blog</a>
         <a href="about.html">À propos</a>
         <a href="legal.html">Mentions légales</a>

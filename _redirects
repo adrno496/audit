@@ -1,0 +1,17 @@
+# Netlify redirects (utilisé aussi par Cloudflare Pages)
+# Ordre : règles spécifiques d'abord, fallback à la fin.
+
+# Détection de langue navigateur (optionnel, redirige sur la home)
+# / /en/landing.html 302 Language=en
+# / /index.html 302 Language=fr,fr-FR
+
+# Redirections de l'ancien nom landing.html → / (au cas où des liens externes existent)
+/landing.html / 301
+/landing /  301
+
+# Audit URL alias (raccourci sympa)
+/audit /analyse.html 301
+/audit/ /analyse.html 301
+
+# 404 personnalisée
+/* /404.html 404

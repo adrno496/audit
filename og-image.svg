@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0fdfa"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="logo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Soft accent glow -->
+  <circle cx="600" cy="-100" r="450" fill="#ccfbf1" opacity="0.5"/>
+
+  <!-- Logo -->
+  <g transform="translate(80,80)">
+    <rect width="64" height="64" rx="14" fill="url(#logo)"/>
+    <text x="32" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="white" text-anchor="middle">CA</text>
+    <text x="84" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#111827">ConvertAudit</text>
+  </g>
+
+  <!-- Headline -->
+  <g transform="translate(80,220)">
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="68" font-weight="800" fill="#111827" letter-spacing="-1">
+      <tspan x="0" y="0">Audite ta landing page</tspan>
+      <tspan x="0" y="84" fill="url(#accent)">en 30 secondes</tspan>
+    </text>
+    <text x="0" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="500" fill="#6b7280">
+      Score 0–100 · 8 dimensions · Plan d'action concret
+    </text>
+  </g>
+
+  <!-- Score badge mock -->
+  <g transform="translate(900,300)">
+    <circle cx="0" cy="0" r="120" fill="white" stroke="#0d9488" stroke-width="6"/>
+    <text x="0" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="80" font-weight="800" fill="#16a34a" text-anchor="middle">82</text>
+    <text x="0" y="56" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#16a34a" text-anchor="middle">Excellent</text>
+  </g>
+
+  <!-- Bottom strip -->
+  <rect x="0" y="580" width="1200" height="50" fill="#0d9488"/>
+  <text x="600" y="612" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" fill="white" text-anchor="middle">
+    convertaudit.app · à partir de 4,90 €
+  </text>
+</svg>

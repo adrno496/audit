@@ -1,0 +1,16 @@
+/* TEAM */
+ConvertAudit
+Site: https://convertaudit.app
+Contact: contact [at] convertaudit.app
+
+/* THANKS */
+Anthropic — Claude API
+Supabase — Edge Functions
+Lemonsqueezy — Merchant of record
+Jina AI — Reader (CORS proxy)
+
+/* SITE */
+Last update: 2026-05-10
+Standards: HTML5, CSS3, ES2022
+Components: zero framework, vanilla JS
+Software: Single-file architecture

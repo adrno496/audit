@@ -1,0 +1,27 @@
+{
+  "name": "ConvertAudit — Audit conversion landing page",
+  "short_name": "ConvertAudit",
+  "description": "Audit IA d'une landing page : score 0-100 sur 8 dimensions de conversion, plan d'action priorisé, rapport HTML téléchargeable.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d9488",
+  "lang": "fr-FR",
+  "categories": ["business", "productivity", "marketing"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.svg",
+      "sizes": "1200x630",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ]
+}

@@ -1,6 +1,49 @@
+# ConvertAudit — robots.txt
+
 User-agent: *
 Allow: /
 Disallow: /supabase/
+Disallow: /analyse.html
+Disallow: /.well-known/
+
+# AI crawlers : refus des bots qui scrapent du contenu pour entraînement
+# (autorise GPTBot/ClaudeBot/etc. à lire si on veut être référencé dans leurs réponses :
+#  retire les Disallow ci-dessous pour autoriser)
+User-agent: CCBot
+Disallow: /
+User-agent: GPTBot
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+
+# Crawlers SEO légitimes : autoriser explicitement
+User-agent: Googlebot
+Allow: /
+Disallow: /supabase/
+Disallow: /analyse.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /supabase/
+Disallow: /analyse.html
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /supabase/
+Disallow: /analyse.html
 
 # Sitemap
 Sitemap: https://convertaudit.app/sitemap.xml
+
+# Host preference (pour Yandex)
+Host: https://convertaudit.app

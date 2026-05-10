@@ -273,4 +273,53 @@ details.faq .answer { margin-top: 12px; color: var(--text-muted); line-height: 1
   header.site, footer.site, .cta-box, .related { display: none; }
   body { font-size: 13pt; }
   .prose { padding: 0; }
+  a { color: var(--text); text-decoration: underline; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: var(--text-muted); }
+}
+
+/* ============ ACCESSIBILITÉ ============ */
+
+/* Skip link — visible au focus clavier (Tab) */
+.skip-link {
+  position: absolute; top: -40px; left: 0;
+  background: var(--accent); color: white;
+  padding: 8px 16px; border-radius: 0 0 8px 0;
+  font-weight: 600; font-size: 14px;
+  text-decoration: none; z-index: 100;
+  transition: top .15s;
+}
+.skip-link:focus {
+  top: 0; outline: 2px solid white; outline-offset: -4px;
+}
+
+/* Focus visible (clavier) — pas pour les clics souris */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.btn:focus-visible {
+  outline-offset: 3px;
+}
+
+/* Reduced motion — respecter la préférence système */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sélection texte */
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+/* High-contrast mode hint */
+@media (prefers-contrast: more) {
+  :root { --text-muted: #4b5563; --border: #9ca3af; }
 }
