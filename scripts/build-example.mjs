@@ -47,7 +47,7 @@ const exampleData = {
 };
 
 const html = generateExportHTML(exampleData);
-const out = resolve(ROOT, "public", "audit-example.html");
+const out = resolve(ROOT, "examples", "audit-example.html");
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, html, "utf-8");
 console.log(`✓ Wrote ${out} (${html.length.toLocaleString()} chars)`);
