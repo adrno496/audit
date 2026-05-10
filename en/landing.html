@@ -115,6 +115,36 @@
   .section-h2 { font-family: var(--f-display); font-weight: 800; font-size: clamp(36px, 5.5vw, 80px); line-height: 0.95; letter-spacing: -0.035em; margin: 0 0 16px; max-width: 18ch; }
   .section-h2 em { font-style: italic; color: var(--accent-deep); font-weight: 500; }
   .section-lead { font-size: clamp(16px, 1.3vw, 19px); color: var(--ink-3); max-width: 60ch; margin: 0; }
+
+  /* Report card mockup (matching FR landing) */
+  .report-card { border: var(--b); border-radius: 18px; background: var(--paper); box-shadow: var(--hs-lg); overflow: hidden; transform: rotate(0.5deg); position: relative; }
+  .report-card .browser-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: var(--b-soft); background: var(--paper-2); }
+  .browser-bar .dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--ink-3); }
+  .browser-bar .url-mock { flex: 1; margin: 0 12px; padding: 5px 12px; background: var(--paper); border: 1px solid var(--paper-3); border-radius: 6px; font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); }
+  .report-body { padding: 28px; }
+  .report-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 28px; padding-bottom: 24px; border-bottom: var(--b-soft); }
+  .report-head .left .domain { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .report-head .left h3 { font-family: var(--f-display); font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 8px; max-width: 220px; }
+  .report-head .left .date { font-family: var(--f-mono); font-size: 11px; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.08em; }
+  .score-big { text-align: right; font-family: var(--f-display); font-weight: 800; letter-spacing: -0.05em; line-height: 0.85; }
+  .score-big .num { font-size: 84px; color: var(--ink); display: block; }
+  .score-big .num.good { color: var(--good); }
+  .score-big .max { font-family: var(--f-mono); font-size: 14px; color: var(--ink-3); font-weight: 500; letter-spacing: 0; }
+  .score-big .mention { display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 999px; background: var(--good); color: var(--paper); font-family: var(--f-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .report-bars { display: grid; gap: 14px; }
+  .report-bar { display: grid; grid-template-columns: 1fr 140px 36px; align-items: center; gap: 12px; }
+  .report-bar .label { font-family: var(--f-body); font-weight: 500; font-size: 14px; color: var(--ink); }
+  .report-bar .track { height: 8px; background: var(--paper-2); border: 1px solid var(--paper-3); overflow: hidden; }
+  .report-bar .fill { height: 100%; transform-origin: left; animation: barFill 1.4s cubic-bezier(0.2,0.7,0.2,1) both; }
+  .report-bar .fill.good { background: var(--good); }
+  .report-bar .fill.ok { background: #84cc16; }
+  .report-bar .fill.mid { background: var(--warn); }
+  .report-bar .num { font-family: var(--f-mono); font-size: 13px; color: var(--ink-3); text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  @keyframes barFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .badge-sticker { position: absolute; top: -22px; right: -22px; width: 110px; height: 110px; background: var(--accent-hot); color: var(--ink); border: var(--b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(8deg); box-shadow: var(--hs); text-align: center; padding: 8px; }
+  .badge-sticker .top { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .badge-sticker .mid { font-family: var(--f-display); font-size: 28px; font-weight: 800; line-height: 1; margin: 4px 0; letter-spacing: -0.02em; }
+  .badge-sticker .bot { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -140,17 +170,41 @@
 </form>
 <div class="hero-bullets"><span>No signup</span><span>Downloadable report</span><span>Free BYOK mode</span></div>
 </div>
-<div class="report-card" aria-hidden="true" style="border:var(--b);border-radius:18px;background:var(--paper);box-shadow:var(--hs-lg);overflow:hidden;transform:rotate(0.5deg);position:relative;">
-<div style="display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:var(--b-soft);background:var(--paper-2);">
-<span style="width:11px;height:11px;border-radius:50%;border:1px solid var(--ink-3);"></span><span style="width:11px;height:11px;border-radius:50%;border:1px solid var(--ink-3);"></span><span style="width:11px;height:11px;border-radius:50%;border:1px solid var(--ink-3);"></span>
-<span style="flex:1;margin:0 12px;padding:5px 12px;background:var(--paper);border:1px solid var(--paper-3);border-radius:6px;font-family:var(--f-mono);font-size:12px;color:var(--ink-3);">https://stripe.com</span>
+<div class="report-card" aria-hidden="true">
+  <div class="badge-sticker">
+    <span class="top">Above average</span>
+    <span class="mid">82</span>
+    <span class="bot">/ 100</span>
+  </div>
+  <div class="browser-bar">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="url-mock">https://stripe.com</span>
+  </div>
+  <div class="report-body">
+    <div class="report-head">
+      <div class="left">
+        <div class="domain">stripe.com</div>
+        <h3>Payment infrastructure for the internet</h3>
+        <div class="date">Audited May 10 · 2026</div>
+      </div>
+      <div class="score-big">
+        <span class="num good tnum">82</span>
+        <span class="max">/ 100</span>
+        <div class="mention">Excellent</div>
+      </div>
+    </div>
+    <div class="report-bars">
+      <div class="report-bar"><span class="label">Hero</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9.0</span></div>
+      <div class="report-bar"><span class="label">Copywriting</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8.0</span></div>
+      <div class="report-bar"><span class="label">Call-to-Action</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9.0</span></div>
+      <div class="report-bar"><span class="label">Social proof</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8.0</span></div>
+      <div class="report-bar"><span class="label">Visual structure</span><div class="track"><div class="fill ok" style="width:70%"></div></div><span class="num">7.0</span></div>
+      <div class="report-bar"><span class="label">Trust signals</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9.0</span></div>
+      <div class="report-bar"><span class="label">Urgency</span><div class="track"><div class="fill mid" style="width:50%"></div></div><span class="num">5.0</span></div>
+      <div class="report-bar"><span class="label">Mobile &amp; speed</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9.0</span></div>
+    </div>
+  </div>
 </div>
-<div style="padding:28px;">
-<div style="display:flex;justify-content:space-between;gap:24px;margin-bottom:24px;padding-bottom:24px;border-bottom:var(--b-soft);">
-<div><div style="font-family:var(--f-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.1em;">stripe.com</div><h3 style="font-family:var(--f-display);font-size:20px;margin:6px 0 4px;">Payment infrastructure for the internet</h3><div style="font-family:var(--f-mono);font-size:11px;color:var(--ink-4);text-transform:uppercase;">Audited May 10 · 2026</div></div>
-<div style="text-align:right;font-family:var(--f-display);font-weight:800;line-height:0.85;"><span style="font-size:84px;color:var(--good);">82</span><div style="font-family:var(--f-mono);font-size:14px;color:var(--ink-3);font-weight:500;">/100</div><div style="display:inline-block;margin-top:6px;padding:3px 10px;border-radius:999px;background:var(--good);color:var(--paper);font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;">Excellent</div></div>
-</div>
-</div></div>
 </div></div></section>
 
 <section class="strip" aria-hidden="true"><div class="strip-inner">
