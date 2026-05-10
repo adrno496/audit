@@ -45,6 +45,43 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/legal.html"/>
   </url>
 
+  <!-- ============ Landing pages secteur (FR) ============ -->
+  <url>
+    <loc>https://convertaudit.app/audit-saas.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-saas.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/audit-ecommerce.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-ecommerce.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/audit-startup.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-startup.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/audit-coach.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-coach.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/audit-agence.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-agence.html"/>
+  </url>
+
   <!-- ============ Articles (FR) ============ -->
   <url>
     <loc>https://convertaudit.app/blog/auditer-landing-page-2026.html</loc>

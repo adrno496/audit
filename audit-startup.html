@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a8478">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<title>Audit landing page startup — MVP, lancement, validation marché | ConvertAudit</title>
+<meta name="description" content="Audit IA pour landing pages de startup en phase MVP, lancement ou validation marché. Score sur 100, clarté de la proposition, friction d'inscription, signaux de traction. À partir de 4,90 €.">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="audit landing page startup, audit MVP, audit page lancement, validation marché startup, audit waitlist, audit page early access">
+<link rel="canonical" href="https://convertaudit.app/audit-startup.html">
+<link rel="alternate" hreflang="fr" href="https://convertaudit.app/audit-startup.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Audit landing page startup — MVP, lancement, validation marché">
+<meta property="og:description" content="Audit IA pour landings de startup en MVP ou lancement. Proposition de valeur, friction inscription, traction signals.">
+<meta property="og:url" content="https://convertaudit.app/audit-startup.html">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://convertaudit.app/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://convertaudit.app/og-image.svg">
+
+<link rel="stylesheet" href="convertaudit.css">
+
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "Service", "name": "Audit landing page startup par IA", "description": "Analyse automatique d'une landing page de startup (MVP, lancement, waitlist) sur 8 dimensions de conversion.", "provider": { "@type": "Organization", "name": "ConvertAudit", "url": "https://convertaudit.app/" }, "audience": { "@type": "BusinessAudience", "audienceType": "Startup founders, indie hackers, MVP builders" }, "offers": { "@type": "Offer", "price": "4.90", "priceCurrency": "EUR" }, "inLanguage": "fr-FR" }
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type":"ListItem","position":1,"name":"Accueil","item":"https://convertaudit.app/"}, {"@type":"ListItem","position":2,"name":"Audit landing startup"} ] }
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+{ "@type": "Question", "name": "Mon produit n'existe pas encore (waitlist), l'audit fonctionne ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui — c'est même un cas idéal. L'audit évalue si ta landing valide bien le problème, propose une promesse claire, et capture l'email avec une friction minimale. Sans produit fini, ces 3 éléments font 90 % de ton taux d'inscription." } },
+{ "@type": "Question", "name": "Comment bien présenter une startup sans clients existants ?", "acceptedAnswer": { "@type": "Answer", "text": "Crédibilité personnelle (parcours du fondateur), bêta-testeurs visibles (10-20 personnes citées), signaux d'autorité (publications, conférences). L'honnêteté 'on lance dans 2 mois, voici pourquoi tester' convertit mieux qu'une fausse preuve sociale." } },
+{ "@type": "Question", "name": "Quels signaux de traction afficher en early stage ?", "acceptedAnswer": { "@type": "Answer", "text": "Compteur de waitlist (« 1 247 personnes inscrites »), nombre de bêta-testeurs actifs, mentions presse même niche, communauté Discord/Slack avec nombre de membres. Mieux vaut un petit chiffre vrai qu'un gros chiffre flou." } },
+{ "@type": "Question", "name": "L'audit aide-t-il pour pivoter le messaging ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui — c'est l'un des cas les plus utiles. En auditant une landing avant et après pivot, tu vois objectivement si la nouvelle proposition est plus claire, si le hero répond mieux au job-to-be-done." } }
+] }
+</script>
+
+<style>
+  .niche-hero { padding: 80px 0 56px; background: radial-gradient(1200px 400px at 80% -10%, var(--accent-soft) 0%, transparent 60%), var(--paper); border-bottom: var(--b-soft); }
+  .niche-hero h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 6vw, 76px); line-height: 0.95; letter-spacing: -0.035em; margin: 18px 0 20px; max-width: 18ch; }
+  .niche-hero h1 em { font-style: italic; color: var(--accent-deep); font-weight: 500; }
+  .niche-hero .lead { font-size: clamp(17px, 1.4vw, 21px); color: var(--ink-2); max-width: 60ch; margin: 0 0 28px; }
+  .niche-hero .key-stat { display: inline-flex; align-items: baseline; gap: 12px; padding: 14px 20px; background: var(--ink); color: var(--paper); border-radius: 12px; font-family: var(--f-mono); font-size: 13px; }
+  .niche-hero .key-stat .num { font-family: var(--f-display); font-weight: 800; font-size: 28px; color: var(--accent-hot); }
+  .niche-hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 16px; }
+  .specifics-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .specifics-grid { grid-template-columns: 1fr 1fr; } }
+  .spec-card { padding: 24px; border: var(--b); border-radius: var(--r); background: var(--paper); }
+  .spec-card h3 { font-family: var(--f-display); font-size: 18px; margin: 0 0 8px; }
+  .spec-card p { color: var(--ink-3); margin: 0; font-size: 15px; line-height: 1.6; }
+  .spec-card .icon { font-family: var(--f-mono); font-size: 11px; color: var(--accent-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+  .stages { display: grid; gap: 16px; grid-template-columns: 1fr; max-width: 1000px; margin: 0 auto; }
+  @media (min-width: 720px) { .stages { grid-template-columns: repeat(3, 1fr); } }
+  .stage { padding: 28px; border: var(--b); border-radius: var(--r); background: var(--paper); text-align: center; }
+  .stage .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-deep); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+  .stage h3 { font-family: var(--f-display); font-size: 20px; margin: 0 0 10px; }
+  .stage p { color: var(--ink-3); margin: 0 0 14px; font-size: 14.5px; line-height: 1.5; }
+  .stage .focus { font-family: var(--f-mono); font-size: 12px; color: var(--ink); padding: 10px; background: var(--paper-2); border-radius: 8px; }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Aller au contenu principal</a>
+
+<header class="site"><div class="site-nav">
+<a href="index.html" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a>
+<nav class="site-links"><a href="index.html#how">Comment ça marche</a><a href="index.html#pricing">Tarifs</a><a href="blog.html">Blog</a><a href="about.html">À propos</a></nav>
+<div class="header-actions"><a href="analyse.html" class="btn btn-primary">Auditer mon site <span class="arrow">→</span></a></div>
+</div></header>
+
+<main id="main">
+<section class="niche-hero"><div class="container">
+<span class="pill"><span class="dot"></span>Startup · MVP · Indie hackers · Pre-launch</span>
+<h1>Audit landing page <em class="italic-serif">startup</em> — MVP, lancement, validation marché.</h1>
+<p class="lead">Que tu sois en <strong>waitlist</strong>, <strong>MVP fermé</strong> ou <strong>lancement public</strong>, l'IA évalue si ta landing valide le problème, capture l'attention en 5 secondes et convertit sans friction.</p>
+<div class="ctas">
+<a href="analyse.html" class="btn btn-primary lg">Auditer ma landing startup <span class="arrow">→</span></a>
+<a href="#stages" class="btn btn-ghost">Stages startup ↓</a>
+</div>
+<div class="key-stat"><span class="num">42 %</span><span>des startups échouent par manque de marché — souvent visible dès la landing si tu sais quoi regarder <em>(CB Insights)</em></span></div>
+</div></section>
+
+<section class="section" id="stages"><div class="container">
+<div class="section-head" style="text-align:center; margin-bottom:32px;"><div><span class="eyebrow"><span class="dot"></span>3 stages startup</span><h2 class="section-h2" style="margin:16px auto 0;">L'audit s'adapte à ton <em>stage</em>.</h2></div></div>
+<div class="stages">
+<div class="stage"><span class="badge">Stage 1</span><h3>Waitlist / Pre-launch</h3><p>Tu n'as pas de produit, juste une promesse. La landing valide la demande.</p><div class="focus">Focus audit : clarté hero, capture email sans friction, signaux de traction</div></div>
+<div class="stage"><span class="badge">Stage 2</span><h3>MVP / Beta privée</h3><p>Tu as un produit fonctionnel mais limité. Tu cherches des testeurs qualifiés.</p><div class="focus">Focus audit : démo embed, sélection candidats, attentes clarifiées</div></div>
+<div class="stage"><span class="badge">Stage 3</span><h3>Public launch</h3><p>Produit ouvert, monétisation active. Tu cherches la première traction payante.</p><div class="focus">Focus audit : pricing, preuve sociale, garanties, friction paiement</div></div>
+</div>
+</div></section>
+
+<section class="section" style="padding-top:0;"><div class="container">
+<div class="section-head"><div class="row">
+<div><span class="eyebrow"><span class="dot"></span>Spécificités startup</span><h2 class="section-h2" style="margin-top:16px;">4 enjeux <em>propres</em> aux startups.</h2></div>
+<p class="section-lead" style="max-width:36ch;">Pas de marque, pas de clients existants, pas de gros budget. Ta landing doit faire 3× plus avec 3× moins.</p>
+</div></div>
+<div class="specifics-grid">
+<div class="spec-card"><span class="icon">01 · Validation marché</span><h3>Le hero répond-il à un vrai problème ?</h3><p>Sans clients existants, le headline est ta seule preuve que tu adresses un job réel. Test du visiteur naïf en 5 secondes : « C'est pour qui, ça résout quoi ? »</p></div>
+<div class="spec-card"><span class="icon">02 · Friction email</span><h3>Capture sans interroger</h3><p>Pour une waitlist : email seul, pas de nom/entreprise/téléphone. Chaque champ supplémentaire fait chuter la conversion de 10-20 %.</p></div>
+<div class="spec-card"><span class="icon">03 · Crédibilité fondateur</span><h3>Showing the human</h3><p>Photo du fondateur, parcours, pourquoi ce projet. Sans marque établie, tu vends ton intention et ton expertise — pas un produit anonyme.</p></div>
+<div class="spec-card"><span class="icon">04 · Honnêteté radicale</span><h3>« On lance dans 2 mois »</h3><p>L'honnêteté sur le stade actuel (« beta privée », « lancement Q3 ») rassure plus que des fausses promesses. Les early adopters veulent vivre le voyage avec toi.</p></div>
+</div>
+</div></section>
+
+<section class="section" id="faq"><div class="container">
+<div class="section-head" style="text-align:center; margin-bottom:40px;"><div><span class="eyebrow"><span class="dot"></span>FAQ Startup</span><h2 class="section-h2" style="margin:16px auto 0;">Questions <em>spécifiques</em> startup.</h2></div></div>
+<div style="max-width:820px; margin:0 auto;">
+<details class="faq" open><summary>Mon produit n'existe pas encore (waitlist), l'audit fonctionne ?</summary><div class="answer">Oui — c'est même un cas idéal. L'audit évalue si ta landing valide bien le problème, propose une promesse claire, et capture l'email avec une friction minimale. Sans produit fini, ces 3 éléments font 90 % de ton taux d'inscription.</div></details>
+<details class="faq"><summary>Comment bien présenter une startup sans clients existants ?</summary><div class="answer">Crédibilité personnelle (parcours du fondateur), bêta-testeurs visibles (10-20 personnes citées), signaux d'autorité (publications, conférences). L'honnêteté « on lance dans 2 mois, voici pourquoi tester » convertit mieux qu'une fausse preuve sociale.</div></details>
+<details class="faq"><summary>Quels signaux de traction afficher en early stage ?</summary><div class="answer">Compteur de waitlist, nombre de bêta-testeurs actifs, mentions presse même niche, communauté Discord/Slack avec nombre de membres. Mieux vaut un petit chiffre vrai qu'un gros chiffre flou.</div></details>
+<details class="faq"><summary>L'audit aide-t-il pour pivoter le messaging ?</summary><div class="answer">Oui — c'est l'un des cas les plus utiles. En auditant une landing avant et après pivot, tu vois objectivement si la nouvelle proposition est plus claire, si le hero répond mieux au job-to-be-done.</div></details>
+<details class="faq"><summary>4,90 € pour une startup early stage, c'est rentable ?</summary><div class="answer">Si tu auditeras 1 fois, tu économises 1-2h de réflexion en solo. Si tu pivotes 3 fois (typique), le pack 5 audits à 19 € te coûte 1 % du temps que tu vas y passer en ré-écriture.</div></details>
+</div>
+</div></section>
+
+<section class="final-cta" style="padding:80px 0 96px; background:var(--ink); color:var(--paper); border-top:var(--b);">
+<div class="container" style="text-align:center;">
+<h2 style="font-family:var(--f-display); font-weight:800; font-size:clamp(40px, 6vw, 80px); line-height:0.95; letter-spacing:-0.04em; color:var(--paper); margin:0 0 20px; max-width:18ch; margin-left:auto; margin-right:auto;">Audite ta landing startup <em style="font-style:italic; color:var(--accent-hot); font-weight:500;">en 30 secondes.</em></h2>
+<p style="color:color-mix(in srgb, var(--paper) 70%, transparent); max-width:56ch; margin:0 auto 28px; font-size:17px;">Score 0-100, frictions early stage identifiées, plan d'action. À partir de 4,90 €.</p>
+<a href="analyse.html" class="btn btn-primary lg" style="background:var(--accent-hot); color:var(--ink); border-color:var(--paper); box-shadow:4px 4px 0 0 var(--paper);">Auditer ma landing startup <span class="arrow">→</span></a>
+</div></section>
+</main>
+
+<footer class="site">
+<div class="footer-row">
+<div class="col"><a href="index.html" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a><p class="colophon">L'audit de landing page par IA.</p></div>
+<div class="col"><h4>Audit par secteur</h4><a href="audit-saas.html">SaaS</a><a href="audit-ecommerce.html">E-commerce</a><a href="audit-startup.html">Startup</a><a href="audit-coach.html">Coach / Formation</a><a href="audit-agence.html">Agence / Freelance</a></div>
+<div class="col"><h4>Ressources</h4><a href="blog.html">Blog</a><a href="about.html">À propos</a><a href="analyse.html">Auditer mon site</a></div>
+<div class="col"><h4>Légal</h4><a href="legal.html">Mentions légales</a><a href="privacy.html">Confidentialité</a></div>
+</div>
+<div class="legal"><span>© 2026 ConvertAudit · Tous droits réservés</span><span>Made with rigor in EU</span></div>
+</footer>
+</body>
+</html>
