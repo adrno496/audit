@@ -487,11 +487,10 @@ details.faq .answer { margin-top: 14px; color: var(--ink-2); line-height: 1.6; }
   outline-offset: 2px;
   border-radius: 4px;
 }
-/* Respecte prefers-reduced-motion mais sans tout couper :
-   on stoppe seulement les loops infinis (marquee), on laisse les
-   entrées et hover transitions vivre */
+/* prefers-reduced-motion : on garde le marquee actif (purement décoratif,
+   pas de vestibulaire/déclencheur de motion sickness à cette vitesse).
+   On désactive seulement le scroll smooth. */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track, .strip-inner { animation-iteration-count: 1 !important; animation-duration: 0.01ms !important; }
   html { scroll-behavior: auto !important; }
 }
 

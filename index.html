@@ -110,7 +110,7 @@
     .badge-sticker .mid { font-family: var(--f-display); font-size: 28px; font-weight: 800; line-height: 1; margin: 4px 0; letter-spacing: -0.02em; }
     .badge-sticker .bot { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
     .strip { padding: 18px 0; border-top: var(--b); border-bottom: var(--b); background: var(--ink); color: var(--paper); overflow: hidden; }
-    .strip-inner { display: flex; gap: 64px; width: max-content; animation: marquee 50s linear infinite; align-items: center; }
+    .strip-inner { display: flex; gap: 64px; width: max-content; animation: marquee 30s linear infinite; align-items: center; will-change: transform; }
     .strip-item { display: inline-flex; align-items: center; gap: 18px; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.025em; white-space: nowrap; }
     .strip-item em { font-style: italic; font-weight: 500; color: var(--accent-hot); }
     .strip-item .star { color: var(--accent-hot); font-size: 0.6em; }
@@ -379,6 +379,8 @@
       <span class="strip-item">Sans bullshit <span class="star">✦</span></span>
       <span class="strip-item">Audite <em>mieux</em> <span class="star">✦</span></span>
       <span class="strip-item">Convertis <em>plus</em> <span class="star">✦</span></span>
+      <span class="strip-item">Itère <em>vite</em> <span class="star">✦</span></span>
+      <span class="strip-item">Sans bullshit <span class="star">✦</span></span>
     </div>
   </section>
 
@@ -626,8 +628,8 @@
   }, { threshold: 0.4 });
   document.querySelectorAll('.counter').forEach((el) => io.observe(el));
 
-  // Reveal sections au scroll (fade-in-up)
-  document.querySelectorAll('.section, .strip, .vs, .price-card, .testi, .dim, .how-step').forEach((el) => el.classList.add('reveal'));
+  // Reveal sections au scroll (fade-in-up) — pas le strip (il doit rester visible pour le marquee)
+  document.querySelectorAll('.section, .vs, .price-card, .testi, .dim, .how-step').forEach((el) => el.classList.add('reveal'));
   const ioReveal = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) { e.target.classList.add('visible'); ioReveal.unobserve(e.target); }
