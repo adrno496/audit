@@ -487,13 +487,12 @@ details.faq .answer { margin-top: 14px; color: var(--ink-2); line-height: 1.6; }
   outline-offset: 2px;
   border-radius: 4px;
 }
+/* Respecte prefers-reduced-motion mais sans tout couper :
+   on stoppe seulement les loops infinis (marquee), on laisse les
+   entrées et hover transitions vivre */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  .marquee-track, .strip-inner { animation-iteration-count: 1 !important; animation-duration: 0.01ms !important; }
+  html { scroll-behavior: auto !important; }
 }
 
 /* ============ Print ============ */
