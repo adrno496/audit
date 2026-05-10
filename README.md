@@ -93,13 +93,17 @@ Vérifier le secret est bien set côté Supabase Dashboard → Project Settings 
 
 > En v1, **les crédits ne sont pas synchronisés** avec Lemonsqueezy. Après paiement, l'utilisateur doit ajouter ses crédits manuellement (ou tu mets à jour `localStorage.convertaudit_credits` à la main pour la démo). En v2 : webhook Supabase + table `users`.
 
-## Mode BYOK (Bring Your Own Key)
+## Mode BYOK (Bring Your Own Key) — sans Supabase
 
-Chaque utilisateur peut configurer sa propre clé API via le bouton ⚙ en haut à droite. Quand le mode BYOK est actif :
+Le mode BYOK fonctionne **entièrement côté navigateur, sans Edge Function**. Tu peux donc tester l'app en ouvrant simplement `index.html` (rien à déployer). Le bouton ⚙ en haut à droite ouvre la modal pour configurer ta clé.
 
-- **Aucun crédit n'est consommé** (l'utilisateur paie son fournisseur directement)
-- L'Edge Function relaie la requête vers le provider choisi sans logger la clé
+Quand BYOK est actif :
+
+- **Aucun crédit n'est consommé**
+- Le HTML de la page cible est récupéré via [Jina Reader](https://jina.ai/reader) (proxy CORS gratuit qui retourne du markdown propre)
+- La clé est utilisée directement depuis le navigateur pour appeler le fournisseur (CORS autorisé par chaque provider)
 - La clé est stockée dans `localStorage` du navigateur (avertissement explicite à l'utilisateur)
+- L'Edge Function Supabase est **complètement bypassée** ; pas besoin de la déployer pour ce mode
 
 ### Fournisseurs supportés
 
@@ -114,12 +118,16 @@ Chaque utilisateur peut configurer sa propre clé API via le bouton ⚙ en haut 
 
 Tous les providers sauf Anthropic utilisent le format OpenAI Chat Completions et sont configurés avec `response_format: { type: "json_object" }` quand supporté pour fiabiliser le JSON. Le système prompt impose un retour JSON strict ; en cas d'échec de parsing, un retry automatique est lancé.
 
+### Note importante : Anthropic en mode BYOK browser
+
+L'API Anthropic refuse les appels directs depuis un navigateur par défaut. On envoie le header `anthropic-dangerous-direct-browser-access: true` pour les autoriser. Anthropic prévient que cette pratique expose la clé dans la console DevTools — c'est acceptable pour du test perso, **pas pour de la production**. Pour de la prod avec Anthropic, déploie l'Edge Function Supabase.
+
 ### Sécurité BYOK
 
-- ✅ Clé envoyée en HTTPS (TLS 1.3) à l'Edge Function, qui la relaie au provider et la jette
-- ✅ Aucun log côté serveur ne contient la clé (les `console.error` se limitent au code HTTP et à 200 chars de réponse, pas à la requête)
-- ⚠ Stockée en `localStorage` du navigateur — vulnérable à un XSS si tu héberges l'app sur un domaine compromis
-- ⚠ Toute personne ayant accès à l'Edge Function peut potentiellement intercepter les clés en transit (à toi de mettre des règles d'auth/RLS si nécessaire)
+- ✅ Clé jamais transmise à un serveur tiers (sauf le provider IA lui-même)
+- ✅ Aucun proxy intermédiaire ne voit la clé (Jina Reader ne reçoit que l'URL à fetcher, pas la clé)
+- ⚠ Stockée en `localStorage` du navigateur — vulnérable à un XSS si tu héberges l'app sur un domaine compromis. Pour du test local, c'est acceptable.
+- ⚠ Visible dans l'onglet Network de DevTools de quiconque a accès à ton navigateur
 
 ## API Edge Function
 

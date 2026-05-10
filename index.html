@@ -447,7 +447,7 @@
 
       <div class="byok-fields" id="byok-fields" hidden>
         <div class="modal-warning">
-          ⚠ Ta clé est envoyée en HTTPS à l'Edge Function pour relayer l'appel au provider. Elle n'est jamais loggée côté serveur, mais reste stockée dans le <code>localStorage</code> de ton navigateur.
+          ⚠ Ta clé est utilisée <strong>directement depuis ce navigateur</strong> (aucun proxy Supabase). Elle est stockée dans le <code>localStorage</code> et envoyée en HTTPS au fournisseur. Le contenu de la page passe par <a href="https://jina.ai/reader" target="_blank" rel="noopener">Jina Reader</a> (proxy CORS gratuit).
         </div>
 
         <div class="field">
@@ -534,6 +534,13 @@
     ];
 
     // ============================================================
+    // CONSTANTES BROWSER-DIRECT (mode BYOK sans Supabase)
+    // ============================================================
+    const JINA_READER = "https://r.jina.ai/";              // proxy CORS-friendly qui retourne markdown
+    const MAX_CONTEXT_CHARS = 12000;
+    const MAX_TOKENS = 2000;
+
+    // ============================================================
     // PROVIDERS BYOK
     // ============================================================
     const PROVIDER_INFO = {
@@ -580,6 +587,237 @@
         default: "anthropic/claude-sonnet-4",
       },
     };
+
+    // ============================================================
+    // BROWSER-DIRECT API (utilisé quand BYOK actif, sans Supabase)
+    // ============================================================
+    const BROWSER_PROVIDERS = {
+      anthropic: {
+        endpoint: "https://api.anthropic.com/v1/messages",
+        headers: (key) => ({
+          "content-type": "application/json",
+          "x-api-key": key,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        }),
+        body: (model, system, user) => ({
+          model,
+          max_tokens: MAX_TOKENS,
+          system,
+          messages: [{ role: "user", content: user }],
+        }),
+        extract: (data) => (data.content || []).find((c) => c.type === "text")?.text || "",
+      },
+      openai: {
+        endpoint: "https://api.openai.com/v1/chat/completions",
+        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
+        body: (model, system, user) => ({
+          model, max_tokens: MAX_TOKENS,
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+          response_format: { type: "json_object" },
+        }),
+        extract: (data) => data.choices?.[0]?.message?.content || "",
+      },
+      groq: {
+        endpoint: "https://api.groq.com/openai/v1/chat/completions",
+        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
+        body: (model, system, user) => ({
+          model, max_tokens: MAX_TOKENS,
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+          response_format: { type: "json_object" },
+        }),
+        extract: (data) => data.choices?.[0]?.message?.content || "",
+      },
+      grok: {
+        endpoint: "https://api.x.ai/v1/chat/completions",
+        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
+        body: (model, system, user) => ({
+          model, max_tokens: MAX_TOKENS,
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+          response_format: { type: "json_object" },
+        }),
+        extract: (data) => data.choices?.[0]?.message?.content || "",
+      },
+      mistral: {
+        endpoint: "https://api.mistral.ai/v1/chat/completions",
+        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
+        body: (model, system, user) => ({
+          model, max_tokens: MAX_TOKENS,
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+          response_format: { type: "json_object" },
+        }),
+        extract: (data) => data.choices?.[0]?.message?.content || "",
+      },
+      openrouter: {
+        endpoint: "https://openrouter.ai/api/v1/chat/completions",
+        headers: (key) => ({
+          "content-type": "application/json",
+          "Authorization": "Bearer " + key,
+          "HTTP-Referer": location.origin || "https://convertaudit.app",
+          "X-Title": "ConvertAudit",
+        }),
+        body: (model, system, user) => ({
+          model, max_tokens: MAX_TOKENS,
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+          response_format: { type: "json_object" },
+        }),
+        extract: (data) => data.choices?.[0]?.message?.content || "",
+      },
+    };
+
+    function buildSystemPromptClient(lang) {
+      const isFr = lang === "fr";
+      const lead = isFr
+        ? "Tu es un expert en optimisation de conversion (CRO) avec 15 ans d'expérience."
+        : "You are a conversion rate optimization (CRO) expert with 15 years of experience.";
+      const langInstr = isFr ? "Réponds en français." : "Respond in English.";
+      const strict = isFr
+        ? "Retourne UNIQUEMENT un objet JSON valide, sans markdown, sans préface, sans backticks."
+        : "Return ONLY a valid JSON object, no markdown, no preamble, no backticks.";
+      return lead + "\n" + langInstr + "\n" + strict + "\n\n" +
+        'Structure JSON attendue (chaque dimension: score 0-10 entier, label court, details 2-3 phrases, tips = exactement 3 actions concrètes):\n' +
+        '{\n  "url": "string",\n  "title": "string",\n  "summary": "string (2 phrases max)",\n' +
+        '  "scores": {\n' +
+        '    "hero":         { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "copywriting":  { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "cta":          { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "social_proof": { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "structure":    { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "trust":        { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "urgency":      { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
+        '    "mobile":       { "score": 0, "label": "", "details": "", "tips": ["","",""] }\n' +
+        '  },\n  "quick_wins": ["", "", ""],\n  "strengths": ["", ""],\n  "critical_issues": ["", ""]\n}\n\n' +
+        'Dimensions: hero (proposition de valeur, headline, above the fold), copywriting (AIDA/PAS, bénéfices vs features, lisibilité), cta (nombre, placement, wording, urgence), social_proof (témoignages, logos, chiffres), structure (hiérarchie H1/H2/H3, scanabilité), trust (mentions légales, HTTPS, garanties, FAQ), urgency (offres limitées, FOMO), mobile (viewport, vitesse).';
+    }
+
+    function tryParseJsonClient(raw) {
+      const trimmed = String(raw || "").trim();
+      try { return JSON.parse(trimmed); } catch { /* fallthrough */ }
+      const m = trimmed.match(/\{[\s\S]*\}/);
+      if (m) { try { return JSON.parse(m[0]); } catch { /* fallthrough */ } }
+      return null;
+    }
+    function clampScoreClient(n) {
+      const v = typeof n === "number" ? n : Number(n);
+      if (!Number.isFinite(v)) return 0;
+      return Math.max(0, Math.min(10, Math.round(v)));
+    }
+    function normalizeDimensionClient(raw) {
+      const obj = raw || {};
+      const tipsRaw = Array.isArray(obj.tips) ? obj.tips : [];
+      const tips = tipsRaw.map((t) => String(t)).filter((t) => t.trim().length > 0).slice(0, 5);
+      while (tips.length < 3) tips.push("");
+      return {
+        score: clampScoreClient(obj.score),
+        label: String(obj.label || "").slice(0, 80),
+        details: String(obj.details || ""),
+        tips,
+      };
+    }
+    function computeGlobalScoreClient(scores) {
+      const w =
+        scores.hero.score * 2 +
+        scores.cta.score * 2 +
+        scores.copywriting.score * 1.5 +
+        scores.social_proof.score +
+        scores.structure.score +
+        scores.trust.score +
+        scores.urgency.score +
+        scores.mobile.score;
+      return Math.round((w / 95) * 100);
+    }
+    function mentionForClient(score) {
+      if (score < 40) return "Faible";
+      if (score < 60) return "Moyen";
+      if (score < 80) return "Bon";
+      return "Excellent";
+    }
+    function normalizePayloadClient(parsed, url, provider, model) {
+      const root = parsed || {};
+      const rawScores = root.scores || {};
+      const dims = ["hero","copywriting","cta","social_proof","structure","trust","urgency","mobile"];
+      const scores = Object.fromEntries(dims.map((d) => [d, normalizeDimensionClient(rawScores[d])]));
+      const globalScore = computeGlobalScoreClient(scores);
+      const stringArray = (v, n) => (Array.isArray(v) ? v.map(String).filter((x) => x.trim().length > 0) : []).slice(0, n);
+      return {
+        url,
+        title: String(root.title || ""),
+        summary: String(root.summary || ""),
+        scores,
+        global_score: globalScore,
+        global_mention: mentionForClient(globalScore),
+        quick_wins: stringArray(root.quick_wins, 5),
+        strengths: stringArray(root.strengths, 5),
+        critical_issues: stringArray(root.critical_issues, 5),
+        meta: { provider, model },
+      };
+    }
+
+    async function fetchPageMarkdown(url) {
+      // Jina Reader retourne du markdown propre (gère JS-rendered, CORS-friendly).
+      const proxyUrl = JINA_READER + url;
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 20000);
+      try {
+        const res = await fetch(proxyUrl, { signal: ctrl.signal });
+        if (!res.ok) throw new Error("page_unreachable");
+        return await res.text();
+      } finally { clearTimeout(t); }
+    }
+
+    async function callProviderBrowser(provider, apiKey, model, system, user) {
+      const cfg = BROWSER_PROVIDERS[provider];
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 60000);
+      try {
+        const res = await fetch(cfg.endpoint, {
+          method: "POST",
+          headers: cfg.headers(apiKey),
+          body: JSON.stringify(cfg.body(model, system, user)),
+          signal: ctrl.signal,
+        });
+        if (!res.ok) {
+          const t2 = await res.text().catch(() => "");
+          if (res.status === 401 || res.status === 403) throw new Error("ai_auth_failed");
+          throw new Error("provider_" + res.status + (t2 ? ": " + t2.slice(0, 160) : ""));
+        }
+        const data = await res.json();
+        const text = cfg.extract(data);
+        if (!text) throw new Error("ai_empty");
+        return text;
+      } finally { clearTimeout(t); }
+    }
+
+    async function runAuditDirect(url, lang, byok) {
+      let markdown;
+      try {
+        markdown = await fetchPageMarkdown(url);
+      } catch (err) {
+        throw new Error("Page inaccessible (proxy Jina). Réessaie ou vérifie l'URL.");
+      }
+      const truncated = markdown.slice(0, MAX_CONTEXT_CHARS);
+      const userMessage =
+        "URL analysée: " + url + "\n\n=== Contenu de la page (markdown) ===\n" + truncated;
+      const systemPrompt = buildSystemPromptClient(lang);
+
+      let response, parsed = null;
+      try {
+        response = await callProviderBrowser(byok.provider, byok.apiKey, byok.model, systemPrompt, userMessage);
+        parsed = tryParseJsonClient(response);
+        if (!parsed) {
+          response = await callProviderBrowser(
+            byok.provider, byok.apiKey, byok.model, systemPrompt,
+            userMessage + "\n\nIMPORTANT: ta dernière réponse n'était pas un JSON valide. Renvoie UNIQUEMENT l'objet JSON, sans markdown ni texte autour.",
+          );
+          parsed = tryParseJsonClient(response);
+        }
+      } catch (err) {
+        if (err && err.message === "ai_auth_failed") throw new Error("Clé API invalide ou refusée par le fournisseur.");
+        throw new Error("Analyse IA indisponible : " + (err && err.message ? err.message : "erreur inconnue"));
+      }
+      if (!parsed) throw new Error("Réponse IA non exploitable (JSON invalide après retry).");
+      return normalizePayloadClient(parsed, url, byok.provider, byok.model);
+    }
 
     // ============================================================
     // STATE
@@ -1046,7 +1284,9 @@ ${dimSection}
       startLoadingMessages();
 
       try {
-        const data = await runAudit(url, lang);
+        const data = byok
+          ? await runAuditDirect(url, lang, byok)
+          : await runAudit(url, lang);
         if (!byok) decrementCredits();
         renderReport(data);
         setState("report");
