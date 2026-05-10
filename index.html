@@ -538,7 +538,7 @@
     // ============================================================
     const JINA_READER = "https://r.jina.ai/";              // proxy CORS-friendly qui retourne markdown
     const MAX_CONTEXT_CHARS = 12000;
-    const MAX_TOKENS = 2000;
+    const MAX_TOKENS = 4000;
 
     // ============================================================
     // PROVIDERS BYOK
@@ -691,10 +691,39 @@
     }
 
     function tryParseJsonClient(raw) {
-      const trimmed = String(raw || "").trim();
-      try { return JSON.parse(trimmed); } catch { /* fallthrough */ }
-      const m = trimmed.match(/\{[\s\S]*\}/);
-      if (m) { try { return JSON.parse(m[0]); } catch { /* fallthrough */ } }
+      let s = String(raw || "").trim();
+      // 1. Retire les code fences markdown ```json ... ```
+      s = s.replace(/^```(?:json|JSON)?\s*\n?/, "").replace(/\n?\s*```\s*$/, "").trim();
+      // 2. Tente le parse direct
+      try { return JSON.parse(s); } catch { /* fallthrough */ }
+      // 3. Extrait depuis le 1er { jusqu'au dernier } (gère préfixes/suffixes texte)
+      const start = s.indexOf("{");
+      const end = s.lastIndexOf("}");
+      if (start >= 0 && end > start) {
+        const candidate = s.slice(start, end + 1);
+        try { return JSON.parse(candidate); } catch { /* fallthrough */ }
+      }
+      // 4. Tente de réparer un JSON tronqué : ferme les braces/brackets manquants
+      if (start >= 0 && end < 0) {
+        let candidate = s.slice(start);
+        // Compte braces/brackets ouverts non fermés et ferme à la fin
+        let depth = 0, brackets = 0, inStr = false, esc = false;
+        for (const ch of candidate) {
+          if (esc) { esc = false; continue; }
+          if (ch === "\\") { esc = true; continue; }
+          if (ch === '"') { inStr = !inStr; continue; }
+          if (inStr) continue;
+          if (ch === "{") depth++;
+          else if (ch === "}") depth--;
+          else if (ch === "[") brackets++;
+          else if (ch === "]") brackets--;
+        }
+        // Coupe une string ouverte
+        if (inStr) candidate = candidate.replace(/[^"]*$/, '"');
+        candidate = candidate.replace(/,\s*$/, ""); // virgule traînante
+        candidate += "]".repeat(Math.max(0, brackets)) + "}".repeat(Math.max(0, depth));
+        try { return JSON.parse(candidate); } catch { /* fallthrough */ }
+      }
       return null;
     }
     function clampScoreClient(n) {
@@ -800,22 +829,31 @@
         "URL analysée: " + url + "\n\n=== Contenu de la page (markdown) ===\n" + truncated;
       const systemPrompt = buildSystemPromptClient(lang);
 
-      let response, parsed = null;
+      let response = "", parsed = null;
       try {
         response = await callProviderBrowser(byok.provider, byok.apiKey, byok.model, systemPrompt, userMessage);
+        console.log("[ConvertAudit] Réponse IA brute (1ère tentative, " + response.length + " chars):", response);
         parsed = tryParseJsonClient(response);
         if (!parsed) {
+          console.warn("[ConvertAudit] JSON non parseable, retry…");
           response = await callProviderBrowser(
             byok.provider, byok.apiKey, byok.model, systemPrompt,
-            userMessage + "\n\nIMPORTANT: ta dernière réponse n'était pas un JSON valide. Renvoie UNIQUEMENT l'objet JSON, sans markdown ni texte autour.",
+            userMessage + "\n\nIMPORTANT: ta dernière réponse n'était pas un JSON valide. Renvoie UNIQUEMENT l'objet JSON commençant par { et finissant par }, sans markdown, sans backticks, sans texte autour.",
           );
+          console.log("[ConvertAudit] Réponse IA brute (retry, " + response.length + " chars):", response);
           parsed = tryParseJsonClient(response);
         }
       } catch (err) {
         if (err && err.message === "ai_auth_failed") throw new Error("Clé API invalide ou refusée par le fournisseur.");
         throw new Error("Analyse IA indisponible : " + (err && err.message ? err.message : "erreur inconnue"));
       }
-      if (!parsed) throw new Error("Réponse IA non exploitable (JSON invalide après retry).");
+      if (!parsed) {
+        const looksTruncated = response.length > 100 && !response.trim().endsWith("}") && !response.trim().endsWith("```");
+        const hint = looksTruncated
+          ? "Réponse probablement tronquée (max_tokens). Essaie un modèle plus grand ou plus rapide."
+          : "Le modèle n'a pas renvoyé de JSON valide. Vérifie la console (F12) pour voir la réponse brute, et essaie un autre modèle.";
+        throw new Error("Réponse IA non exploitable. " + hint);
+      }
       return normalizePayloadClient(parsed, url, byok.provider, byok.model);
     }
 

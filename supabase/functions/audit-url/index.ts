@@ -11,7 +11,7 @@ const SERVER_DEFAULT_MODEL = "claude-sonnet-4-6";
 const FETCH_TIMEOUT_MS = 10_000;
 const AI_TIMEOUT_MS = 30_000;
 const MAX_CONTEXT_CHARS = 12_000;
-const MAX_TOKENS = 2000;
+const MAX_TOKENS = 4000;
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -283,15 +283,34 @@ async function callProvider(
 }
 
 function tryParseJson(raw: string): unknown | null {
-  const trimmed = raw.trim();
-  try {
-    return JSON.parse(trimmed);
-  } catch { /* fallthrough */ }
-  const match = trimmed.match(/\{[\s\S]*\}/);
-  if (match) {
-    try {
-      return JSON.parse(match[0]);
-    } catch { /* fallthrough */ }
+  let s = raw.trim();
+  // Retire les code fences markdown
+  s = s.replace(/^```(?:json|JSON)?\s*\n?/, "").replace(/\n?\s*```\s*$/, "").trim();
+  try { return JSON.parse(s); } catch { /* fallthrough */ }
+  const start = s.indexOf("{");
+  const end = s.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    const candidate = s.slice(start, end + 1);
+    try { return JSON.parse(candidate); } catch { /* fallthrough */ }
+  }
+  // Tente de réparer un JSON tronqué
+  if (start >= 0 && end < 0) {
+    let candidate = s.slice(start);
+    let depth = 0, brackets = 0, inStr = false, esc = false;
+    for (const ch of candidate) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === "{") depth++;
+      else if (ch === "}") depth--;
+      else if (ch === "[") brackets++;
+      else if (ch === "]") brackets--;
+    }
+    if (inStr) candidate = candidate.replace(/[^"]*$/, '"');
+    candidate = candidate.replace(/,\s*$/, "");
+    candidate += "]".repeat(Math.max(0, brackets)) + "}".repeat(Math.max(0, depth));
+    try { return JSON.parse(candidate); } catch { /* fallthrough */ }
   }
   return null;
 }
