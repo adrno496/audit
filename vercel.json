@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": null,
   "cleanUrls": true,
   "trailingSlash": false,
 
@@ -8,12 +11,6 @@
     { "source": "/landing",       "destination": "/",              "permanent": true },
     { "source": "/audit",         "destination": "/analyse.html",  "permanent": false },
     { "source": "/audit/",        "destination": "/analyse.html",  "permanent": false }
-  ],
-
-  "rewrites": [
-    { "source": "/sitemap.xml",   "destination": "/sitemap.xml" },
-    { "source": "/robots.txt",    "destination": "/robots.txt" },
-    { "source": "/manifest.json", "destination": "/manifest.json" }
   ],
 
   "headers": [
