@@ -1,65 +1,77 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex,follow">
-  <title>Page introuvable — ConvertAudit</title>
-  <meta name="description" content="La page que tu cherches n'existe pas ou a été déplacée. Reviens à l'accueil ou audite ta landing page directement.">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <meta name="theme-color" content="#0d9488">
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a8478">
+<meta name="robots" content="noindex,follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>Page introuvable — ConvertAudit</title>
+<meta name="description" content="La page que tu cherches n'existe pas ou a été déplacée. Reviens à l'accueil ou audite ta landing page directement.">
+<link rel="stylesheet" href="/convertaudit.css">
+<style>
+.error-hero { padding: 120px 0 60px; text-align: center; background: radial-gradient(1200px 400px at 50% -10%, var(--accent-soft) 0%, transparent 60%), var(--paper); }
+.error-code { font-family: var(--f-display); font-weight: 800; font-size: clamp(120px, 20vw, 240px); line-height: 0.85; letter-spacing: -0.04em; color: var(--accent-deep); margin: 0 0 16px; }
+.error-code em { font-style: italic; color: var(--ink); font-weight: 500; }
+.error-title { font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 3.5vw, 48px); letter-spacing: -0.025em; margin: 0 0 16px; }
+.error-lead { font-size: 17px; color: var(--ink-3); max-width: 50ch; margin: 0 auto 32px; }
+.error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.error-links { padding: 60px 0 96px; text-align: center; }
+.error-links h2 { font-family: var(--f-display); font-size: 22px; margin: 0 0 20px; }
+.error-links ul { list-style: none; padding: 0; max-width: 520px; margin: 0 auto; display: grid; gap: 8px; }
+.error-links a { display: block; padding: 14px 20px; border: var(--b-soft); border-radius: var(--r-sm); transition: all .12s; font-family: var(--f-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; }
+.error-links a:hover { background: var(--accent-soft); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 0 var(--ink); }
+</style>
 </head>
 <body>
 <a href="#main" class="skip-link">Aller au contenu principal</a>
 
-<header class="site">
-  <div class="nav">
-    <a href="/" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a>
-    <nav class="links">
-      <a href="/index.html#how">Comment ça marche</a>
-      <a href="/index.html#pricing">Tarifs</a>
-      <a href="/blog.html">Blog</a>
-    </nav>
-    <a href="/analyse.html" class="btn btn-primary">Auditer mon site</a>
-  </div>
-</header>
+<header class="site"><div class="site-nav">
+<a href="/" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a>
+<nav class="site-links">
+<a href="/index.html#how">Comment ça marche</a>
+<a href="/index.html#pricing">Tarifs</a>
+<a href="/blog.html">Blog</a>
+</nav>
+<div class="header-actions">
+<a href="/analyse.html" class="btn btn-primary">Auditer mon site <span class="arrow">→</span></a>
+</div></div></header>
 
-<section class="page-hero" style="text-align:center; padding-top:96px;">
-  <div class="narrow">
-    <div class="pill" style="background:#fee2e2; color:#991b1b;">Erreur 404</div>
-    <h1>Cette page n'existe pas</h1>
-    <p class="lead">Le lien est cassé, la page a été déplacée, ou tu as fait une faute de frappe. Pas de panique :</p>
-    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
-      <a href="/" class="btn btn-ghost">Retour à l'accueil</a>
-      <a href="/analyse.html" class="btn btn-primary">Auditer ma page →</a>
-    </div>
-  </div>
+<main id="main">
+<section class="error-hero">
+<div class="container">
+<div class="error-code">4<em>0</em>4</div>
+<h1 class="error-title">Cette page <em class="italic-serif">n'existe pas.</em></h1>
+<p class="error-lead">Le lien est cassé, la page a été déplacée, ou tu as fait une faute de frappe. Pas de panique :</p>
+<div class="error-actions">
+<a href="/" class="btn">← Retour à l'accueil</a>
+<a href="/analyse.html" class="btn btn-primary">Auditer ma page <span class="arrow">→</span></a>
+</div>
+</div>
 </section>
 
-<article class="prose narrow" style="text-align:center;">
-  <h2>Tu cherchais peut-être…</h2>
-  <ul style="list-style:none; padding:0; display:grid; gap:12px; max-width:520px; margin:0 auto;">
-    <li><a href="/index.html#how">Comment ça marche</a></li>
-    <li><a href="/index.html#pricing">Tarifs (à partir de 4,90 €)</a></li>
-    <li><a href="/blog.html">Blog — guides CRO et conversion</a></li>
-    <li><a href="/about.html">À propos de ConvertAudit</a></li>
-  </ul>
-</article>
+<section class="error-links">
+<div class="container">
+<h2>Tu cherchais peut-être…</h2>
+<ul>
+<li><a href="/index.html#how">Comment ça marche</a></li>
+<li><a href="/index.html#pricing">Tarifs (à partir de 4,90 €)</a></li>
+<li><a href="/blog.html">Blog — guides CRO et conversion</a></li>
+<li><a href="/about.html">À propos de ConvertAudit</a></li>
+</ul>
+</div>
+</section>
+</main>
 
 <footer class="site">
-  <div class="footer-row">
-    <div class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></div>
-    <div class="footer-links">
-      <a href="/analyse.html">Auditer mon site</a>
-      <a href="/blog.html">Blog</a>
-      <a href="/about.html">À propos</a>
-      <a href="/legal.html">Mentions légales</a>
-      <a href="/privacy.html">Confidentialité</a>
-    </div>
-    <div>© 2026 ConvertAudit</div>
-  </div>
+<div class="footer-row">
+<div class="col"><a href="/" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a></div>
+<div class="col"><h4>Produit</h4><a href="/analyse.html">Auditer mon site</a><a href="/index.html#pricing">Tarifs</a></div>
+<div class="col"><h4>Ressources</h4><a href="/blog.html">Blog</a><a href="/about.html">À propos</a></div>
+<div class="col"><h4>Légal</h4><a href="/legal.html">Mentions légales</a><a href="/privacy.html">Confidentialité</a></div>
+</div>
+<div class="legal"><span>© 2026 ConvertAudit</span><span>Made with rigor in EU</span></div>
 </footer>
-
 </body>
 </html>

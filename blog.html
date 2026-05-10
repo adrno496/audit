@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d9488">
+  <meta name="theme-color" content="#0a8478">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
@@ -11,121 +11,128 @@
   <meta name="description" content="Articles concrets sur l'optimisation de landing pages : audit, hero, CTA, preuve sociale, copywriting, erreurs courantes. Guides actionnables par des praticiens CRO.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://convertaudit.app/blog.html">
+  <link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog.html">
+  <link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog.html">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://convertaudit.app/og-image.svg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="ConvertAudit — Audit IA de landing page, score 0-100">
   <meta property="og:title" content="Blog ConvertAudit — Optimisation de conversion">
-  <meta property="og:description" content="Guides pratiques CRO pour landing pages SaaS, e-commerce et services.">
-  <link rel="stylesheet" href="style.css">
+  <meta property="og:image" content="https://convertaudit.app/og-image.svg">
+  <link rel="stylesheet" href="convertaudit.css">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "Blog ConvertAudit",
-    "url": "https://convertaudit.app/blog.html",
-    "description": "Guides CRO appliqués aux landing pages",
-    "inLanguage": "fr-FR"
-  }
+  { "@context": "https://schema.org", "@type": "Blog", "name": "Blog ConvertAudit", "url": "https://convertaudit.app/blog.html", "inLanguage": "fr-FR" }
   </script>
+  <style>
+    .blog-hero { padding: 96px 0 48px; border-bottom: var(--b-soft); background: radial-gradient(1200px 400px at 80% -10%, var(--accent-soft) 0%, transparent 60%), var(--paper); }
+    .blog-hero .display { font-family: var(--f-display); font-weight: 800; font-size: clamp(48px, 7vw, 96px); line-height: 0.9; letter-spacing: -0.04em; margin: 22px 0 24px; max-width: 16ch; text-wrap: balance; }
+    .blog-hero .display em { font-style: italic; color: var(--accent-deep); font-weight: 500; }
+    .blog-hero .meta-row { margin-top: 28px; display: flex; gap: 28px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+    .blog-hero .meta-row span::before { content: "→ "; color: var(--accent); }
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 24px 0; border-bottom: var(--b-soft); font-family: var(--f-mono); align-items: center; }
+    .filter-row .label { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.12em; margin-right: 12px; }
+    .filter-row .chip { padding: 6px 14px; border: var(--b-soft); border-radius: 999px; font-size: 12px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; transition: all .15s; }
+    .filter-row .chip:hover { border-color: var(--ink); }
+    .filter-row .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  </style>
 </head>
 <body>
 <a href="#main" class="skip-link">Aller au contenu principal</a>
 
 <header class="site">
-  <div class="nav">
-    <a href="index.html" class="brand">
-      <span class="brand-mark">CA</span>
-      <span>ConvertAudit</span>
-    </a>
-    <nav class="links">
+  <div class="site-nav">
+    <a href="index.html" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a>
+    <nav class="site-links">
       <a href="index.html#how">Comment ça marche</a>
       <a href="index.html#pricing">Tarifs</a>
-      <a href="blog.html">Blog</a>
+      <a href="blog.html" class="active">Blog</a>
       <a href="about.html">À propos</a>
     </nav>
     <div class="header-actions">
-      <div class="lang-switch">
-        <a href="blog.html" class="active">FR</a>
-        <a href="en/blog.html">EN</a>
-      </div>
-      <a href="analyse.html" class="btn btn-primary">Auditer mon site</a>
+      <div class="lang-switch"><a href="blog.html" class="active">FR</a><a href="en/blog.html">EN</a></div>
+      <a href="analyse.html" class="btn btn-primary">Auditer mon site <span class="arrow">→</span></a>
     </div>
   </div>
 </header>
 
-<section class="page-hero">
+<main id="main">
+  <section class="blog-hero">
+    <div class="container">
+      <span class="pill"><span class="dot"></span>Blog · Tactiques CRO</span>
+      <h1 class="display">L'optimisation<br>de landings,<br><em>sans bullshit.</em></h1>
+      <p class="lead">Des articles tactiques pour comprendre ce qui se joue vraiment sur tes pages, et passer à l'action dès cet après-midi.</p>
+      <div class="meta-row">
+        <span>5 articles publiés</span>
+        <span>Mis à jour mensuellement</span>
+        <span>Lecture moyenne 9 min</span>
+      </div>
+    </div>
+  </section>
+
   <div class="container">
-    <div class="pill">Blog</div>
-    <h1>Optimisation de landing pages, sans bullshit.</h1>
-    <p class="lead">Cinq articles tactiques pour comprendre ce qui se joue vraiment sur tes pages, et passer à l'action dès cet après-midi.</p>
+    <div class="filter-row" aria-label="Filtres">
+      <span class="label">Filtrer</span>
+      <span class="chip active">Tout</span>
+      <span class="chip">Méthode</span>
+      <span class="chip">SaaS</span>
+      <span class="chip">Hero</span>
+      <span class="chip">CTA</span>
+      <span class="chip">Preuve sociale</span>
+    </div>
+
+    <div class="posts-grid">
+      <a href="blog/auditer-landing-page-2026.html" class="post-card featured">
+        <div class="left">
+          <div class="tag">Méthode · 12 min · Article phare</div>
+          <h2>Comment auditer une landing page en 2026 : la méthode complète en 8 étapes</h2>
+          <p>Le framework qu'on utilise dans ConvertAudit, expliqué en clair : pondération, dimensions, pièges, exemples concrets. La référence pour t'auto-auditer.</p>
+          <div class="meta">10 mai 2026 · par l'équipe</div>
+        </div>
+        <div class="right"><span class="btn">Lire l'article <span class="arrow">→</span></span></div>
+      </a>
+
+      <a href="blog/15-erreurs-landing-saas.html" class="post-card">
+        <div class="tag">SaaS · 9 min</div>
+        <h2>15 erreurs critiques sur les landings SaaS</h2>
+        <p>Headlines vagues, CTAs noyés, pricing caché, démos qui demandent un email avant même de montrer le produit. Le top des frictions à tuer en priorité.</p>
+        <div class="meta">8 mai 2026</div>
+      </a>
+
+      <a href="blog/hero-section-regles.html" class="post-card">
+        <div class="tag">Hero · 7 min</div>
+        <h2>Hero section : 8 règles pour convertir dès la première seconde</h2>
+        <p>Above the fold, tu joues 80 % de ta conversion. Headline, sous-titre, visuel, CTA primaire — les principes intemporels et les contre-exemples.</p>
+        <div class="meta">5 mai 2026</div>
+      </a>
+
+      <a href="blog/cta-conversion-guide.html" class="post-card">
+        <div class="tag">CTA · 11 min</div>
+        <h2>CTA qui convertissent : le guide complet</h2>
+        <p>« En savoir plus » est un CTA mort. Voici comment écrire, designer et placer un bouton qui convertit — wording, couleur, placement.</p>
+        <div class="meta">2 mai 2026</div>
+      </a>
+
+      <a href="blog/preuve-sociale-formats.html" class="post-card">
+        <div class="tag">Preuve sociale · 8 min</div>
+        <h2>Preuve sociale : 7 formats pour rassurer sans en faire trop</h2>
+        <p>Témoignages, logos clients, compteurs, certifications, études de cas. Ce qui marche encore, ce qui sent le faux à 1 km, et comment doser.</p>
+        <div class="meta">29 avril 2026</div>
+      </a>
+    </div>
+
+    <div class="cta-box" style="margin-bottom: 64px;">
+      <h3>Prêt·e à mettre tout ça en pratique ?</h3>
+      <p>Audite ta page maintenant et reçois ton plan d'action priorisé en 30 secondes.</p>
+      <a href="analyse.html" class="btn lg">Auditer mon site <span class="arrow">→</span></a>
+    </div>
   </div>
-</section>
-
-<div class="container">
-  <div class="posts-grid">
-
-    <a href="blog/auditer-landing-page-2026.html" class="post-card">
-      <div class="tag">Méthode · 12 min</div>
-      <h2>Comment auditer une landing page en 2026 : la méthode complète en 8 étapes</h2>
-      <p>Le framework qu'on utilise dans ConvertAudit, expliqué en clair : pondération, dimensions, pièges à éviter, exemples concrets. La référence pour t'auto-auditer.</p>
-      <div class="meta">10 mai 2026</div>
-    </a>
-
-    <a href="blog/15-erreurs-landing-saas.html" class="post-card">
-      <div class="tag">SaaS · 9 min</div>
-      <h2>15 erreurs critiques sur les landing pages SaaS (et comment les corriger)</h2>
-      <p>Headlines vagues, CTAs noyés, pricing caché, screenshots flous, démos qui demandent un email avant même de montrer le produit… Le top des frictions à tuer en priorité.</p>
-      <div class="meta">8 mai 2026</div>
-    </a>
-
-    <a href="blog/hero-section-regles.html" class="post-card">
-      <div class="tag">Hero · 7 min</div>
-      <h2>Hero section : 8 règles pour convertir dès la première seconde</h2>
-      <p>Above the fold, tu joues 80 % de ta conversion. Headline, sous-titre, visuel, CTA primaire : les principes intemporels et les contre-exemples instructifs.</p>
-      <div class="meta">5 mai 2026</div>
-    </a>
-
-    <a href="blog/cta-conversion-guide.html" class="post-card">
-      <div class="tag">CTA · 11 min</div>
-      <h2>CTA qui convertissent : le guide complet (wording, couleur, placement)</h2>
-      <p>« En savoir plus » est un CTA mort. Voici comment écrire, designer et placer un bouton qui convertit — avec les patterns qui marchent et ceux qui ne marchent plus.</p>
-      <div class="meta">2 mai 2026</div>
-    </a>
-
-    <a href="blog/preuve-sociale-formats.html" class="post-card">
-      <div class="tag">Preuve sociale · 8 min</div>
-      <h2>Preuve sociale : 7 formats pour rassurer sans en faire trop</h2>
-      <p>Témoignages, logos clients, compteurs, certifications, études de cas… Ce qui marche encore en 2026, ce qui sent le faux à 1 km, et comment doser pour gagner la confiance sans perdre en crédibilité.</p>
-      <div class="meta">29 avril 2026</div>
-    </a>
-
-  </div>
-
-  <div class="cta-box" style="margin-bottom: 60px">
-    <h3>Prêt·e à mettre tout ça en pratique ?</h3>
-    <p>Audite ta page maintenant et reçois ton plan d'action priorisé en 30 secondes.</p>
-    <a href="analyse.html" class="btn btn-primary lg">Auditer mon site →</a>
-  </div>
-</div>
+</main>
 
 <footer class="site">
   <div class="footer-row">
-    <div class="brand">
-      <span class="brand-mark">CA</span>
-      <span>ConvertAudit</span>
-    </div>
-    <div class="footer-links">
-      <a href="analyse.html">Auditer mon site</a>
-      <a href="blog.html">Blog</a>
-      <a href="about.html">À propos</a>
-      <a href="legal.html">Mentions légales</a>
-      <a href="privacy.html">Confidentialité</a>
-    </div>
-    <div>© 2026 ConvertAudit</div>
+    <div class="col"><a href="index.html" class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></a><p class="colophon">L'audit de landing page par IA.</p></div>
+    <div class="col"><h4>Produit</h4><a href="analyse.html">Auditer mon site</a><a href="index.html#pricing">Tarifs</a><a href="index.html#how">Comment ça marche</a></div>
+    <div class="col"><h4>Ressources</h4><a href="blog.html">Blog</a><a href="about.html">À propos</a></div>
+    <div class="col"><h4>Légal</h4><a href="legal.html">Mentions légales</a><a href="privacy.html">Confidentialité</a></div>
   </div>
+  <div class="legal"><span>© 2026 ConvertAudit · Tous droits réservés</span><span>Made with rigor in EU</span></div>
 </footer>
-
 </body>
 </html>
