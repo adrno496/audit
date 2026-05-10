@@ -3,1417 +3,640 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ConvertAudit — Audit conversion de landing page</title>
+  <title>ConvertAudit — Audite ta landing page en 30s, score 0-100, actions concrètes</title>
+  <meta name="description" content="Analyse IA de ta landing page sur 8 dimensions de conversion. Score sur 100, plan d'action priorisé, rapport téléchargeable. 30 secondes, aucune inscription. À partir de 4,90 €.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://convertaudit.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ConvertAudit — Audite ta landing page en 30s">
+  <meta property="og:description" content="Score 0-100, 8 dimensions de conversion analysées par IA, plan d'action concret. À partir de 4,90 €.">
+  <meta property="og:url" content="https://convertaudit.app/">
+  <meta property="og:site_name" content="ConvertAudit">
+  <meta property="og:locale" content="fr_FR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ConvertAudit — Audite ta landing page en 30s">
+  <meta name="twitter:description" content="Score 0-100, 8 dimensions de conversion, plan d'action concret. À partir de 4,90 €.">
+
+  <!-- JSON-LD : Organization + WebSite + Product -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "ConvertAudit",
+        "url": "https://convertaudit.app/",
+        "description": "Audit automatique de landing page par IA, score 0-100 sur 8 dimensions de conversion."
+      },
+      {
+        "@type": "WebSite",
+        "name": "ConvertAudit",
+        "url": "https://convertaudit.app/",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "Product",
+        "name": "Audit ConvertAudit",
+        "description": "Audit IA d'une landing page : score 0-100, 8 dimensions, plan d'action priorisé, rapport HTML téléchargeable.",
+        "brand": { "@type": "Brand", "name": "ConvertAudit" },
+        "offers": [
+          { "@type": "Offer", "name": "1 audit", "price": "4.90", "priceCurrency": "EUR", "availability": "https://schema.org/InStock" },
+          { "@type": "Offer", "name": "5 audits", "price": "19.00", "priceCurrency": "EUR", "availability": "https://schema.org/InStock" },
+          { "@type": "Offer", "name": "20 audits", "price": "49.00", "priceCurrency": "EUR", "availability": "https://schema.org/InStock" }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
       --bg: #ffffff;
       --bg-muted: #f9fafb;
       --bg-soft: #f3f4f6;
+      --bg-dark: #0f172a;
       --border: #e5e7eb;
       --text: #111827;
       --text-muted: #6b7280;
+      --text-light: #9ca3af;
       --accent: #0d9488;
       --accent-dark: #0f766e;
-      --score-bad: #dc2626;
-      --score-mid: #f59e0b;
-      --score-ok: #84cc16;
-      --score-good: #16a34a;
-      --amber-bg: #fef3c7;
-      --amber-text: #92400e;
-      --green-bg: #dcfce7;
-      --green-text: #166534;
-      --red-bg: #fee2e2;
-      --red-text: #991b1b;
+      --accent-soft: #ccfbf1;
+      --accent-glow: rgba(13,148,136,0.15);
+      --warn: #f59e0b;
+      --good: #16a34a;
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
       --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 20px 40px -8px rgba(13,148,136,0.18), 0 10px 20px -10px rgba(0,0,0,0.1);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     html, body { margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg-muted);
+      background: var(--bg);
       color: var(--text);
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--accent-dark); }
-    button { font: inherit; cursor: pointer; }
+    a { color: var(--accent-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font: inherit; cursor: pointer; border: 0; }
+    img { max-width: 100%; }
 
-    .container { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 880px; }
 
-    /* Header */
-    header.app {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 24px; background: var(--bg); border-bottom: 1px solid var(--border);
+    /* ============ HEADER ============ */
+    header.site {
+      position: sticky; top: 0; background: rgba(255,255,255,0.92);
+      backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid var(--border); z-index: 40;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--text); }
+    .brand:hover { text-decoration: none; }
     .brand-mark {
       width: 32px; height: 32px; border-radius: 8px;
       background: linear-gradient(135deg, var(--accent), #14b8a6);
       display: inline-flex; align-items: center; justify-content: center;
-      color: white; font-size: 14px;
+      color: white; font-size: 14px; font-weight: 700;
     }
-    .credits-pill {
-      font-size: 13px; color: var(--text-muted);
-      background: var(--bg-soft); padding: 6px 12px; border-radius: 999px;
-    }
-    .credits-pill strong { color: var(--text); }
+    nav.links { display: none; gap: 28px; align-items: center; }
+    nav.links a { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+    nav.links a:hover { color: var(--text); text-decoration: none; }
+    @media (min-width: 768px) { nav.links { display: flex; } }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .lang-switch { display: inline-flex; align-items: center; background: var(--bg-soft); border-radius: 8px; padding: 3px; font-size: 13px; font-weight: 600; }
+    .lang-switch a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; border-radius: 6px; color: var(--text-muted); text-decoration: none; transition: all .15s; }
+    .lang-switch a.active { background: var(--bg); color: var(--text); box-shadow: var(--shadow-sm); }
+    .lang-switch a:hover:not(.active) { color: var(--text); text-decoration: none; }
 
-    /* States */
-    main[data-state] > section { display: none; }
-    main[data-state="form"] #state-form { display: block; }
-    main[data-state="loading"] #state-loading { display: block; }
-    main[data-state="report"] #state-report { display: block; }
-
-    /* Form */
-    .hero-form {
-      text-align: center; padding: 56px 24px 32px;
-    }
-    .hero-form h1 {
-      font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700;
-    }
-    .hero-form p.lead { font-size: 17px; color: var(--text-muted); margin: 0 0 32px; }
-    .form-row {
-      display: flex; gap: 8px; flex-wrap: wrap; max-width: 640px; margin: 0 auto;
-    }
-    .form-row input[type="url"] {
-      flex: 1; min-width: 220px;
-      padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px;
-      font-size: 16px; background: var(--bg);
-      transition: border-color .15s, box-shadow .15s;
-    }
-    .form-row input[type="url"]:focus {
-      outline: none; border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(13,148,136,0.15);
-    }
-    .form-row select {
-      padding: 14px 12px; border: 1px solid var(--border); border-radius: 10px;
-      background: var(--bg); font-size: 15px;
+    /* ============ BUTTONS ============ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 24px; font-size: 15px; font-weight: 600;
+      border-radius: 10px; transition: all .15s; white-space: nowrap;
     }
     .btn-primary {
-      display: inline-block; margin-top: 16px;
-      padding: 14px 28px; font-size: 16px; font-weight: 600;
-      color: white; background: var(--accent); border: 0; border-radius: 10px;
-      transition: background .15s, transform .05s;
+      background: var(--accent); color: white;
       box-shadow: var(--shadow);
     }
-    .btn-primary:hover { background: var(--accent-dark); }
-    .btn-primary:active { transform: translateY(1px); }
-    .btn-primary:disabled { opacity: .55; cursor: not-allowed; }
-    .reassurance {
-      margin-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: var(--shadow-lg); text-decoration: none; }
+    .btn-primary.lg { padding: 16px 32px; font-size: 17px; border-radius: 12px; }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg-soft); text-decoration: none; }
+
+    /* ============ HERO ============ */
+    section.hero {
+      position: relative; padding: 80px 0 60px;
+      background:
+        radial-gradient(ellipse 800px 400px at 50% -20%, var(--accent-soft) 0%, transparent 60%),
+        var(--bg);
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid; gap: 48px;
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; background: var(--accent-soft); color: var(--accent-dark);
+      border-radius: 999px; font-size: 13px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    h1.hero-title {
+      font-size: 38px; line-height: 1.1; margin: 0 0 20px;
+      font-weight: 800; letter-spacing: -0.02em;
+    }
+    @media (min-width: 768px) { h1.hero-title { font-size: 52px; } }
+    h1.hero-title em {
+      font-style: normal;
+      background: linear-gradient(120deg, var(--accent) 0%, #14b8a6 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    p.hero-sub {
+      font-size: 19px; color: var(--text-muted); margin: 0 0 32px; max-width: 560px;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+    .hero-bullets {
+      display: flex; gap: 18px; flex-wrap: wrap;
       color: var(--text-muted); font-size: 14px;
     }
-    .reassurance span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
-    .form-error {
-      max-width: 640px; margin: 14px auto 0;
-      color: var(--red-text); background: var(--red-bg);
-      padding: 10px 14px; border-radius: 8px; font-size: 14px;
-    }
-    .form-error[hidden] { display: none; }
+    .hero-bullets span::before { content: "✓"; color: var(--accent); font-weight: 700; margin-right: 6px; }
 
-    /* Loading */
-    .loading-wrap { padding: 80px 24px; text-align: center; }
-    .spinner {
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 3px solid var(--bg-soft); border-top-color: var(--accent);
-      animation: spin .8s linear infinite; margin: 0 auto 24px;
+    /* Hero visual: report mockup */
+    .mockup {
+      background: var(--bg);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 22px;
+      transform: rotate(-1deg);
+      position: relative;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-msg { font-size: 16px; color: var(--text-muted); min-height: 1.4em; }
+    .mockup::before {
+      content: ""; position: absolute; inset: -16px; z-index: -1;
+      background: linear-gradient(135deg, var(--accent-soft), transparent);
+      border-radius: 24px; opacity: 0.6;
+    }
+    .mock-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .mock-head .domain { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .mock-head h3 { font-size: 16px; margin: 0; }
+    .mock-score { font-size: 38px; font-weight: 800; color: var(--good); line-height: 1; text-align: right; min-width: 90px; }
+    .mock-score small { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+    .mock-score .mention { font-size: 12px; color: var(--good); font-weight: 600; }
+    .mock-bars { display: grid; gap: 10px; }
+    .mock-bar { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .mock-bar .label { flex: 1; color: var(--text); font-weight: 500; }
+    .mock-bar .num { color: var(--text-muted); min-width: 32px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; }
+    .mock-bar .track { width: 110px; height: 6px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+    .mock-bar .fill { height: 100%; border-radius: 999px; }
+    .mock-bar .fill.good { background: var(--good); }
+    .mock-bar .fill.ok { background: #84cc16; }
+    .mock-bar .fill.mid { background: var(--warn); }
+    .mock-bar .fill.bad { background: #dc2626; }
 
-    /* Report — header */
-    .report-header {
+    /* ============ SOCIAL PROOF ============ */
+    section.social {
+      padding: 32px 0; background: var(--bg-muted);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .social-row {
+      text-align: center; color: var(--text-muted); font-size: 14px;
+    }
+    .social-row .logos {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 28px;
+      margin-top: 14px; opacity: 0.7;
+    }
+    .logo-mock {
+      font-weight: 700; font-size: 18px; letter-spacing: 0.02em; color: var(--text-light);
+      font-family: ui-serif, Georgia, serif;
+    }
+
+    /* ============ SECTIONS ============ */
+    section.s {
+      padding: 80px 0;
+    }
+    section.s.alt { background: var(--bg-muted); }
+    .section-header { text-align: center; max-width: 680px; margin: 0 auto 56px; }
+    .section-tag {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    h2.section-title {
+      font-size: 32px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) { h2.section-title { font-size: 38px; } }
+    p.section-lead { font-size: 17px; color: var(--text-muted); margin: 0; }
+
+    /* ============ HOW IT WORKS ============ */
+    .steps {
+      display: grid; gap: 28px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+    .step {
       background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
-      padding: 24px; margin-bottom: 20px;
+      padding: 28px; position: relative;
+    }
+    .step .num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent-dark);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px; margin-bottom: 16px;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 18px; }
+    .step p { margin: 0; color: var(--text-muted); font-size: 15px; }
+
+    /* ============ DIMENSIONS GRID ============ */
+    .dims {
       display: grid; gap: 16px;
       grid-template-columns: 1fr;
     }
-    @media (min-width: 768px) {
-      .report-header { grid-template-columns: 1fr auto; align-items: center; }
+    @media (min-width: 640px) { .dims { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .dims { grid-template-columns: repeat(4, 1fr); } }
+    .dim-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 22px; transition: transform .2s, box-shadow .2s;
     }
-    .report-meta .domain { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-    .report-meta h2 { font-size: 22px; margin: 0 0 8px; }
-    .report-meta p.summary { color: var(--text-muted); margin: 0; }
-    .score-circle {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-width: 140px;
-    }
-    .score-num {
-      font-size: 56px; font-weight: 800; line-height: 1; color: var(--accent);
-    }
-    .score-num[data-tier="bad"] { color: var(--score-bad); }
-    .score-num[data-tier="mid"] { color: var(--score-mid); }
-    .score-num[data-tier="ok"]  { color: var(--score-ok); }
-    .score-num[data-tier="good"]{ color: var(--score-good); }
-    .score-num small { font-size: 18px; color: var(--text-muted); font-weight: 500; }
-    .score-mention { margin-top: 4px; font-weight: 600; }
-    .download-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-    .btn-secondary {
-      padding: 10px 18px; font-size: 14px; font-weight: 600;
-      color: var(--text); background: var(--bg); border: 1px solid var(--border);
-      border-radius: 8px; transition: background .15s;
-    }
-    .btn-secondary:hover { background: var(--bg-soft); }
-
-    /* Bars */
-    .bars { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 8px; margin-bottom: 20px; }
-    .bar { padding: 14px 16px; border-radius: 10px; cursor: pointer; transition: background .15s; }
-    .bar + .bar { border-top: 1px solid var(--border); }
-    .bar:hover { background: var(--bg-muted); }
-    .bar-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-    .bar-name { font-weight: 600; flex: 1; }
-    .bar-score { font-weight: 700; min-width: 48px; text-align: right; font-variant-numeric: tabular-nums; }
-    .bar-track { height: 8px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 999px; transition: width .9s ease-out; }
-    .bar-fill[data-tier="bad"]  { background: var(--score-bad); }
-    .bar-fill[data-tier="mid"]  { background: var(--score-mid); }
-    .bar-fill[data-tier="ok"]   { background: var(--score-ok); }
-    .bar-fill[data-tier="good"] { background: var(--score-good); }
-    .bar-detail { margin-top: 12px; color: var(--text-muted); font-size: 14px; display: none; }
-    .bar.expanded .bar-detail { display: block; }
-    .bar-detail ul { margin: 8px 0 0; padding-left: 20px; }
-    .bar-detail li + li { margin-top: 4px; }
-
-    /* 3-col */
-    .threecol {
-      display: grid; gap: 14px; margin-bottom: 20px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 768px) { .threecol { grid-template-columns: repeat(3, 1fr); } }
-    .col {
-      border-radius: 14px; padding: 18px; border: 1px solid transparent;
-    }
-    .col h3 { margin: 0 0 12px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-    .col ul { margin: 0; padding-left: 20px; font-size: 14px; }
-    .col li + li { margin-top: 8px; }
-    .col.amber  { background: var(--amber-bg); color: var(--amber-text); border-color: #fde68a; }
-    .col.green  { background: var(--green-bg); color: var(--green-text); border-color: #bbf7d0; }
-    .col.red    { background: var(--red-bg);   color: var(--red-text);   border-color: #fecaca; }
-
-    /* Accordion details */
-    .details-block { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 8px; margin-bottom: 20px; }
-    .acc { padding: 14px 16px; }
-    .acc + .acc { border-top: 1px solid var(--border); }
-    .acc summary {
-      cursor: pointer; list-style: none;
-      display: flex; align-items: center; gap: 12px; font-weight: 600;
-    }
-    .acc summary::-webkit-details-marker { display: none; }
-    .acc summary::after { content: "›"; margin-left: auto; color: var(--text-muted); transition: transform .15s; font-size: 22px; }
-    .acc[open] summary::after { transform: rotate(90deg); }
-    .badge {
+    .dim-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .dim-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent-dark);
       display: inline-flex; align-items: center; justify-content: center;
-      min-width: 44px; padding: 4px 8px; border-radius: 8px;
-      font-weight: 700; font-size: 13px; color: white;
+      font-size: 18px; margin-bottom: 14px;
     }
-    .badge[data-tier="bad"]  { background: var(--score-bad); }
-    .badge[data-tier="mid"]  { background: var(--score-mid); }
-    .badge[data-tier="ok"]   { background: var(--score-ok); }
-    .badge[data-tier="good"] { background: var(--score-good); }
-    .acc-body { margin-top: 10px; color: var(--text-muted); font-size: 14px; }
-    .acc-body ul { margin: 8px 0 0; padding-left: 20px; }
-    .acc-body li + li { margin-top: 4px; }
+    .dim-card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
+    .dim-card p { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.5; }
 
-    /* Footer CTA */
-    .footer-cta {
-      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-      padding: 20px 0 60px; color: var(--text-muted); font-size: 14px;
+    /* ============ PRICING ============ */
+    .pricing {
+      display: grid; gap: 18px; grid-template-columns: 1fr;
+      max-width: 980px; margin: 0 auto;
     }
-    .footer-cta a { color: var(--accent-dark); cursor: pointer; }
+    @media (min-width: 768px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+    .price-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
+      padding: 32px; display: flex; flex-direction: column;
+      position: relative;
+    }
+    .price-card.featured {
+      border: 2px solid var(--accent);
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.02);
+    }
+    .price-card.featured .featured-tag {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: white;
+      padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    }
+    .price-card h3 { margin: 0 0 4px; font-size: 18px; }
+    .price-card .desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+    .price {
+      font-size: 40px; font-weight: 800; color: var(--text); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .price small { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+    .price-sub { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
+    .price-card ul { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
+    .price-card li { padding: 6px 0; font-size: 14px; color: var(--text); }
+    .price-card li::before { content: "✓ "; color: var(--accent); font-weight: 700; margin-right: 4px; }
+    .free-banner {
+      max-width: 980px; margin: 24px auto 0;
+      padding: 16px 20px; background: var(--accent-soft); color: var(--accent-dark);
+      border-radius: 12px; text-align: center; font-size: 14px;
+    }
 
-    /* Modal */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(17,24,39,0.55);
-      display: none; align-items: center; justify-content: center; padding: 24px;
-      z-index: 50;
+    /* ============ FAQ ============ */
+    details.faq {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 12px;
     }
-    .modal-backdrop.open { display: flex; }
-    .modal {
-      background: var(--bg); border-radius: 14px; max-width: 460px; width: 100%;
-      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    details.faq summary {
+      cursor: pointer; font-weight: 600; list-style: none;
+      display: flex; justify-content: space-between; gap: 12px; align-items: center;
     }
-    .modal h3 { margin: 0 0 8px; font-size: 20px; }
-    .modal p { color: var(--text-muted); margin: 0 0 16px; }
-    .pack-list { display: grid; gap: 8px; margin-bottom: 18px; }
-    .pack {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: "+"; color: var(--text-muted); font-size: 22px; transition: transform .2s; }
+    details.faq[open] summary::after { transform: rotate(45deg); }
+    details.faq .answer {
+      margin-top: 12px; color: var(--text-muted); line-height: 1.6;
     }
-    .pack strong { color: var(--text); }
-    .pack small { color: var(--text-muted); font-weight: 400; font-size: 12px; }
-    a.pack-link { color: var(--text); text-decoration: none; cursor: pointer; transition: border-color .15s, background .15s; }
-    a.pack-link:hover { border-color: var(--accent); background: var(--bg-soft); }
-    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
-    .modal-large { max-width: 560px; }
 
-    /* Settings (gear) icon button */
-    .header-actions { display: flex; align-items: center; gap: 10px; }
-    .icon-btn {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: var(--bg-soft); border: 1px solid var(--border); color: var(--text);
-      display: inline-flex; align-items: center; justify-content: center;
-      transition: background .15s;
-      padding: 0;
+    /* ============ FINAL CTA ============ */
+    section.final-cta {
+      padding: 80px 0;
+      background:
+        radial-gradient(ellipse 600px 300px at 50% 50%, var(--accent-glow) 0%, transparent 70%),
+        var(--bg-dark);
+      color: white; text-align: center;
     }
-    .icon-btn:hover { background: #e5e7eb; }
-    .icon-btn svg { width: 18px; height: 18px; }
+    section.final-cta h2 { font-size: 36px; margin: 0 0 16px; font-weight: 800; }
+    section.final-cta p { color: rgba(255,255,255,0.7); font-size: 17px; max-width: 540px; margin: 0 auto 28px; }
 
-    /* BYOK banner above the form */
-    .byok-banner {
-      display: none;
-      max-width: 640px; margin: 0 auto 16px;
-      padding: 10px 14px; background: #ecfeff; color: #155e75;
-      border: 1px solid #a5f3fc; border-radius: 10px;
-      font-size: 14px; gap: 10px; align-items: center; justify-content: space-between;
+    /* ============ FOOTER ============ */
+    footer.site {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 14px;
     }
-    body[data-byok="on"] .byok-banner { display: flex; }
-    body[data-byok="on"] .credits-pill { display: none; }
-    .byok-banner .key { font-weight: 600; }
-    .byok-banner button {
-      background: transparent; border: 0; color: #0e7490; font-weight: 600;
-      padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    .footer-row {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: space-between; align-items: center;
     }
-    .byok-banner button:hover { background: #cffafe; }
-
-    /* Settings modal — fields */
-    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .field label { font-size: 13px; font-weight: 600; color: var(--text); }
-    .field input[type="text"],
-    .field input[type="password"],
-    .field select {
-      padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
-      font-size: 14px; background: var(--bg); font-family: inherit;
-    }
-    .field input:focus, .field select:focus {
-      outline: none; border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(13,148,136,0.12);
-    }
-    .field .helper { font-size: 12px; color: var(--text-muted); }
-    .field .helper a { color: var(--accent-dark); }
-    .key-row { position: relative; }
-    .key-row input { padding-right: 64px; width: 100%; }
-    .key-row .toggle {
-      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-      background: transparent; border: 0; color: var(--text-muted);
-      font-size: 12px; padding: 4px 8px; cursor: pointer;
-    }
-    .switch-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 14px; background: var(--bg-soft); border-radius: 10px;
-      margin-bottom: 18px;
-    }
-    .switch-row .label { font-weight: 600; }
-    .switch-row .label small { display: block; font-weight: 400; color: var(--text-muted); font-size: 12px; }
-    /* iOS-style switch */
-    .switch { position: relative; width: 42px; height: 24px; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .switch .slider {
-      position: absolute; inset: 0; cursor: pointer; background: #cbd5e1;
-      border-radius: 999px; transition: background .2s;
-    }
-    .switch .slider::before {
-      content: ""; position: absolute; height: 18px; width: 18px;
-      left: 3px; top: 3px; background: white; border-radius: 50%;
-      transition: transform .2s; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-    }
-    .switch input:checked + .slider { background: var(--accent); }
-    .switch input:checked + .slider::before { transform: translateX(18px); }
-    .modal-warning {
-      font-size: 12px; color: var(--text-muted); background: #fffbeb;
-      border: 1px solid #fde68a; padding: 8px 10px; border-radius: 8px;
-      margin-bottom: 14px; line-height: 1.4;
-    }
-    .byok-fields[hidden] { display: none !important; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); }
+    .footer-links a:hover { color: var(--text); }
   </style>
 </head>
 <body>
 
-  <header class="app">
-    <div class="brand">
-      <span class="brand-mark">CA</span>
-      <span>ConvertAudit</span>
-    </div>
-    <div class="header-actions">
-      <div class="credits-pill">Crédits restants : <strong id="credits-count">1</strong></div>
-      <button class="icon-btn" id="btn-settings" aria-label="Paramètres IA" title="Configurer une clé API personnelle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-      </button>
+  <!-- ============ HEADER ============ -->
+  <header class="site">
+    <div class="container nav">
+      <a href="#top" class="brand">
+        <span class="brand-mark">CA</span>
+        <span>ConvertAudit</span>
+      </a>
+      <nav class="links">
+        <a href="#how">Comment ça marche</a>
+        <a href="#dims">Ce qu'on analyse</a>
+        <a href="#pricing">Tarifs</a>
+        <a href="blog.html">Blog</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <a href="landing.html" class="active">FR</a>
+          <a href="en/landing.html">EN</a>
+        </div>
+        <a href="index.html" class="btn btn-primary">Auditer mon site</a>
+      </div>
     </div>
   </header>
 
-  <main class="container" data-state="form">
-
-    <!-- ======= STATE: FORM ======= -->
-    <section id="state-form">
-      <div class="hero-form">
-        <h1>Analysez le potentiel de conversion<br>de n'importe quelle landing page en 30 s</h1>
-        <p class="lead">Score sur 100, 8 dimensions, actions concrètes — rapport HTML téléchargeable.</p>
-
-        <div class="byok-banner" id="byok-banner">
-          <span>🔑 Mode test — <span class="key" id="byok-summary">…</span></span>
-          <button type="button" id="byok-banner-edit">Modifier</button>
-        </div>
-
-        <form id="audit-form" autocomplete="off" novalidate>
-          <div class="form-row">
-            <input type="url" id="url-input" placeholder="https://votresite.com" required>
-            <select id="lang-select" aria-label="Langue du rapport">
-              <option value="fr">Français</option>
-              <option value="en">English</option>
-            </select>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="pill"><span class="dot"></span>Analyse IA · 30 secondes · 8 dimensions</div>
+          <h1 class="hero-title">Combien de visiteurs <em>perds-tu</em> chaque jour ?</h1>
+          <p class="hero-sub">
+            ConvertAudit analyse ta landing page comme un expert CRO et te livre un score sur 100,
+            les points faibles précis, et un plan d'action concret. En 30 secondes, sans inscription.
+          </p>
+          <div class="hero-cta">
+            <a href="index.html" class="btn btn-primary lg">Auditer mon site →</a>
+            <a href="#how" class="btn btn-ghost">Voir comment ça marche</a>
           </div>
-          <button type="submit" class="btn-primary" id="audit-btn">Analyser cette page — 1 crédit</button>
-          <div class="form-error" id="form-error" hidden></div>
-        </form>
-
-        <div class="reassurance">
-          <span>Rapport détaillé</span>
-          <span>Score 0–100</span>
-          <span>Actions concrètes</span>
-          <span>Export HTML</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= STATE: LOADING ======= -->
-    <section id="state-loading">
-      <div class="loading-wrap">
-        <div class="spinner" aria-hidden="true"></div>
-        <div class="loading-msg" id="loading-msg">Chargement de la page…</div>
-      </div>
-    </section>
-
-    <!-- ======= STATE: REPORT ======= -->
-    <section id="state-report">
-      <div class="report-header">
-        <div class="report-meta">
-          <div class="domain" id="r-domain"></div>
-          <h2 id="r-title"></h2>
-          <p class="summary" id="r-summary"></p>
-          <div class="download-row">
-            <button class="btn-secondary" id="btn-download">↓ Télécharger le rapport HTML</button>
+          <div class="hero-bullets">
+            <span>Aucune inscription</span>
+            <span>Rapport téléchargeable</span>
+            <span>Mode test gratuit avec ta clé</span>
           </div>
         </div>
-        <div class="score-circle">
-          <div class="score-num" id="r-score" data-tier="ok">0<small>/100</small></div>
-          <div class="score-mention" id="r-mention"></div>
-        </div>
-      </div>
 
-      <div class="bars" id="r-bars"></div>
-
-      <div class="threecol">
-        <div class="col amber">
-          <h3>⚡ Quick Wins</h3>
-          <ul id="r-quickwins"></ul>
-        </div>
-        <div class="col green">
-          <h3>✓ Points forts</h3>
-          <ul id="r-strengths"></ul>
-        </div>
-        <div class="col red">
-          <h3>⚠ Problèmes critiques</h3>
-          <ul id="r-issues"></ul>
-        </div>
-      </div>
-
-      <div class="details-block" id="r-details"></div>
-
-      <div class="footer-cta">
-        <a id="btn-restart">← Analyser une autre page</a>
-        <a id="btn-share">Partager ce rapport</a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Modal paramètres IA (BYOK) -->
-  <div class="modal-backdrop" id="settings-modal">
-    <div class="modal modal-large">
-      <h3>Paramètres IA</h3>
-      <p>Utilise ta propre clé API pour tester gratuitement avec le fournisseur de ton choix. Aucun crédit n'est consommé.</p>
-
-      <div class="switch-row">
-        <div class="label">Utiliser ma propre clé API
-          <small>Désactivé = clé serveur (1 crédit par audit)</small>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="byok-toggle">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="byok-fields" id="byok-fields" hidden>
-        <div class="modal-warning">
-          ⚠ Ta clé est utilisée <strong>directement depuis ce navigateur</strong> (aucun proxy Supabase). Elle est stockée dans le <code>localStorage</code> et envoyée en HTTPS au fournisseur. Le contenu de la page passe par <a href="https://jina.ai/reader" target="_blank" rel="noopener">Jina Reader</a> (proxy CORS gratuit).
-        </div>
-
-        <div class="field">
-          <label for="byok-provider">Fournisseur</label>
-          <select id="byok-provider">
-            <option value="anthropic">Anthropic (Claude)</option>
-            <option value="openai">OpenAI</option>
-            <option value="groq">Groq</option>
-            <option value="grok">xAI (Grok)</option>
-            <option value="mistral">Mistral</option>
-            <option value="openrouter">OpenRouter</option>
-          </select>
-          <span class="helper" id="byok-provider-help"></span>
-        </div>
-
-        <div class="field">
-          <label for="byok-key">Clé API</label>
-          <div class="key-row">
-            <input type="password" id="byok-key" placeholder="sk-...">
-            <button type="button" class="toggle" id="byok-key-toggle">Afficher</button>
+        <!-- Report mockup -->
+        <div class="mockup-wrap">
+          <div class="mockup" aria-hidden="true">
+            <div class="mock-head">
+              <div>
+                <div class="domain">stripe.com</div>
+                <h3>Payment infrastructure for the internet</h3>
+              </div>
+              <div class="mock-score">
+                82<small>/100</small>
+                <div class="mention">Excellent</div>
+              </div>
+            </div>
+            <div class="mock-bars">
+              <div class="mock-bar"><span class="label">Accroche (Hero)</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+              <div class="mock-bar"><span class="label">Copywriting</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8/10</span></div>
+              <div class="mock-bar"><span class="label">Call-to-Action</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+              <div class="mock-bar"><span class="label">Preuve sociale</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8/10</span></div>
+              <div class="mock-bar"><span class="label">Structure visuelle</span><div class="track"><div class="fill ok" style="width:70%"></div></div><span class="num">7/10</span></div>
+              <div class="mock-bar"><span class="label">Confiance</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+              <div class="mock-bar"><span class="label">Urgence</span><div class="track"><div class="fill mid" style="width:50%"></div></div><span class="num">5/10</span></div>
+              <div class="mock-bar"><span class="label">Mobile & vitesse</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+            </div>
           </div>
-          <span class="helper" id="byok-key-help"></span>
         </div>
-
-        <div class="field">
-          <label for="byok-model">Modèle</label>
-          <input type="text" id="byok-model" list="byok-model-list" placeholder="ex: claude-sonnet-4-6">
-          <datalist id="byok-model-list"></datalist>
-          <span class="helper">Tu peux saisir n'importe quel ID de modèle supporté par le fournisseur.</span>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn-secondary" id="settings-clear">Effacer</button>
-        <button class="btn-secondary" id="settings-cancel">Annuler</button>
-        <button class="btn-primary" id="settings-save">Enregistrer</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Modal crédits épuisés -->
-  <div class="modal-backdrop" id="credits-modal">
-    <div class="modal">
-      <h3>Crédits épuisés</h3>
-      <p>Pour continuer à auditer des pages, achète un pack de crédits. Un crédit = un audit complet. Crédits valables à vie.</p>
-      <div class="pack-list">
-        <a class="pack pack-link" id="buy-pack1" target="_blank" rel="noopener"><span>1 audit</span><strong>4,90 €</strong></a>
-        <a class="pack pack-link" id="buy-pack5" target="_blank" rel="noopener"><span>5 audits <small>· 3,80 €/audit</small></span><strong>19,00 €</strong></a>
-        <a class="pack pack-link" id="buy-pack20" target="_blank" rel="noopener"><span>20 audits <small>· 2,45 €/audit</small></span><strong>49,00 €</strong></a>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-secondary" id="modal-close">Fermer</button>
+  <!-- ============ SOCIAL PROOF ============ -->
+  <section class="social">
+    <div class="container social-row">
+      <div>Conçu pour les freelances, agences digitales et créateurs de SaaS</div>
+      <div class="logos">
+        <span class="logo-mock">Acme</span>
+        <span class="logo-mock">Northwind</span>
+        <span class="logo-mock">Initech</span>
+        <span class="logo-mock">Globex</span>
+        <span class="logo-mock">Massive Dyn.</span>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="s" id="how">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Comment ça marche</div>
+        <h2 class="section-title">Trois étapes, trente secondes</h2>
+        <p class="section-lead">Pas de SDK à intégrer, pas de pixel à poser. Juste une URL.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Colle ton URL</h3>
+          <p>N'importe quelle page publique : landing produit, page d'accueil SaaS, fiche e-commerce, page de capture…</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>L'IA analyse 8 dimensions</h3>
+          <p>Hero, copywriting, CTA, preuve sociale, structure, confiance, urgence, mobile. Notation experte façon CRO senior.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Reçois un plan d'action</h3>
+          <p>Score 0-100, points forts, problèmes critiques, et 3 quick wins prioritaires. Rapport HTML autonome téléchargeable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIMENSIONS ============ -->
+  <section class="s alt" id="dims">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Ce qu'on analyse</div>
+        <h2 class="section-title">8 dimensions, parce que la conversion n'est jamais une seule chose</h2>
+        <p class="section-lead">Pondération experte : Hero et CTA pèsent double, copywriting 1.5×, le reste à parts égales.</p>
+      </div>
+      <div class="dims">
+        <div class="dim-card"><div class="dim-icon">⚡</div><h3>Accroche (Hero)</h3><p>Clarté de la proposition de valeur, headline, sous-titre, above the fold.</p></div>
+        <div class="dim-card"><div class="dim-icon">✍</div><h3>Copywriting</h3><p>Structure AIDA/PAS, bénéfices vs fonctionnalités, lisibilité, voix.</p></div>
+        <div class="dim-card"><div class="dim-icon">🎯</div><h3>Call-to-Action</h3><p>Nombre, placement, wording, couleur, urgence, friction perçue.</p></div>
+        <div class="dim-card"><div class="dim-icon">⭐</div><h3>Preuve sociale</h3><p>Témoignages, logos clients, chiffres, certifications, avis vérifiés.</p></div>
+        <div class="dim-card"><div class="dim-icon">📐</div><h3>Structure visuelle</h3><p>Hiérarchie H1/H2/H3, sections logiques, espacement, scanabilité.</p></div>
+        <div class="dim-card"><div class="dim-icon">🛡</div><h3>Signaux de confiance</h3><p>Mentions légales, HTTPS, garanties, politique retour, FAQ.</p></div>
+        <div class="dim-card"><div class="dim-icon">⏰</div><h3>Urgence / Rareté</h3><p>Offres limitées, compte à rebours, disponibilité, FOMO honnête.</p></div>
+        <div class="dim-card"><div class="dim-icon">📱</div><h3>Mobile & vitesse</h3><p>Viewport meta, images compressées, pas de bloquants évidents.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="s" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Tarifs</div>
+        <h2 class="section-title">Tu paies à l'audit, c'est tout</h2>
+        <p class="section-lead">Pas d'abonnement, pas d'engagement. Crédits valables à vie.</p>
+      </div>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Découverte</h3>
+          <div class="desc">Pour tester ou un audit ponctuel</div>
+          <div class="price">4,90 €</div>
+          <div class="price-sub">1 audit complet</div>
+          <ul>
+            <li>Score 0-100 + 8 dimensions</li>
+            <li>Plan d'action priorisé</li>
+            <li>Rapport HTML téléchargeable</li>
+          </ul>
+          <a href="#" data-ls="pack1" class="btn btn-ghost">Acheter 1 audit</a>
+        </div>
+
+        <div class="price-card featured">
+          <span class="featured-tag">Le plus populaire</span>
+          <h3>Freelance</h3>
+          <div class="desc">Pour optimiser ton site et ceux de tes clients</div>
+          <div class="price">19 € <small>· 5 audits</small></div>
+          <div class="price-sub">3,80 € par audit · économie 22 %</div>
+          <ul>
+            <li>Tout du pack Découverte</li>
+            <li>Crédits valables à vie</li>
+            <li>Idéal pour itérer sur tes pages</li>
+          </ul>
+          <a href="#" data-ls="pack5" class="btn btn-primary">Acheter 5 audits</a>
+        </div>
+
+        <div class="price-card">
+          <h3>Agence</h3>
+          <div class="desc">Audits réguliers, livrables clients</div>
+          <div class="price">49 € <small>· 20 audits</small></div>
+          <div class="price-sub">2,45 € par audit · économie 50 %</div>
+          <ul>
+            <li>Tout du pack Freelance</li>
+            <li>Tarif par audit le plus bas</li>
+            <li>Idéal pour livrables clients</li>
+          </ul>
+          <a href="#" data-ls="pack20" class="btn btn-ghost">Acheter 20 audits</a>
+        </div>
+      </div>
+      <div class="free-banner">
+        💡 <strong>Mode test gratuit</strong> : utilise ta propre clé API (Claude, OpenAI, Groq, Mistral, OpenRouter, xAI) et lance autant d'audits que tu veux, sans crédit. Configurable depuis l'app.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="s alt" id="faq">
+    <div class="container narrow">
+      <div class="section-header">
+        <div class="section-tag">FAQ</div>
+        <h2 class="section-title">Questions fréquentes</h2>
+      </div>
+      <details class="faq">
+        <summary>Combien de temps prend un audit ?</summary>
+        <div class="answer">Entre 15 et 30 secondes. La page est récupérée, analysée par l'IA selon 8 dimensions, et le rapport interactif s'affiche. Tu peux le télécharger en HTML autonome.</div>
+      </details>
+      <details class="faq">
+        <summary>Sur quoi se base le scoring ?</summary>
+        <div class="answer">Sur 15 ans de bonnes pratiques CRO : Hero (×2), CTA (×2), Copywriting (×1.5), et 5 autres dimensions à parts égales. Mention finale : Faible &lt;40, Moyen 40-60, Bon 60-80, Excellent &gt;80.</div>
+      </details>
+      <details class="faq">
+        <summary>Mon site est en anglais, ça marche ?</summary>
+        <div class="answer">Oui. Tu choisis la langue du rapport (FR ou EN) au moment de l'audit, indépendamment de la langue du site analysé.</div>
+      </details>
+      <details class="faq">
+        <summary>Puis-je tester avec ma propre clé API ?</summary>
+        <div class="answer">Oui — c'est même gratuit côté ConvertAudit. Active le mode BYOK depuis l'app (icône ⚙) avec ta clé Anthropic, OpenAI, Groq, Grok (xAI), Mistral ou OpenRouter. Tu paies ton fournisseur directement, aucun crédit ConvertAudit n'est consommé.</div>
+      </details>
+      <details class="faq">
+        <summary>Mes données sont-elles stockées ?</summary>
+        <div class="answer">Non. L'audit est traité à la volée : la page est récupérée, analysée, le rapport te revient. Aucun stockage côté serveur en v1. Tes URL et résultats restent dans ton navigateur.</div>
+      </details>
+      <details class="faq">
+        <summary>Sites protégés par Cloudflare / login obligatoire ?</summary>
+        <div class="answer">Les pages publiques (sans login) fonctionnent dans 90-95 % des cas. Cloudflare avec challenge JS strict, ou pages derrière auth, ne sont pas auditables — tu peux toutefois copier-coller le HTML manuellement (fonctionnalité v2).</div>
+      </details>
+      <details class="faq">
+        <summary>Puis-je obtenir un remboursement ?</summary>
+        <div class="answer">Si le rapport ne s'affiche pas correctement à cause d'un bug, oui (contact via Lemonsqueezy). Pas de remboursement sur audits réussis — le coût IA est immédiat côté serveur.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Audite ton site en 30 secondes</h2>
+      <p>Entre l'URL, reçois le score, applique le plan d'action. Aucune inscription requise.</p>
+      <a href="index.html" class="btn btn-primary lg">Auditer mon site maintenant →</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site">
+    <div class="container footer-row">
+      <div class="brand">
+        <span class="brand-mark">CA</span>
+        <span>ConvertAudit</span>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Auditer mon site</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">À propos</a>
+        <a href="legal.html">Mentions légales</a>
+        <a href="privacy.html">Confidentialité</a>
+      </div>
+      <div>© 2026 ConvertAudit</div>
+    </div>
+  </footer>
 
   <script>
-    // ============================================================
-    // CONFIG — à éditer après déploiement Supabase
-    // ============================================================
-    const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
-
-    // Lemonsqueezy : remplace les valeurs par tes vrais checkout URLs.
-    // Exemple : "https://convertaudit.lemonsqueezy.com/buy/abc-123-def"
+    // Configurer ici tes vrais checkout URLs Lemonsqueezy
     const LEMONSQUEEZY = {
       pack1:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK1-VARIANT-ID",
       pack5:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK5-VARIANT-ID",
       pack20: "https://YOUR-STORE.lemonsqueezy.com/buy/PACK20-VARIANT-ID",
     };
-    const LEMONSQUEEZY_URL = LEMONSQUEEZY.pack1; // bouton générique
-
-    // ============================================================
-    // CONSTANTES
-    // ============================================================
-    const DIMENSIONS = [
-      { key: "hero",         name: "Accroche (Hero)" },
-      { key: "copywriting",  name: "Copywriting" },
-      { key: "cta",          name: "Call-to-Action" },
-      { key: "social_proof", name: "Preuve sociale" },
-      { key: "structure",    name: "Structure visuelle" },
-      { key: "trust",        name: "Signaux de confiance" },
-      { key: "urgency",      name: "Urgence / Rareté" },
-      { key: "mobile",       name: "Mobile & Vitesse" },
-    ];
-    const LOADING_MESSAGES = [
-      "Chargement de la page…",
-      "Analyse du copywriting…",
-      "Évaluation des CTAs…",
-      "Calcul du score…",
-    ];
-
-    // ============================================================
-    // CONSTANTES BROWSER-DIRECT (mode BYOK sans Supabase)
-    // ============================================================
-    const JINA_READER = "https://r.jina.ai/";              // proxy CORS-friendly qui retourne markdown
-    const MAX_CONTEXT_CHARS = 12000;
-    const MAX_TOKENS = 4000;
-
-    // ============================================================
-    // PROVIDERS BYOK
-    // ============================================================
-    const PROVIDER_INFO = {
-      anthropic: {
-        label: "Anthropic (Claude)",
-        keyPrefix: "sk-ant-",
-        keyHelp: 'Clé sur <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>',
-        models: ["claude-sonnet-4-6", "claude-opus-4-7", "claude-haiku-4-5"],
-        default: "claude-sonnet-4-6",
-      },
-      openai: {
-        label: "OpenAI",
-        keyPrefix: "sk-",
-        keyHelp: 'Clé sur <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>',
-        models: ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini", "o4-mini"],
-        default: "gpt-4o",
-      },
-      groq: {
-        label: "Groq",
-        keyPrefix: "gsk_",
-        keyHelp: 'Clé sur <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a> — très rapide, gratuit pour tester',
-        models: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768", "qwen-3-32b"],
-        default: "llama-3.3-70b-versatile",
-      },
-      grok: {
-        label: "xAI (Grok)",
-        keyPrefix: "xai-",
-        keyHelp: 'Clé sur <a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a>',
-        models: ["grok-4", "grok-3", "grok-3-mini"],
-        default: "grok-4",
-      },
-      mistral: {
-        label: "Mistral",
-        keyPrefix: "",
-        keyHelp: 'Clé sur <a href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">console.mistral.ai</a>',
-        models: ["mistral-large-latest", "mistral-small-latest", "pixtral-large-latest"],
-        default: "mistral-large-latest",
-      },
-      openrouter: {
-        label: "OpenRouter",
-        keyPrefix: "sk-or-",
-        keyHelp: 'Clé sur <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai</a> — accès unifié à 100+ modèles',
-        models: ["anthropic/claude-sonnet-4", "openai/gpt-4o", "google/gemini-2.5-pro", "meta-llama/llama-3.3-70b-instruct"],
-        default: "anthropic/claude-sonnet-4",
-      },
-    };
-
-    // ============================================================
-    // BROWSER-DIRECT API (utilisé quand BYOK actif, sans Supabase)
-    // ============================================================
-    const BROWSER_PROVIDERS = {
-      anthropic: {
-        endpoint: "https://api.anthropic.com/v1/messages",
-        headers: (key) => ({
-          "content-type": "application/json",
-          "x-api-key": key,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        }),
-        body: (model, system, user) => ({
-          model,
-          max_tokens: MAX_TOKENS,
-          system,
-          messages: [{ role: "user", content: user }],
-        }),
-        extract: (data) => (data.content || []).find((c) => c.type === "text")?.text || "",
-      },
-      openai: {
-        endpoint: "https://api.openai.com/v1/chat/completions",
-        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
-        body: (model, system, user) => ({
-          model, max_tokens: MAX_TOKENS,
-          messages: [{ role: "system", content: system }, { role: "user", content: user }],
-          response_format: { type: "json_object" },
-        }),
-        extract: (data) => data.choices?.[0]?.message?.content || "",
-      },
-      groq: {
-        endpoint: "https://api.groq.com/openai/v1/chat/completions",
-        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
-        body: (model, system, user) => ({
-          model, max_tokens: MAX_TOKENS,
-          messages: [{ role: "system", content: system }, { role: "user", content: user }],
-          response_format: { type: "json_object" },
-        }),
-        extract: (data) => data.choices?.[0]?.message?.content || "",
-      },
-      grok: {
-        endpoint: "https://api.x.ai/v1/chat/completions",
-        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
-        body: (model, system, user) => ({
-          model, max_tokens: MAX_TOKENS,
-          messages: [{ role: "system", content: system }, { role: "user", content: user }],
-          response_format: { type: "json_object" },
-        }),
-        extract: (data) => data.choices?.[0]?.message?.content || "",
-      },
-      mistral: {
-        endpoint: "https://api.mistral.ai/v1/chat/completions",
-        headers: (key) => ({ "content-type": "application/json", "Authorization": "Bearer " + key }),
-        body: (model, system, user) => ({
-          model, max_tokens: MAX_TOKENS,
-          messages: [{ role: "system", content: system }, { role: "user", content: user }],
-          response_format: { type: "json_object" },
-        }),
-        extract: (data) => data.choices?.[0]?.message?.content || "",
-      },
-      openrouter: {
-        endpoint: "https://openrouter.ai/api/v1/chat/completions",
-        headers: (key) => ({
-          "content-type": "application/json",
-          "Authorization": "Bearer " + key,
-          "HTTP-Referer": location.origin || "https://convertaudit.app",
-          "X-Title": "ConvertAudit",
-        }),
-        body: (model, system, user) => ({
-          model, max_tokens: MAX_TOKENS,
-          messages: [{ role: "system", content: system }, { role: "user", content: user }],
-          response_format: { type: "json_object" },
-        }),
-        extract: (data) => data.choices?.[0]?.message?.content || "",
-      },
-    };
-
-    function buildSystemPromptClient(lang) {
-      const isFr = lang === "fr";
-      const lead = isFr
-        ? "Tu es un expert en optimisation de conversion (CRO) avec 15 ans d'expérience."
-        : "You are a conversion rate optimization (CRO) expert with 15 years of experience.";
-      const langInstr = isFr ? "Réponds en français." : "Respond in English.";
-      const strict = isFr
-        ? "Retourne UNIQUEMENT un objet JSON valide, sans markdown, sans préface, sans backticks."
-        : "Return ONLY a valid JSON object, no markdown, no preamble, no backticks.";
-      return lead + "\n" + langInstr + "\n" + strict + "\n\n" +
-        'Structure JSON attendue (chaque dimension: score 0-10 entier, label court, details 2-3 phrases, tips = exactement 3 actions concrètes):\n' +
-        '{\n  "url": "string",\n  "title": "string",\n  "summary": "string (2 phrases max)",\n' +
-        '  "scores": {\n' +
-        '    "hero":         { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "copywriting":  { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "cta":          { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "social_proof": { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "structure":    { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "trust":        { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "urgency":      { "score": 0, "label": "", "details": "", "tips": ["","",""] },\n' +
-        '    "mobile":       { "score": 0, "label": "", "details": "", "tips": ["","",""] }\n' +
-        '  },\n  "quick_wins": ["", "", ""],\n  "strengths": ["", ""],\n  "critical_issues": ["", ""]\n}\n\n' +
-        'Dimensions: hero (proposition de valeur, headline, above the fold), copywriting (AIDA/PAS, bénéfices vs features, lisibilité), cta (nombre, placement, wording, urgence), social_proof (témoignages, logos, chiffres), structure (hiérarchie H1/H2/H3, scanabilité), trust (mentions légales, HTTPS, garanties, FAQ), urgency (offres limitées, FOMO), mobile (viewport, vitesse).';
-    }
-
-    function tryParseJsonClient(raw) {
-      let s = String(raw || "").trim();
-      // 1. Retire les code fences markdown ```json ... ```
-      s = s.replace(/^```(?:json|JSON)?\s*\n?/, "").replace(/\n?\s*```\s*$/, "").trim();
-      // 2. Tente le parse direct
-      try { return JSON.parse(s); } catch { /* fallthrough */ }
-      // 3. Extrait depuis le 1er { jusqu'au dernier } (gère préfixes/suffixes texte)
-      const start = s.indexOf("{");
-      const end = s.lastIndexOf("}");
-      if (start >= 0 && end > start) {
-        const candidate = s.slice(start, end + 1);
-        try { return JSON.parse(candidate); } catch { /* fallthrough */ }
-      }
-      // 4. Tente de réparer un JSON tronqué : ferme les braces/brackets manquants
-      if (start >= 0 && end < 0) {
-        let candidate = s.slice(start);
-        // Compte braces/brackets ouverts non fermés et ferme à la fin
-        let depth = 0, brackets = 0, inStr = false, esc = false;
-        for (const ch of candidate) {
-          if (esc) { esc = false; continue; }
-          if (ch === "\\") { esc = true; continue; }
-          if (ch === '"') { inStr = !inStr; continue; }
-          if (inStr) continue;
-          if (ch === "{") depth++;
-          else if (ch === "}") depth--;
-          else if (ch === "[") brackets++;
-          else if (ch === "]") brackets--;
-        }
-        // Coupe une string ouverte
-        if (inStr) candidate = candidate.replace(/[^"]*$/, '"');
-        candidate = candidate.replace(/,\s*$/, ""); // virgule traînante
-        candidate += "]".repeat(Math.max(0, brackets)) + "}".repeat(Math.max(0, depth));
-        try { return JSON.parse(candidate); } catch { /* fallthrough */ }
-      }
-      return null;
-    }
-    function clampScoreClient(n) {
-      const v = typeof n === "number" ? n : Number(n);
-      if (!Number.isFinite(v)) return 0;
-      return Math.max(0, Math.min(10, Math.round(v)));
-    }
-    function normalizeDimensionClient(raw) {
-      const obj = raw || {};
-      const tipsRaw = Array.isArray(obj.tips) ? obj.tips : [];
-      const tips = tipsRaw.map((t) => String(t)).filter((t) => t.trim().length > 0).slice(0, 5);
-      while (tips.length < 3) tips.push("");
-      return {
-        score: clampScoreClient(obj.score),
-        label: String(obj.label || "").slice(0, 80),
-        details: String(obj.details || ""),
-        tips,
-      };
-    }
-    function computeGlobalScoreClient(scores) {
-      const w =
-        scores.hero.score * 2 +
-        scores.cta.score * 2 +
-        scores.copywriting.score * 1.5 +
-        scores.social_proof.score +
-        scores.structure.score +
-        scores.trust.score +
-        scores.urgency.score +
-        scores.mobile.score;
-      return Math.round((w / 95) * 100);
-    }
-    function mentionForClient(score) {
-      if (score < 40) return "Faible";
-      if (score < 60) return "Moyen";
-      if (score < 80) return "Bon";
-      return "Excellent";
-    }
-    function normalizePayloadClient(parsed, url, provider, model) {
-      const root = parsed || {};
-      const rawScores = root.scores || {};
-      const dims = ["hero","copywriting","cta","social_proof","structure","trust","urgency","mobile"];
-      const scores = Object.fromEntries(dims.map((d) => [d, normalizeDimensionClient(rawScores[d])]));
-      const globalScore = computeGlobalScoreClient(scores);
-      const stringArray = (v, n) => (Array.isArray(v) ? v.map(String).filter((x) => x.trim().length > 0) : []).slice(0, n);
-      return {
-        url,
-        title: String(root.title || ""),
-        summary: String(root.summary || ""),
-        scores,
-        global_score: globalScore,
-        global_mention: mentionForClient(globalScore),
-        quick_wins: stringArray(root.quick_wins, 5),
-        strengths: stringArray(root.strengths, 5),
-        critical_issues: stringArray(root.critical_issues, 5),
-        meta: { provider, model },
-      };
-    }
-
-    async function fetchPageMarkdown(url) {
-      // Jina Reader retourne du markdown propre (gère JS-rendered, CORS-friendly).
-      const proxyUrl = JINA_READER + url;
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 20000);
-      try {
-        const res = await fetch(proxyUrl, { signal: ctrl.signal });
-        if (!res.ok) throw new Error("page_unreachable");
-        return await res.text();
-      } finally { clearTimeout(t); }
-    }
-
-    async function callProviderBrowser(provider, apiKey, model, system, user) {
-      const cfg = BROWSER_PROVIDERS[provider];
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 60000);
-      try {
-        const res = await fetch(cfg.endpoint, {
-          method: "POST",
-          headers: cfg.headers(apiKey),
-          body: JSON.stringify(cfg.body(model, system, user)),
-          signal: ctrl.signal,
-        });
-        if (!res.ok) {
-          const t2 = await res.text().catch(() => "");
-          if (res.status === 401 || res.status === 403) throw new Error("ai_auth_failed");
-          throw new Error("provider_" + res.status + (t2 ? ": " + t2.slice(0, 160) : ""));
-        }
-        const data = await res.json();
-        const text = cfg.extract(data);
-        if (!text) throw new Error("ai_empty");
-        return text;
-      } finally { clearTimeout(t); }
-    }
-
-    async function runAuditDirect(url, lang, byok) {
-      let markdown;
-      try {
-        markdown = await fetchPageMarkdown(url);
-      } catch (err) {
-        throw new Error("Page inaccessible (proxy Jina). Réessaie ou vérifie l'URL.");
-      }
-      const truncated = markdown.slice(0, MAX_CONTEXT_CHARS);
-      const userMessage =
-        "URL analysée: " + url + "\n\n=== Contenu de la page (markdown) ===\n" + truncated;
-      const systemPrompt = buildSystemPromptClient(lang);
-
-      let response = "", parsed = null;
-      try {
-        response = await callProviderBrowser(byok.provider, byok.apiKey, byok.model, systemPrompt, userMessage);
-        console.log("[ConvertAudit] Réponse IA brute (1ère tentative, " + response.length + " chars):", response);
-        parsed = tryParseJsonClient(response);
-        if (!parsed) {
-          console.warn("[ConvertAudit] JSON non parseable, retry…");
-          response = await callProviderBrowser(
-            byok.provider, byok.apiKey, byok.model, systemPrompt,
-            userMessage + "\n\nIMPORTANT: ta dernière réponse n'était pas un JSON valide. Renvoie UNIQUEMENT l'objet JSON commençant par { et finissant par }, sans markdown, sans backticks, sans texte autour.",
-          );
-          console.log("[ConvertAudit] Réponse IA brute (retry, " + response.length + " chars):", response);
-          parsed = tryParseJsonClient(response);
-        }
-      } catch (err) {
-        if (err && err.message === "ai_auth_failed") throw new Error("Clé API invalide ou refusée par le fournisseur.");
-        throw new Error("Analyse IA indisponible : " + (err && err.message ? err.message : "erreur inconnue"));
-      }
-      if (!parsed) {
-        const looksTruncated = response.length > 100 && !response.trim().endsWith("}") && !response.trim().endsWith("```");
-        const hint = looksTruncated
-          ? "Réponse probablement tronquée (max_tokens). Essaie un modèle plus grand ou plus rapide."
-          : "Le modèle n'a pas renvoyé de JSON valide. Vérifie la console (F12) pour voir la réponse brute, et essaie un autre modèle.";
-        throw new Error("Réponse IA non exploitable. " + hint);
-      }
-      return normalizePayloadClient(parsed, url, byok.provider, byok.model);
-    }
-
-    // ============================================================
-    // STATE
-    // ============================================================
-    const main = document.querySelector("main");
-    let lastReport = null;
-    let loadingTimer = null;
-
-    function setState(state) {
-      main.dataset.state = state;
-      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
-    }
-
-    // ============================================================
-    // CRÉDITS (localStorage)
-    // ============================================================
-    function getCredits() {
-      const raw = localStorage.getItem("convertaudit_credits");
-      if (raw === null) {
-        localStorage.setItem("convertaudit_credits", "1");
-        return 1;
-      }
-      const n = parseInt(raw, 10);
-      return Number.isFinite(n) ? n : 0;
-    }
-    function setCredits(n) {
-      localStorage.setItem("convertaudit_credits", String(Math.max(0, n)));
-      document.getElementById("credits-count").textContent = String(Math.max(0, n));
-    }
-    function decrementCredits() { setCredits(getCredits() - 1); }
-    function refreshCreditsUI() { document.getElementById("credits-count").textContent = String(getCredits()); }
-
-    // ============================================================
-    // CACHE CLIENT-SIDE (1h par URL+lang+provider+model)
-    // ============================================================
-    const CACHE_TTL_MS = 60 * 60 * 1000; // 1 heure
-    const CACHE_KEY = "convertaudit_cache_v1";
-    function cacheKey(url, lang, providerKey) {
-      return url + "|" + lang + "|" + providerKey;
-    }
-    function readCache() {
-      try { return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}"); } catch { return {}; }
-    }
-    function writeCache(obj) {
-      try { localStorage.setItem(CACHE_KEY, JSON.stringify(obj)); } catch { /* quota: ignorer */ }
-    }
-    function getCachedAudit(url, lang, providerKey) {
-      const cache = readCache();
-      const entry = cache[cacheKey(url, lang, providerKey)];
-      if (!entry) return null;
-      if (Date.now() - entry.ts > CACHE_TTL_MS) return null;
-      return { data: entry.data, ageMs: Date.now() - entry.ts };
-    }
-    function setCachedAudit(url, lang, providerKey, data) {
-      const cache = readCache();
-      // GC : supprime les entrées expirées avant d'écrire
-      const now = Date.now();
-      for (const k of Object.keys(cache)) {
-        if (now - cache[k].ts > CACHE_TTL_MS) delete cache[k];
-      }
-      cache[cacheKey(url, lang, providerKey)] = { ts: now, data };
-      writeCache(cache);
-    }
-
-    function showCreditsModal() {
-      document.getElementById("credits-modal").classList.add("open");
-    }
-    function hideCreditsModal() {
-      document.getElementById("credits-modal").classList.remove("open");
-    }
-    document.getElementById("modal-close").addEventListener("click", hideCreditsModal);
-    document.getElementById("buy-pack1").href = LEMONSQUEEZY.pack1;
-    document.getElementById("buy-pack5").href = LEMONSQUEEZY.pack5;
-    document.getElementById("buy-pack20").href = LEMONSQUEEZY.pack20;
-
-    // ============================================================
-    // BYOK (Bring Your Own Key)
-    // ============================================================
-    const BYOK_KEY = "convertaudit_byok";
-
-    function getByok() {
-      try {
-        const raw = localStorage.getItem(BYOK_KEY);
-        if (!raw) return null;
-        const cfg = JSON.parse(raw);
-        if (!cfg || !cfg.enabled) return null;
-        if (!PROVIDER_INFO[cfg.provider]) return null;
-        if (!cfg.apiKey || !cfg.model) return null;
-        return cfg;
-      } catch { return null; }
-    }
-    function setByok(cfg) {
-      if (!cfg) localStorage.removeItem(BYOK_KEY);
-      else localStorage.setItem(BYOK_KEY, JSON.stringify(cfg));
-      refreshByokUI();
-    }
-    function refreshByokUI() {
-      const cfg = getByok();
-      const auditBtn = document.getElementById("audit-btn");
-      const summary = document.getElementById("byok-summary");
-      if (cfg) {
-        document.body.dataset.byok = "on";
-        auditBtn.textContent = "Analyser cette page — gratuit (clé personnelle)";
-        summary.textContent = `${PROVIDER_INFO[cfg.provider].label} · ${cfg.model}`;
-      } else {
-        document.body.dataset.byok = "off";
-        auditBtn.textContent = "Analyser cette page — 1 crédit";
-      }
-    }
-
-    // === Settings modal ===
-    const settingsModal = document.getElementById("settings-modal");
-    const byokToggle = document.getElementById("byok-toggle");
-    const byokFields = document.getElementById("byok-fields");
-    const byokProvider = document.getElementById("byok-provider");
-    const byokKey = document.getElementById("byok-key");
-    const byokModel = document.getElementById("byok-model");
-    const byokModelList = document.getElementById("byok-model-list");
-    const byokProviderHelp = document.getElementById("byok-provider-help");
-    const byokKeyHelp = document.getElementById("byok-key-help");
-
-    function refreshProviderHints(preserveModel = false) {
-      const info = PROVIDER_INFO[byokProvider.value];
-      byokProviderHelp.innerHTML = "";
-      byokKeyHelp.innerHTML = info.keyHelp;
-      byokKey.placeholder = info.keyPrefix ? info.keyPrefix + "..." : "Ta clé API";
-      byokModelList.innerHTML = info.models.map((m) => `<option value="${m}"></option>`).join("");
-      if (!preserveModel || !byokModel.value) byokModel.value = info.default;
-    }
-
-    function openSettings() {
-      const cfg = getByok();
-      const enabled = !!cfg;
-      byokToggle.checked = enabled;
-      byokFields.hidden = !enabled;
-      if (cfg) {
-        byokProvider.value = cfg.provider;
-        byokKey.value = cfg.apiKey;
-        byokModel.value = cfg.model;
-      } else if (!byokProvider.value) {
-        byokProvider.value = "anthropic";
-      }
-      refreshProviderHints(true);
-      settingsModal.classList.add("open");
-    }
-    function closeSettings() { settingsModal.classList.remove("open"); }
-
-    document.getElementById("btn-settings").addEventListener("click", openSettings);
-    document.getElementById("settings-cancel").addEventListener("click", closeSettings);
-    document.getElementById("byok-banner-edit").addEventListener("click", openSettings);
-
-    byokToggle.addEventListener("change", () => {
-      byokFields.hidden = !byokToggle.checked;
-    });
-    byokProvider.addEventListener("change", () => refreshProviderHints(false));
-    document.getElementById("byok-key-toggle").addEventListener("click", () => {
-      const t = byokKey.type === "password" ? "text" : "password";
-      byokKey.type = t;
-      document.getElementById("byok-key-toggle").textContent = t === "password" ? "Afficher" : "Masquer";
-    });
-    document.getElementById("settings-clear").addEventListener("click", () => {
-      byokToggle.checked = false;
-      byokFields.hidden = true;
-      byokKey.value = "";
-      byokModel.value = "";
-      setByok(null);
-    });
-    document.getElementById("settings-save").addEventListener("click", () => {
-      if (!byokToggle.checked) {
-        setByok(null);
-        closeSettings();
-        return;
-      }
-      const provider = byokProvider.value;
-      const apiKey = byokKey.value.trim();
-      const model = byokModel.value.trim();
-      if (!apiKey) { byokKey.focus(); return; }
-      if (!model) { byokModel.focus(); return; }
-      setByok({ enabled: true, provider, apiKey, model });
-      closeSettings();
-    });
-    settingsModal.addEventListener("click", (ev) => {
-      if (ev.target === settingsModal) closeSettings();
-    });
-
-    // ============================================================
-    // VALIDATION URL
-    // ============================================================
-    function isValidUrl(value) {
-      try {
-        const u = new URL(value);
-        return u.protocol === "http:" || u.protocol === "https:";
-      } catch { return false; }
-    }
-
-    // ============================================================
-    // UTILS
-    // ============================================================
-    function tierFor100(score) {
-      if (score < 40) return "bad";
-      if (score < 60) return "mid";
-      if (score < 80) return "ok";
-      return "good";
-    }
-    function tierFor10(score) {
-      if (score < 4) return "bad";
-      if (score < 6) return "mid";
-      if (score < 8) return "ok";
-      return "good";
-    }
-    function escapeHtml(s) {
-      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      })[c]);
-    }
-    function domainOf(url) {
-      try { return new URL(url).hostname.replace(/^www\./, ""); }
-      catch { return url; }
-    }
-    function todayYmd() {
-      const d = new Date();
-      return d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
-    }
-
-    // ============================================================
-    // ANIMATION SCORE
-    // ============================================================
-    function animateScore(el, target) {
-      const duration = 1200;
-      const start = performance.now();
-      function tick(now) {
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        const v = Math.round(target * eased);
-        el.firstChild.nodeValue = String(v);
-        if (t < 1) requestAnimationFrame(tick);
-        else el.firstChild.nodeValue = String(target);
-      }
-      el.innerHTML = "0<small>/100</small>";
-      requestAnimationFrame(tick);
-    }
-
-    // ============================================================
-    // LOADING MESSAGES
-    // ============================================================
-    function startLoadingMessages() {
-      const node = document.getElementById("loading-msg");
-      let i = 0;
-      node.textContent = LOADING_MESSAGES[0];
-      loadingTimer = setInterval(() => {
-        i = (i + 1) % LOADING_MESSAGES.length;
-        node.textContent = LOADING_MESSAGES[i];
-      }, 2000);
-    }
-    function stopLoadingMessages() {
-      if (loadingTimer) { clearInterval(loadingTimer); loadingTimer = null; }
-    }
-
-    // ============================================================
-    // RUN AUDIT
-    // ============================================================
-    async function runAudit(url, lang) {
-      const byok = getByok();
-      const body = { url, lang };
-      if (byok) body.byok = { provider: byok.provider, apiKey: byok.apiKey, model: byok.model };
-      const res = await fetch(SUPABASE_URL + "/functions/v1/audit-url", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-          "apikey": SUPABASE_ANON_KEY,
-        },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        const message = data?.message || friendlyError(data?.error) || "Erreur inattendue";
-        throw new Error(message);
-      }
-      return data;
-    }
-    function friendlyError(code) {
-      switch (code) {
-        case "invalid_url": return "URL invalide.";
-        case "unreachable": return "Page inaccessible.";
-        case "ai_unavailable": return "Analyse IA indisponible, réessaie.";
-        case "ai_auth_failed": return "Clé API invalide ou refusée par le fournisseur.";
-        case "parse_failed": return "Réponse IA non exploitable.";
-        case "invalid_provider": return "Fournisseur IA non supporté.";
-        case "missing_api_key": return "Clé API manquante.";
-        case "missing_model": return "Modèle manquant.";
-        case "server_misconfigured": return "Service mal configuré (clé API absente).";
-        default: return null;
-      }
-    }
-
-    // ============================================================
-    // RENDER REPORT
-    // ============================================================
-    function renderReport(data, fromCache = false) {
-      lastReport = data;
-      document.getElementById("r-domain").textContent = domainOf(data.url) + (fromCache ? " · résultat depuis le cache (< 1h)" : "");
-      document.getElementById("r-title").textContent = data.title || domainOf(data.url);
-      document.getElementById("r-summary").textContent = data.summary || "";
-
-      const scoreEl = document.getElementById("r-score");
-      scoreEl.dataset.tier = tierFor100(data.global_score);
-      animateScore(scoreEl, data.global_score);
-      document.getElementById("r-mention").textContent = data.global_mention || "";
-
-      // Bars
-      const barsHost = document.getElementById("r-bars");
-      barsHost.innerHTML = DIMENSIONS.map((d) => {
-        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
-        const tier = tierFor10(s.score);
-        const tipsHtml = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
-        return `
-          <div class="bar" data-key="${d.key}">
-            <div class="bar-head">
-              <div class="bar-name">${escapeHtml(d.name)} — <span style="color:var(--text-muted);font-weight:500">${escapeHtml(s.label || "")}</span></div>
-              <div class="bar-score">${s.score}/10</div>
-            </div>
-            <div class="bar-track"><div class="bar-fill" data-tier="${tier}" style="width:${s.score * 10}%"></div></div>
-            <div class="bar-detail">
-              <p>${escapeHtml(s.details || "")}</p>
-              ${tipsHtml ? `<ul>${tipsHtml}</ul>` : ""}
-            </div>
-          </div>`;
-      }).join("");
-      barsHost.querySelectorAll(".bar").forEach((bar) => {
-        bar.addEventListener("click", () => bar.classList.toggle("expanded"));
-      });
-
-      // Re-trigger fill animation
-      requestAnimationFrame(() => {
-        barsHost.querySelectorAll(".bar-fill").forEach((el) => {
-          const w = el.style.width; el.style.width = "0%";
-          requestAnimationFrame(() => { el.style.width = w; });
-        });
-      });
-
-      // 3-col
-      const fillList = (id, items) => {
-        document.getElementById(id).innerHTML = (items || []).filter(Boolean)
-          .map((t) => `<li>${escapeHtml(t)}</li>`).join("") || `<li style="opacity:.6">—</li>`;
-      };
-      fillList("r-quickwins", data.quick_wins);
-      fillList("r-strengths", data.strengths);
-      fillList("r-issues", data.critical_issues);
-
-      // Accordion
-      const detailsHost = document.getElementById("r-details");
-      detailsHost.innerHTML = DIMENSIONS.map((d) => {
-        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
-        const tier = tierFor10(s.score);
-        const tipsHtml = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
-        return `
-          <details class="acc">
-            <summary>
-              <span class="badge" data-tier="${tier}">${s.score}/10</span>
-              <span>${escapeHtml(d.name)}${s.label ? " — " + escapeHtml(s.label) : ""}</span>
-            </summary>
-            <div class="acc-body">
-              <p>${escapeHtml(s.details || "")}</p>
-              ${tipsHtml ? `<ul>${tipsHtml}</ul>` : ""}
-            </div>
-          </details>`;
-      }).join("");
-    }
-
-    // ============================================================
-    // EXPORT HTML STANDALONE
-    // ============================================================
-    function buildStandaloneHtml(data) {
-      const dateFr = new Date().toLocaleDateString("fr-FR");
-      const tierColor = { bad: "#dc2626", mid: "#f59e0b", ok: "#84cc16", good: "#16a34a" };
-      const gTier = tierFor100(data.global_score);
-
-      const dimSection = DIMENSIONS.map((d) => {
-        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
-        const tier = tierFor10(s.score);
-        const tips = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
-        return `
-          <section class="dim">
-            <div class="dim-head">
-              <span class="badge" style="background:${tierColor[tier]}">${s.score}/10</span>
-              <h3>${escapeHtml(d.name)}${s.label ? " — " + escapeHtml(s.label) : ""}</h3>
-            </div>
-            <p>${escapeHtml(s.details || "")}</p>
-            ${tips ? `<ul>${tips}</ul>` : ""}
-          </section>`;
-      }).join("");
-
-      const list = (items) => (items || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
-
-      return `<!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="UTF-8">
-<title>Audit Conversion — ${escapeHtml(domainOf(data.url))} — ${dateFr}</title>
-<style>
-* { box-sizing: border-box; }
-body { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color:#111827; max-width:880px; margin:0 auto; padding:32px 24px; background:#fff; line-height:1.55; }
-header.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; margin-bottom:24px; }
-header.brand .mark { width:30px; height:30px; border-radius:7px; background:linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:13px; }
-.hero { display:flex; gap:24px; align-items:center; padding:24px; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:24px; }
-.hero .meta { flex:1; }
-.hero .domain { font-size:13px; color:#6b7280; }
-.hero h1 { font-size:22px; margin:6px 0 8px; }
-.hero p { color:#6b7280; margin:0; }
-.score-block { text-align:center; min-width:140px; }
-.score { font-size:54px; font-weight:800; color:${tierColor[gTier]}; line-height:1; }
-.score small { font-size:18px; color:#6b7280; font-weight:500; }
-.mention { font-weight:600; margin-top:4px; }
-.threecol { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:24px; }
-.col { padding:16px; border-radius:12px; border:1px solid; }
-.col h3 { margin:0 0 10px; font-size:14px; }
-.col ul { margin:0; padding-left:18px; font-size:13px; }
-.col li + li { margin-top:6px; }
-.col.amber { background:#fef3c7; color:#92400e; border-color:#fde68a; }
-.col.green { background:#dcfce7; color:#166534; border-color:#bbf7d0; }
-.col.red   { background:#fee2e2; color:#991b1b; border-color:#fecaca; }
-.dim { padding:18px; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:12px; }
-.dim-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
-.dim-head h3 { margin:0; font-size:16px; }
-.badge { display:inline-flex; align-items:center; justify-content:center; min-width:46px; padding:4px 8px; border-radius:8px; color:#fff; font-weight:700; font-size:13px; }
-.dim p { color:#374151; margin:0; }
-.dim ul { margin:8px 0 0; padding-left:20px; color:#374151; font-size:14px; }
-footer { margin-top:32px; padding-top:16px; border-top:1px solid #e5e7eb; color:#9ca3af; font-size:13px; text-align:center; }
-@media print { body { padding:16px; } .hero, .col, .dim { break-inside: avoid; } }
-@media (max-width:720px) { .threecol { grid-template-columns:1fr; } .hero { flex-direction:column; } }
-</style></head>
-<body>
-<header class="brand"><span class="mark">CA</span><span>ConvertAudit</span></header>
-<div class="hero">
-  <div class="meta">
-    <div class="domain">${escapeHtml(domainOf(data.url))}</div>
-    <h1>${escapeHtml(data.title || domainOf(data.url))}</h1>
-    <p>${escapeHtml(data.summary || "")}</p>
-  </div>
-  <div class="score-block">
-    <div class="score">${data.global_score}<small>/100</small></div>
-    <div class="mention">${escapeHtml(data.global_mention || "")}</div>
-  </div>
-</div>
-
-<div class="threecol">
-  <div class="col amber"><h3>⚡ Quick Wins</h3><ul>${list(data.quick_wins)}</ul></div>
-  <div class="col green"><h3>✓ Points forts</h3><ul>${list(data.strengths)}</ul></div>
-  <div class="col red"><h3>⚠ Problèmes critiques</h3><ul>${list(data.critical_issues)}</ul></div>
-</div>
-
-<h2 style="font-size:18px;margin:24px 0 12px">Détail par dimension</h2>
-${dimSection}
-
-<footer>Généré par ConvertAudit le ${dateFr} — audit de ${escapeHtml(data.url)}</footer>
-</body></html>`;
-    }
-
-    function downloadReport(data) {
-      const html = buildStandaloneHtml(data);
-      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `audit-${domainOf(data.url)}-${todayYmd()}.html`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    }
-
-    // ============================================================
-    // EVENTS
-    // ============================================================
-    document.getElementById("audit-form").addEventListener("submit", async (ev) => {
-      ev.preventDefault();
-      const urlInput = document.getElementById("url-input");
-      const lang = document.getElementById("lang-select").value;
-      const errEl = document.getElementById("form-error");
-      const btn = document.getElementById("audit-btn");
-      errEl.hidden = true;
-
-      const url = urlInput.value.trim();
-      if (!isValidUrl(url)) {
-        errEl.textContent = "Entre une URL valide commençant par http:// ou https://";
-        errEl.hidden = false;
-        return;
-      }
-      const byok = getByok();
-      if (!byok && getCredits() <= 0) {
-        showCreditsModal();
-        return;
-      }
-
-      btn.disabled = true;
-      setState("loading");
-      startLoadingMessages();
-
-      try {
-        const providerKey = byok ? (byok.provider + ":" + byok.model) : "server:default";
-        const cached = getCachedAudit(url, lang, providerKey);
-        let data, fromCache = false;
-        if (cached) {
-          data = cached.data;
-          fromCache = true;
-          console.log("[ConvertAudit] Audit servi depuis le cache (âge: " + Math.round(cached.ageMs/1000) + "s)");
-        } else {
-          data = byok
-            ? await runAuditDirect(url, lang, byok)
-            : await runAudit(url, lang);
-          setCachedAudit(url, lang, providerKey, data);
-          if (!byok) decrementCredits();
-        }
-        renderReport(data, fromCache);
-        setState("report");
-      } catch (err) {
-        errEl.textContent = err.message || "Erreur inattendue.";
-        errEl.hidden = false;
-        setState("form");
-      } finally {
-        stopLoadingMessages();
-        btn.disabled = false;
+    document.querySelectorAll("a[data-ls]").forEach((a) => {
+      const pack = a.getAttribute("data-ls");
+      if (LEMONSQUEEZY[pack]) {
+        a.href = LEMONSQUEEZY[pack];
+        a.target = "_blank";
+        a.rel = "noopener";
       }
     });
-
-    document.getElementById("btn-download").addEventListener("click", () => {
-      if (lastReport) downloadReport(lastReport);
-    });
-
-    document.getElementById("btn-restart").addEventListener("click", (ev) => {
-      ev.preventDefault();
-      setState("form");
-    });
-
-    document.getElementById("btn-share").addEventListener("click", async (ev) => {
-      ev.preventDefault();
-      if (!lastReport) return;
-      const text = `Audit ConvertAudit : ${lastReport.global_score}/100 (${lastReport.global_mention}) sur ${domainOf(lastReport.url)}`;
-      if (navigator.share) {
-        try { await navigator.share({ title: "Audit ConvertAudit", text }); } catch { /* annulé */ }
-      } else {
-        try { await navigator.clipboard.writeText(text); ev.target.textContent = "Copié !"; setTimeout(() => { ev.target.textContent = "Partager ce rapport"; }, 1800); }
-        catch { alert(text); }
-      }
-    });
-
-    // Init
-    refreshCreditsUI();
-    refreshByokUI();
   </script>
 </body>
 </html>
