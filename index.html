@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConvertAudit — Audit conversion de landing page</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-muted: #f9fafb;
+      --bg-soft: #f3f4f6;
+      --border: #e5e7eb;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --accent: #0d9488;
+      --accent-dark: #0f766e;
+      --score-bad: #dc2626;
+      --score-mid: #f59e0b;
+      --score-ok: #84cc16;
+      --score-good: #16a34a;
+      --amber-bg: #fef3c7;
+      --amber-text: #92400e;
+      --green-bg: #dcfce7;
+      --green-text: #166534;
+      --red-bg: #fee2e2;
+      --red-text: #991b1b;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-muted);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-dark); }
+    button { font: inherit; cursor: pointer; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 24px; }
+
+    /* Header */
+    header.app {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; background: var(--bg); border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #14b8a6);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px;
+    }
+    .credits-pill {
+      font-size: 13px; color: var(--text-muted);
+      background: var(--bg-soft); padding: 6px 12px; border-radius: 999px;
+    }
+    .credits-pill strong { color: var(--text); }
+
+    /* States */
+    main[data-state] > section { display: none; }
+    main[data-state="form"] #state-form { display: block; }
+    main[data-state="loading"] #state-loading { display: block; }
+    main[data-state="report"] #state-report { display: block; }
+
+    /* Form */
+    .hero-form {
+      text-align: center; padding: 56px 24px 32px;
+    }
+    .hero-form h1 {
+      font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700;
+    }
+    .hero-form p.lead { font-size: 17px; color: var(--text-muted); margin: 0 0 32px; }
+    .form-row {
+      display: flex; gap: 8px; flex-wrap: wrap; max-width: 640px; margin: 0 auto;
+    }
+    .form-row input[type="url"] {
+      flex: 1; min-width: 220px;
+      padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px;
+      font-size: 16px; background: var(--bg);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .form-row input[type="url"]:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(13,148,136,0.15);
+    }
+    .form-row select {
+      padding: 14px 12px; border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg); font-size: 15px;
+    }
+    .btn-primary {
+      display: inline-block; margin-top: 16px;
+      padding: 14px 28px; font-size: 16px; font-weight: 600;
+      color: white; background: var(--accent); border: 0; border-radius: 10px;
+      transition: background .15s, transform .05s;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+    .reassurance {
+      margin-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;
+      color: var(--text-muted); font-size: 14px;
+    }
+    .reassurance span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+    .form-error {
+      max-width: 640px; margin: 14px auto 0;
+      color: var(--red-text); background: var(--red-bg);
+      padding: 10px 14px; border-radius: 8px; font-size: 14px;
+    }
+    .form-error[hidden] { display: none; }
+
+    /* Loading */
+    .loading-wrap { padding: 80px 24px; text-align: center; }
+    .spinner {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 3px solid var(--bg-soft); border-top-color: var(--accent);
+      animation: spin .8s linear infinite; margin: 0 auto 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-msg { font-size: 16px; color: var(--text-muted); min-height: 1.4em; }
+
+    /* Report — header */
+    .report-header {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 24px; margin-bottom: 20px;
+      display: grid; gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .report-header { grid-template-columns: 1fr auto; align-items: center; }
+    }
+    .report-meta .domain { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .report-meta h2 { font-size: 22px; margin: 0 0 8px; }
+    .report-meta p.summary { color: var(--text-muted); margin: 0; }
+    .score-circle {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-width: 140px;
+    }
+    .score-num {
+      font-size: 56px; font-weight: 800; line-height: 1; color: var(--accent);
+    }
+    .score-num[data-tier="bad"] { color: var(--score-bad); }
+    .score-num[data-tier="mid"] { color: var(--score-mid); }
+    .score-num[data-tier="ok"]  { color: var(--score-ok); }
+    .score-num[data-tier="good"]{ color: var(--score-good); }
+    .score-num small { font-size: 18px; color: var(--text-muted); font-weight: 500; }
+    .score-mention { margin-top: 4px; font-weight: 600; }
+    .download-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .btn-secondary {
+      padding: 10px 18px; font-size: 14px; font-weight: 600;
+      color: var(--text); background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; transition: background .15s;
+    }
+    .btn-secondary:hover { background: var(--bg-soft); }
+
+    /* Bars */
+    .bars { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 8px; margin-bottom: 20px; }
+    .bar { padding: 14px 16px; border-radius: 10px; cursor: pointer; transition: background .15s; }
+    .bar + .bar { border-top: 1px solid var(--border); }
+    .bar:hover { background: var(--bg-muted); }
+    .bar-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .bar-name { font-weight: 600; flex: 1; }
+    .bar-score { font-weight: 700; min-width: 48px; text-align: right; font-variant-numeric: tabular-nums; }
+    .bar-track { height: 8px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width .9s ease-out; }
+    .bar-fill[data-tier="bad"]  { background: var(--score-bad); }
+    .bar-fill[data-tier="mid"]  { background: var(--score-mid); }
+    .bar-fill[data-tier="ok"]   { background: var(--score-ok); }
+    .bar-fill[data-tier="good"] { background: var(--score-good); }
+    .bar-detail { margin-top: 12px; color: var(--text-muted); font-size: 14px; display: none; }
+    .bar.expanded .bar-detail { display: block; }
+    .bar-detail ul { margin: 8px 0 0; padding-left: 20px; }
+    .bar-detail li + li { margin-top: 4px; }
+
+    /* 3-col */
+    .threecol {
+      display: grid; gap: 14px; margin-bottom: 20px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) { .threecol { grid-template-columns: repeat(3, 1fr); } }
+    .col {
+      border-radius: 14px; padding: 18px; border: 1px solid transparent;
+    }
+    .col h3 { margin: 0 0 12px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    .col ul { margin: 0; padding-left: 20px; font-size: 14px; }
+    .col li + li { margin-top: 8px; }
+    .col.amber  { background: var(--amber-bg); color: var(--amber-text); border-color: #fde68a; }
+    .col.green  { background: var(--green-bg); color: var(--green-text); border-color: #bbf7d0; }
+    .col.red    { background: var(--red-bg);   color: var(--red-text);   border-color: #fecaca; }
+
+    /* Accordion details */
+    .details-block { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 8px; margin-bottom: 20px; }
+    .acc { padding: 14px 16px; }
+    .acc + .acc { border-top: 1px solid var(--border); }
+    .acc summary {
+      cursor: pointer; list-style: none;
+      display: flex; align-items: center; gap: 12px; font-weight: 600;
+    }
+    .acc summary::-webkit-details-marker { display: none; }
+    .acc summary::after { content: "›"; margin-left: auto; color: var(--text-muted); transition: transform .15s; font-size: 22px; }
+    .acc[open] summary::after { transform: rotate(90deg); }
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 44px; padding: 4px 8px; border-radius: 8px;
+      font-weight: 700; font-size: 13px; color: white;
+    }
+    .badge[data-tier="bad"]  { background: var(--score-bad); }
+    .badge[data-tier="mid"]  { background: var(--score-mid); }
+    .badge[data-tier="ok"]   { background: var(--score-ok); }
+    .badge[data-tier="good"] { background: var(--score-good); }
+    .acc-body { margin-top: 10px; color: var(--text-muted); font-size: 14px; }
+    .acc-body ul { margin: 8px 0 0; padding-left: 20px; }
+    .acc-body li + li { margin-top: 4px; }
+
+    /* Footer CTA */
+    .footer-cta {
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 20px 0 60px; color: var(--text-muted); font-size: 14px;
+    }
+    .footer-cta a { color: var(--accent-dark); cursor: pointer; }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(17,24,39,0.55);
+      display: none; align-items: center; justify-content: center; padding: 24px;
+      z-index: 50;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--bg); border-radius: 14px; max-width: 460px; width: 100%;
+      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .modal h3 { margin: 0 0 8px; font-size: 20px; }
+    .modal p { color: var(--text-muted); margin: 0 0 16px; }
+    .pack-list { display: grid; gap: 8px; margin-bottom: 18px; }
+    .pack {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    }
+    .pack strong { color: var(--text); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  </style>
+</head>
+<body>
+
+  <header class="app">
+    <div class="brand">
+      <span class="brand-mark">CA</span>
+      <span>ConvertAudit</span>
+    </div>
+    <div class="credits-pill">Crédits restants : <strong id="credits-count">1</strong></div>
+  </header>
+
+  <main class="container" data-state="form">
+
+    <!-- ======= STATE: FORM ======= -->
+    <section id="state-form">
+      <div class="hero-form">
+        <h1>Analysez le potentiel de conversion<br>de n'importe quelle landing page en 30 s</h1>
+        <p class="lead">Score sur 100, 8 dimensions, actions concrètes — rapport HTML téléchargeable.</p>
+
+        <form id="audit-form" autocomplete="off" novalidate>
+          <div class="form-row">
+            <input type="url" id="url-input" placeholder="https://votresite.com" required>
+            <select id="lang-select" aria-label="Langue du rapport">
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary" id="audit-btn">Analyser cette page — 1 crédit</button>
+          <div class="form-error" id="form-error" hidden></div>
+        </form>
+
+        <div class="reassurance">
+          <span>Rapport détaillé</span>
+          <span>Score 0–100</span>
+          <span>Actions concrètes</span>
+          <span>Export HTML</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= STATE: LOADING ======= -->
+    <section id="state-loading">
+      <div class="loading-wrap">
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-msg" id="loading-msg">Chargement de la page…</div>
+      </div>
+    </section>
+
+    <!-- ======= STATE: REPORT ======= -->
+    <section id="state-report">
+      <div class="report-header">
+        <div class="report-meta">
+          <div class="domain" id="r-domain"></div>
+          <h2 id="r-title"></h2>
+          <p class="summary" id="r-summary"></p>
+          <div class="download-row">
+            <button class="btn-secondary" id="btn-download">↓ Télécharger le rapport HTML</button>
+          </div>
+        </div>
+        <div class="score-circle">
+          <div class="score-num" id="r-score" data-tier="ok">0<small>/100</small></div>
+          <div class="score-mention" id="r-mention"></div>
+        </div>
+      </div>
+
+      <div class="bars" id="r-bars"></div>
+
+      <div class="threecol">
+        <div class="col amber">
+          <h3>⚡ Quick Wins</h3>
+          <ul id="r-quickwins"></ul>
+        </div>
+        <div class="col green">
+          <h3>✓ Points forts</h3>
+          <ul id="r-strengths"></ul>
+        </div>
+        <div class="col red">
+          <h3>⚠ Problèmes critiques</h3>
+          <ul id="r-issues"></ul>
+        </div>
+      </div>
+
+      <div class="details-block" id="r-details"></div>
+
+      <div class="footer-cta">
+        <a id="btn-restart">← Analyser une autre page</a>
+        <a id="btn-share">Partager ce rapport</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal crédits épuisés -->
+  <div class="modal-backdrop" id="credits-modal">
+    <div class="modal">
+      <h3>Crédits épuisés</h3>
+      <p>Pour continuer à auditer des pages, achète un pack de crédits. Un crédit = un audit complet.</p>
+      <div class="pack-list">
+        <div class="pack"><span>1 audit</span><strong>2,90 €</strong></div>
+        <div class="pack"><span>5 audits</span><strong>9,90 €</strong></div>
+        <div class="pack"><span>20 audits</span><strong>29,00 €</strong></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modal-close">Fermer</button>
+        <button class="btn-primary" id="modal-buy">Acheter</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // CONFIG — à éditer après déploiement Supabase
+    // ============================================================
+    const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+    const LEMONSQUEEZY_URL = "https://YOUR-STORE.lemonsqueezy.com/checkout/buy/YOUR-VARIANT";
+
+    // ============================================================
+    // CONSTANTES
+    // ============================================================
+    const DIMENSIONS = [
+      { key: "hero",         name: "Accroche (Hero)" },
+      { key: "copywriting",  name: "Copywriting" },
+      { key: "cta",          name: "Call-to-Action" },
+      { key: "social_proof", name: "Preuve sociale" },
+      { key: "structure",    name: "Structure visuelle" },
+      { key: "trust",        name: "Signaux de confiance" },
+      { key: "urgency",      name: "Urgence / Rareté" },
+      { key: "mobile",       name: "Mobile & Vitesse" },
+    ];
+    const LOADING_MESSAGES = [
+      "Chargement de la page…",
+      "Analyse du copywriting…",
+      "Évaluation des CTAs…",
+      "Calcul du score…",
+    ];
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    const main = document.querySelector("main");
+    let lastReport = null;
+    let loadingTimer = null;
+
+    function setState(state) {
+      main.dataset.state = state;
+      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    }
+
+    // ============================================================
+    // CRÉDITS (localStorage)
+    // ============================================================
+    function getCredits() {
+      const raw = localStorage.getItem("convertaudit_credits");
+      if (raw === null) {
+        localStorage.setItem("convertaudit_credits", "1");
+        return 1;
+      }
+      const n = parseInt(raw, 10);
+      return Number.isFinite(n) ? n : 0;
+    }
+    function setCredits(n) {
+      localStorage.setItem("convertaudit_credits", String(Math.max(0, n)));
+      document.getElementById("credits-count").textContent = String(Math.max(0, n));
+    }
+    function decrementCredits() { setCredits(getCredits() - 1); }
+    function refreshCreditsUI() { document.getElementById("credits-count").textContent = String(getCredits()); }
+
+    function showCreditsModal() {
+      document.getElementById("credits-modal").classList.add("open");
+    }
+    function hideCreditsModal() {
+      document.getElementById("credits-modal").classList.remove("open");
+    }
+    document.getElementById("modal-close").addEventListener("click", hideCreditsModal);
+    document.getElementById("modal-buy").addEventListener("click", () => {
+      window.open(LEMONSQUEEZY_URL, "_blank", "noopener");
+    });
+
+    // ============================================================
+    // VALIDATION URL
+    // ============================================================
+    function isValidUrl(value) {
+      try {
+        const u = new URL(value);
+        return u.protocol === "http:" || u.protocol === "https:";
+      } catch { return false; }
+    }
+
+    // ============================================================
+    // UTILS
+    // ============================================================
+    function tierFor100(score) {
+      if (score < 40) return "bad";
+      if (score < 60) return "mid";
+      if (score < 80) return "ok";
+      return "good";
+    }
+    function tierFor10(score) {
+      if (score < 4) return "bad";
+      if (score < 6) return "mid";
+      if (score < 8) return "ok";
+      return "good";
+    }
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[c]);
+    }
+    function domainOf(url) {
+      try { return new URL(url).hostname.replace(/^www\./, ""); }
+      catch { return url; }
+    }
+    function todayYmd() {
+      const d = new Date();
+      return d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+    }
+
+    // ============================================================
+    // ANIMATION SCORE
+    // ============================================================
+    function animateScore(el, target) {
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const v = Math.round(target * eased);
+        el.firstChild.nodeValue = String(v);
+        if (t < 1) requestAnimationFrame(tick);
+        else el.firstChild.nodeValue = String(target);
+      }
+      el.innerHTML = "0<small>/100</small>";
+      requestAnimationFrame(tick);
+    }
+
+    // ============================================================
+    // LOADING MESSAGES
+    // ============================================================
+    function startLoadingMessages() {
+      const node = document.getElementById("loading-msg");
+      let i = 0;
+      node.textContent = LOADING_MESSAGES[0];
+      loadingTimer = setInterval(() => {
+        i = (i + 1) % LOADING_MESSAGES.length;
+        node.textContent = LOADING_MESSAGES[i];
+      }, 2000);
+    }
+    function stopLoadingMessages() {
+      if (loadingTimer) { clearInterval(loadingTimer); loadingTimer = null; }
+    }
+
+    // ============================================================
+    // RUN AUDIT
+    // ============================================================
+    async function runAudit(url, lang) {
+      const res = await fetch(SUPABASE_URL + "/functions/v1/audit-url", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "apikey": SUPABASE_ANON_KEY,
+        },
+        body: JSON.stringify({ url, lang }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const message = data?.message || friendlyError(data?.error) || "Erreur inattendue";
+        throw new Error(message);
+      }
+      return data;
+    }
+    function friendlyError(code) {
+      switch (code) {
+        case "invalid_url": return "URL invalide.";
+        case "unreachable": return "Page inaccessible.";
+        case "ai_unavailable": return "Analyse IA indisponible, réessaie.";
+        case "parse_failed": return "Réponse IA non exploitable.";
+        case "server_misconfigured": return "Service mal configuré (clé API absente).";
+        default: return null;
+      }
+    }
+
+    // ============================================================
+    // RENDER REPORT
+    // ============================================================
+    function renderReport(data) {
+      lastReport = data;
+      document.getElementById("r-domain").textContent = domainOf(data.url);
+      document.getElementById("r-title").textContent = data.title || domainOf(data.url);
+      document.getElementById("r-summary").textContent = data.summary || "";
+
+      const scoreEl = document.getElementById("r-score");
+      scoreEl.dataset.tier = tierFor100(data.global_score);
+      animateScore(scoreEl, data.global_score);
+      document.getElementById("r-mention").textContent = data.global_mention || "";
+
+      // Bars
+      const barsHost = document.getElementById("r-bars");
+      barsHost.innerHTML = DIMENSIONS.map((d) => {
+        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
+        const tier = tierFor10(s.score);
+        const tipsHtml = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+        return `
+          <div class="bar" data-key="${d.key}">
+            <div class="bar-head">
+              <div class="bar-name">${escapeHtml(d.name)} — <span style="color:var(--text-muted);font-weight:500">${escapeHtml(s.label || "")}</span></div>
+              <div class="bar-score">${s.score}/10</div>
+            </div>
+            <div class="bar-track"><div class="bar-fill" data-tier="${tier}" style="width:${s.score * 10}%"></div></div>
+            <div class="bar-detail">
+              <p>${escapeHtml(s.details || "")}</p>
+              ${tipsHtml ? `<ul>${tipsHtml}</ul>` : ""}
+            </div>
+          </div>`;
+      }).join("");
+      barsHost.querySelectorAll(".bar").forEach((bar) => {
+        bar.addEventListener("click", () => bar.classList.toggle("expanded"));
+      });
+
+      // Re-trigger fill animation
+      requestAnimationFrame(() => {
+        barsHost.querySelectorAll(".bar-fill").forEach((el) => {
+          const w = el.style.width; el.style.width = "0%";
+          requestAnimationFrame(() => { el.style.width = w; });
+        });
+      });
+
+      // 3-col
+      const fillList = (id, items) => {
+        document.getElementById(id).innerHTML = (items || []).filter(Boolean)
+          .map((t) => `<li>${escapeHtml(t)}</li>`).join("") || `<li style="opacity:.6">—</li>`;
+      };
+      fillList("r-quickwins", data.quick_wins);
+      fillList("r-strengths", data.strengths);
+      fillList("r-issues", data.critical_issues);
+
+      // Accordion
+      const detailsHost = document.getElementById("r-details");
+      detailsHost.innerHTML = DIMENSIONS.map((d) => {
+        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
+        const tier = tierFor10(s.score);
+        const tipsHtml = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+        return `
+          <details class="acc">
+            <summary>
+              <span class="badge" data-tier="${tier}">${s.score}/10</span>
+              <span>${escapeHtml(d.name)}${s.label ? " — " + escapeHtml(s.label) : ""}</span>
+            </summary>
+            <div class="acc-body">
+              <p>${escapeHtml(s.details || "")}</p>
+              ${tipsHtml ? `<ul>${tipsHtml}</ul>` : ""}
+            </div>
+          </details>`;
+      }).join("");
+    }
+
+    // ============================================================
+    // EXPORT HTML STANDALONE
+    // ============================================================
+    function buildStandaloneHtml(data) {
+      const dateFr = new Date().toLocaleDateString("fr-FR");
+      const tierColor = { bad: "#dc2626", mid: "#f59e0b", ok: "#84cc16", good: "#16a34a" };
+      const gTier = tierFor100(data.global_score);
+
+      const dimSection = DIMENSIONS.map((d) => {
+        const s = data.scores[d.key] || { score: 0, label: "", details: "", tips: [] };
+        const tier = tierFor10(s.score);
+        const tips = (s.tips || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+        return `
+          <section class="dim">
+            <div class="dim-head">
+              <span class="badge" style="background:${tierColor[tier]}">${s.score}/10</span>
+              <h3>${escapeHtml(d.name)}${s.label ? " — " + escapeHtml(s.label) : ""}</h3>
+            </div>
+            <p>${escapeHtml(s.details || "")}</p>
+            ${tips ? `<ul>${tips}</ul>` : ""}
+          </section>`;
+      }).join("");
+
+      const list = (items) => (items || []).filter(Boolean).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+
+      return `<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<title>Audit Conversion — ${escapeHtml(domainOf(data.url))} — ${dateFr}</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color:#111827; max-width:880px; margin:0 auto; padding:32px 24px; background:#fff; line-height:1.55; }
+header.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; margin-bottom:24px; }
+header.brand .mark { width:30px; height:30px; border-radius:7px; background:linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:13px; }
+.hero { display:flex; gap:24px; align-items:center; padding:24px; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:24px; }
+.hero .meta { flex:1; }
+.hero .domain { font-size:13px; color:#6b7280; }
+.hero h1 { font-size:22px; margin:6px 0 8px; }
+.hero p { color:#6b7280; margin:0; }
+.score-block { text-align:center; min-width:140px; }
+.score { font-size:54px; font-weight:800; color:${tierColor[gTier]}; line-height:1; }
+.score small { font-size:18px; color:#6b7280; font-weight:500; }
+.mention { font-weight:600; margin-top:4px; }
+.threecol { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:24px; }
+.col { padding:16px; border-radius:12px; border:1px solid; }
+.col h3 { margin:0 0 10px; font-size:14px; }
+.col ul { margin:0; padding-left:18px; font-size:13px; }
+.col li + li { margin-top:6px; }
+.col.amber { background:#fef3c7; color:#92400e; border-color:#fde68a; }
+.col.green { background:#dcfce7; color:#166534; border-color:#bbf7d0; }
+.col.red   { background:#fee2e2; color:#991b1b; border-color:#fecaca; }
+.dim { padding:18px; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:12px; }
+.dim-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.dim-head h3 { margin:0; font-size:16px; }
+.badge { display:inline-flex; align-items:center; justify-content:center; min-width:46px; padding:4px 8px; border-radius:8px; color:#fff; font-weight:700; font-size:13px; }
+.dim p { color:#374151; margin:0; }
+.dim ul { margin:8px 0 0; padding-left:20px; color:#374151; font-size:14px; }
+footer { margin-top:32px; padding-top:16px; border-top:1px solid #e5e7eb; color:#9ca3af; font-size:13px; text-align:center; }
+@media print { body { padding:16px; } .hero, .col, .dim { break-inside: avoid; } }
+@media (max-width:720px) { .threecol { grid-template-columns:1fr; } .hero { flex-direction:column; } }
+</style></head>
+<body>
+<header class="brand"><span class="mark">CA</span><span>ConvertAudit</span></header>
+<div class="hero">
+  <div class="meta">
+    <div class="domain">${escapeHtml(domainOf(data.url))}</div>
+    <h1>${escapeHtml(data.title || domainOf(data.url))}</h1>
+    <p>${escapeHtml(data.summary || "")}</p>
+  </div>
+  <div class="score-block">
+    <div class="score">${data.global_score}<small>/100</small></div>
+    <div class="mention">${escapeHtml(data.global_mention || "")}</div>
+  </div>
+</div>
+
+<div class="threecol">
+  <div class="col amber"><h3>⚡ Quick Wins</h3><ul>${list(data.quick_wins)}</ul></div>
+  <div class="col green"><h3>✓ Points forts</h3><ul>${list(data.strengths)}</ul></div>
+  <div class="col red"><h3>⚠ Problèmes critiques</h3><ul>${list(data.critical_issues)}</ul></div>
+</div>
+
+<h2 style="font-size:18px;margin:24px 0 12px">Détail par dimension</h2>
+${dimSection}
+
+<footer>Généré par ConvertAudit le ${dateFr} — audit de ${escapeHtml(data.url)}</footer>
+</body></html>`;
+    }
+
+    function downloadReport(data) {
+      const html = buildStandaloneHtml(data);
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `audit-${domainOf(data.url)}-${todayYmd()}.html`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    // ============================================================
+    // EVENTS
+    // ============================================================
+    document.getElementById("audit-form").addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const urlInput = document.getElementById("url-input");
+      const lang = document.getElementById("lang-select").value;
+      const errEl = document.getElementById("form-error");
+      const btn = document.getElementById("audit-btn");
+      errEl.hidden = true;
+
+      const url = urlInput.value.trim();
+      if (!isValidUrl(url)) {
+        errEl.textContent = "Entre une URL valide commençant par http:// ou https://";
+        errEl.hidden = false;
+        return;
+      }
+      if (getCredits() <= 0) {
+        showCreditsModal();
+        return;
+      }
+
+      btn.disabled = true;
+      setState("loading");
+      startLoadingMessages();
+
+      try {
+        const data = await runAudit(url, lang);
+        decrementCredits();
+        renderReport(data);
+        setState("report");
+      } catch (err) {
+        errEl.textContent = err.message || "Erreur inattendue.";
+        errEl.hidden = false;
+        setState("form");
+      } finally {
+        stopLoadingMessages();
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById("btn-download").addEventListener("click", () => {
+      if (lastReport) downloadReport(lastReport);
+    });
+
+    document.getElementById("btn-restart").addEventListener("click", (ev) => {
+      ev.preventDefault();
+      setState("form");
+    });
+
+    document.getElementById("btn-share").addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      if (!lastReport) return;
+      const text = `Audit ConvertAudit : ${lastReport.global_score}/100 (${lastReport.global_mention}) sur ${domainOf(lastReport.url)}`;
+      if (navigator.share) {
+        try { await navigator.share({ title: "Audit ConvertAudit", text }); } catch { /* annulé */ }
+      } else {
+        try { await navigator.clipboard.writeText(text); ev.target.textContent = "Copié !"; setTimeout(() => { ev.target.textContent = "Partager ce rapport"; }, 1800); }
+        catch { alert(text); }
+      }
+    });
+
+    // Init
+    refreshCreditsUI();
+  </script>
+</body>
+</html>
