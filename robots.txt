@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /supabase/
+
+# Sitemap
+Sitemap: https://convertaudit.app/sitemap.xml

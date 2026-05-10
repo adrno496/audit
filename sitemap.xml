@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Pages principales (FR) -->
+  <url>
+    <loc>https://convertaudit.app/</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/landing.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/landing.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://convertaudit.app/landing.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/landing.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/about.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/about.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/blog.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/privacy.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/legal.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Articles (FR) -->
+  <url>
+    <loc>https://convertaudit.app/blog/auditer-landing-page-2026.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog/auditer-landing-page-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/audit-landing-page-2026.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/blog/15-erreurs-landing-saas.html</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog/15-erreurs-landing-saas.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/15-saas-landing-mistakes.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/blog/hero-section-regles.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog/hero-section-regles.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/hero-section-rules.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/blog/cta-conversion-guide.html</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog/cta-conversion-guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/cta-conversion-guide.html"/>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/blog/preuve-sociale-formats.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://convertaudit.app/blog/preuve-sociale-formats.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertaudit.app/en/blog/social-proof-formats.html"/>
+  </url>
+
+  <!-- Pages principales (EN) -->
+  <url>
+    <loc>https://convertaudit.app/en/landing.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/about.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/blog.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/privacy.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/legal.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Articles (EN) -->
+  <url>
+    <loc>https://convertaudit.app/en/blog/audit-landing-page-2026.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/blog/15-saas-landing-mistakes.html</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/blog/hero-section-rules.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/blog/cta-conversion-guide.html</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://convertaudit.app/en/blog/social-proof-formats.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

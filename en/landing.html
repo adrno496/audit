@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConvertAudit — Audit your landing page in 30 seconds with AI · score, action plan</title>
+  <meta name="description" content="AI-powered landing page analysis across 8 conversion dimensions. Score 0-100, prioritized action plan, downloadable HTML report. 30 seconds, no signup. Starts at €4.90.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://convertaudit.app/en/landing.html">
+  <link rel="alternate" hreflang="fr" href="https://convertaudit.app/landing.html">
+  <link rel="alternate" hreflang="en" href="https://convertaudit.app/en/landing.html">
+  <link rel="alternate" hreflang="x-default" href="https://convertaudit.app/landing.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ConvertAudit — Audit your landing page in 30 seconds">
+  <meta property="og:description" content="Score 0-100, 8 conversion dimensions analyzed by AI, concrete action plan. Starts at €4.90.">
+  <meta property="og:url" content="https://convertaudit.app/en/landing.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="fr_FR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ConvertAudit — Audit your landing page in 30 seconds">
+  <meta name="twitter:description" content="Score 0-100, 8 conversion dimensions, action plan. From €4.90.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Organization", "name": "ConvertAudit", "url": "https://convertaudit.app/" },
+      { "@type": "WebSite", "name": "ConvertAudit", "url": "https://convertaudit.app/", "inLanguage": "en-US" },
+      {
+        "@type": "Product",
+        "name": "ConvertAudit Audit",
+        "description": "AI-powered landing page audit: 0-100 score, 8 dimensions, prioritized action plan, downloadable HTML report.",
+        "brand": { "@type": "Brand", "name": "ConvertAudit" },
+        "offers": [
+          { "@type": "Offer", "name": "1 audit", "price": "4.90", "priceCurrency": "EUR" },
+          { "@type": "Offer", "name": "5 audits", "price": "19.00", "priceCurrency": "EUR" },
+          { "@type": "Offer", "name": "20 audits", "price": "49.00", "priceCurrency": "EUR" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Hero-specific styles inherited from landing.html */
+    section.hero { position: relative; padding: 80px 0 60px; background: radial-gradient(ellipse 800px 400px at 50% -20%, var(--accent-soft) 0%, transparent 60%), var(--bg); overflow: hidden; }
+    .hero-grid { display: grid; gap: 48px; grid-template-columns: 1fr; align-items: center; }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .pill-hero { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .pill-hero .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    h1.hero-title { font-size: 38px; line-height: 1.1; margin: 0 0 20px; font-weight: 800; letter-spacing: -0.02em; }
+    @media (min-width: 768px) { h1.hero-title { font-size: 52px; } }
+    h1.hero-title em { font-style: normal; background: linear-gradient(120deg, var(--accent) 0%, #14b8a6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    p.hero-sub { font-size: 19px; color: var(--text-muted); margin: 0 0 32px; max-width: 560px; }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+    .hero-bullets { display: flex; gap: 18px; flex-wrap: wrap; color: var(--text-muted); font-size: 14px; }
+    .hero-bullets span::before { content: "✓"; color: var(--accent); font-weight: 700; margin-right: 6px; }
+    .mockup { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 22px; transform: rotate(-1deg); position: relative; }
+    .mock-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .mock-head .domain { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .mock-head h3 { font-size: 16px; margin: 0; }
+    .mock-score { font-size: 38px; font-weight: 800; color: var(--good); line-height: 1; text-align: right; min-width: 90px; }
+    .mock-score small { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+    .mock-score .mention { font-size: 12px; color: var(--good); font-weight: 600; }
+    .mock-bars { display: grid; gap: 10px; }
+    .mock-bar { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .mock-bar .label { flex: 1; color: var(--text); font-weight: 500; }
+    .mock-bar .num { color: var(--text-muted); min-width: 32px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; }
+    .mock-bar .track { width: 110px; height: 6px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+    .mock-bar .fill { height: 100%; border-radius: 999px; }
+    .mock-bar .fill.good { background: var(--good); }
+    .mock-bar .fill.ok { background: #84cc16; }
+    .mock-bar .fill.mid { background: var(--warn); }
+    section.social { padding: 32px 0; background: var(--bg-muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .social-row { text-align: center; color: var(--text-muted); font-size: 14px; }
+    .social-row .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; margin-top: 14px; opacity: 0.7; }
+    .logo-mock { font-weight: 700; font-size: 18px; letter-spacing: 0.02em; color: var(--text-light); font-family: ui-serif, Georgia, serif; }
+    section.s { padding: 80px 0; }
+    section.s.alt { background: var(--bg-muted); }
+    .section-header { text-align: center; max-width: 680px; margin: 0 auto 56px; }
+    .section-tag { display: inline-block; font-size: 13px; font-weight: 600; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    h2.section-title { font-size: 32px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.2; }
+    @media (min-width: 768px) { h2.section-title { font-size: 38px; } }
+    p.section-lead { font-size: 17px; color: var(--text-muted); margin: 0; }
+    .steps { display: grid; gap: 28px; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+    .step { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+    .step .num { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-dark); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; margin-bottom: 16px; }
+    .step h3 { margin: 0 0 8px; font-size: 18px; }
+    .step p { margin: 0; color: var(--text-muted); font-size: 15px; }
+    .dims { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .dims { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .dims { grid-template-columns: repeat(4, 1fr); } }
+    .dim-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; transition: transform .2s, box-shadow .2s; }
+    .dim-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .dim-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-dark); display: inline-flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 14px; }
+    .dim-card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
+    .dim-card p { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+    .pricing { display: grid; gap: 18px; grid-template-columns: 1fr; max-width: 980px; margin: 0 auto; }
+    @media (min-width: 768px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+    .price-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; position: relative; }
+    .price-card.featured { border: 2px solid var(--accent); box-shadow: var(--shadow-lg); transform: scale(1.02); }
+    .price-card.featured .featured-tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .price-card h3 { margin: 0 0 4px; font-size: 18px; }
+    .price-card .desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+    .price { font-size: 40px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; }
+    .price small { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+    .price-sub { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
+    .price-card ul { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
+    .price-card li { padding: 6px 0; font-size: 14px; }
+    .price-card li::before { content: "✓ "; color: var(--accent); font-weight: 700; margin-right: 4px; }
+    .free-banner { max-width: 980px; margin: 24px auto 0; padding: 16px 20px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 12px; text-align: center; font-size: 14px; }
+    section.final-cta { padding: 80px 0; background: radial-gradient(ellipse 600px 300px at 50% 50%, var(--accent-glow) 0%, transparent 70%), var(--bg-dark); color: white; text-align: center; }
+    section.final-cta h2 { font-size: 36px; margin: 0 0 16px; font-weight: 800; }
+    section.final-cta p { color: rgba(255,255,255,0.7); font-size: 17px; max-width: 540px; margin: 0 auto 28px; }
+  </style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark">CA</span>
+      <span>ConvertAudit</span>
+    </a>
+    <nav class="links">
+      <a href="#how">How it works</a>
+      <a href="#dims">What we analyze</a>
+      <a href="#pricing">Pricing</a>
+      <a href="blog.html">Blog</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch">
+        <a href="../landing.html">FR</a>
+        <a href="landing.html" class="active">EN</a>
+      </div>
+      <a href="../index.html" class="btn btn-primary">Audit my site</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="pill-hero"><span class="dot"></span>AI-powered · 30 seconds · 8 dimensions</div>
+        <h1 class="hero-title">How many visitors are you <em>losing</em> every day?</h1>
+        <p class="hero-sub">ConvertAudit analyzes your landing page like a senior CRO consultant and delivers a 0-100 score, the precise weak points, and a concrete action plan. In 30 seconds, with no signup.</p>
+        <div class="hero-cta">
+          <a href="../index.html" class="btn btn-primary lg">Audit my site →</a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-bullets">
+          <span>No signup</span>
+          <span>Downloadable report</span>
+          <span>Free test mode with your API key</span>
+        </div>
+      </div>
+
+      <div class="mockup-wrap">
+        <div class="mockup" aria-hidden="true">
+          <div class="mock-head">
+            <div>
+              <div class="domain">stripe.com</div>
+              <h3>Payment infrastructure for the internet</h3>
+            </div>
+            <div class="mock-score">82<small>/100</small><div class="mention">Excellent</div></div>
+          </div>
+          <div class="mock-bars">
+            <div class="mock-bar"><span class="label">Hero</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+            <div class="mock-bar"><span class="label">Copywriting</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8/10</span></div>
+            <div class="mock-bar"><span class="label">Call-to-Action</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+            <div class="mock-bar"><span class="label">Social proof</span><div class="track"><div class="fill good" style="width:80%"></div></div><span class="num">8/10</span></div>
+            <div class="mock-bar"><span class="label">Visual structure</span><div class="track"><div class="fill ok" style="width:70%"></div></div><span class="num">7/10</span></div>
+            <div class="mock-bar"><span class="label">Trust signals</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+            <div class="mock-bar"><span class="label">Urgency</span><div class="track"><div class="fill mid" style="width:50%"></div></div><span class="num">5/10</span></div>
+            <div class="mock-bar"><span class="label">Mobile & speed</span><div class="track"><div class="fill good" style="width:90%"></div></div><span class="num">9/10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="social">
+  <div class="container social-row">
+    <div>Built for freelancers, digital agencies and SaaS makers</div>
+    <div class="logos">
+      <span class="logo-mock">Acme</span>
+      <span class="logo-mock">Northwind</span>
+      <span class="logo-mock">Initech</span>
+      <span class="logo-mock">Globex</span>
+      <span class="logo-mock">Massive Dyn.</span>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="how">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">How it works</div>
+      <h2 class="section-title">Three steps, thirty seconds</h2>
+      <p class="section-lead">No SDK to integrate, no pixel to install. Just a URL.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Paste your URL</h3><p>Any public page: product landing, SaaS homepage, e-commerce product, lead capture page…</p></div>
+      <div class="step"><div class="num">2</div><h3>AI analyzes 8 dimensions</h3><p>Hero, copy, CTA, social proof, structure, trust, urgency, mobile. Senior CRO-level scoring.</p></div>
+      <div class="step"><div class="num">3</div><h3>Get an action plan</h3><p>0-100 score, strengths, critical issues, and 3 prioritized quick wins. Standalone HTML report download.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s alt" id="dims">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">What we analyze</div>
+      <h2 class="section-title">8 dimensions, because conversion is never one thing</h2>
+      <p class="section-lead">Expert weighting: Hero and CTA count double, copywriting 1.5×, the rest equally.</p>
+    </div>
+    <div class="dims">
+      <div class="dim-card"><div class="dim-icon">⚡</div><h3>Hero</h3><p>Value proposition clarity, headline, sub, above the fold.</p></div>
+      <div class="dim-card"><div class="dim-icon">✍</div><h3>Copywriting</h3><p>AIDA/PAS structure, benefits vs features, readability, voice.</p></div>
+      <div class="dim-card"><div class="dim-icon">🎯</div><h3>Call-to-Action</h3><p>Count, placement, wording, color, urgency, perceived friction.</p></div>
+      <div class="dim-card"><div class="dim-icon">⭐</div><h3>Social proof</h3><p>Testimonials, customer logos, numbers, certifications, verified reviews.</p></div>
+      <div class="dim-card"><div class="dim-icon">📐</div><h3>Visual structure</h3><p>H1/H2/H3 hierarchy, logical sections, spacing, scannability.</p></div>
+      <div class="dim-card"><div class="dim-icon">🛡</div><h3>Trust signals</h3><p>Legal mentions, HTTPS, guarantees, return policy, FAQ.</p></div>
+      <div class="dim-card"><div class="dim-icon">⏰</div><h3>Urgency / Scarcity</h3><p>Limited offers, countdowns, availability, honest FOMO.</p></div>
+      <div class="dim-card"><div class="dim-icon">📱</div><h3>Mobile & speed</h3><p>Viewport meta, compressed images, no obvious blockers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Pricing</div>
+      <h2 class="section-title">You pay per audit, that's it</h2>
+      <p class="section-lead">No subscription, no commitment. Credits valid forever.</p>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Discovery</h3>
+        <div class="desc">For testing or a one-off audit</div>
+        <div class="price">€4.90</div>
+        <div class="price-sub">1 full audit</div>
+        <ul>
+          <li>0-100 score + 8 dimensions</li>
+          <li>Prioritized action plan</li>
+          <li>Downloadable HTML report</li>
+        </ul>
+        <a href="#" data-ls="pack1" class="btn btn-ghost">Buy 1 audit</a>
+      </div>
+      <div class="price-card featured">
+        <span class="featured-tag">Most popular</span>
+        <h3>Freelance</h3>
+        <div class="desc">For your site and your clients'</div>
+        <div class="price">€19 <small>· 5 audits</small></div>
+        <div class="price-sub">€3.80 per audit · save 22%</div>
+        <ul>
+          <li>Everything in Discovery</li>
+          <li>Credits valid forever</li>
+          <li>Perfect for iterating</li>
+        </ul>
+        <a href="#" data-ls="pack5" class="btn btn-primary">Buy 5 audits</a>
+      </div>
+      <div class="price-card">
+        <h3>Agency</h3>
+        <div class="desc">Regular audits, client deliverables</div>
+        <div class="price">€49 <small>· 20 audits</small></div>
+        <div class="price-sub">€2.45 per audit · save 50%</div>
+        <ul>
+          <li>Everything in Freelance</li>
+          <li>Lowest per-audit price</li>
+          <li>Ideal for client deliverables</li>
+        </ul>
+        <a href="#" data-ls="pack20" class="btn btn-ghost">Buy 20 audits</a>
+      </div>
+    </div>
+    <div class="free-banner">
+      💡 <strong>Free test mode</strong>: bring your own API key (Claude, OpenAI, Groq, Mistral, OpenRouter, xAI) and run unlimited audits for free. Configure from inside the app.
+    </div>
+  </div>
+</section>
+
+<section class="s alt" id="faq">
+  <div class="narrow">
+    <div class="section-header">
+      <div class="section-tag">FAQ</div>
+      <h2 class="section-title">Frequently asked questions</h2>
+    </div>
+    <details class="faq"><summary>How long does an audit take?</summary><div class="answer">Between 15 and 30 seconds. The page is fetched, analyzed by AI across 8 dimensions, and the interactive report shows up. You can download a standalone HTML version.</div></details>
+    <details class="faq"><summary>What's the scoring based on?</summary><div class="answer">15 years of CRO best practices: Hero (×2), CTA (×2), Copywriting (×1.5), and 5 other dimensions equally weighted. Final mention: Weak &lt;40, Average 40-60, Good 60-80, Excellent &gt;80.</div></details>
+    <details class="faq"><summary>My site is in French — does it work?</summary><div class="answer">Yes. You pick the report language (FR or EN) at audit time, independently of the language of the site being analyzed.</div></details>
+    <details class="faq"><summary>Can I test with my own API key?</summary><div class="answer">Yes — and it's free on our side. Enable BYOK mode in the app (⚙ icon) with your Anthropic, OpenAI, Groq, xAI, Mistral or OpenRouter key. You pay your provider directly, no ConvertAudit credits used.</div></details>
+    <details class="faq"><summary>Is my data stored?</summary><div class="answer">No. Audits are processed on the fly: the page is fetched, analyzed, the report is returned. No server-side storage in v1. Your URLs and results live only in your browser.</div></details>
+    <details class="faq"><summary>What about Cloudflare-protected sites or login walls?</summary><div class="answer">Public pages (no login) work in 90-95% of cases. Cloudflare with strict JS challenges or pages behind auth aren't auditable — you can copy-paste the HTML manually instead (v2 feature).</div></details>
+    <details class="faq"><summary>Can I get a refund?</summary><div class="answer">If the report fails to render due to a bug, yes (contact via Lemonsqueezy). No refunds on successful audits — the AI cost is borne immediately on our side.</div></details>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <h2>Audit your site in 30 seconds</h2>
+    <p>Paste the URL, get the score, apply the action plan. No signup required.</p>
+    <a href="../index.html" class="btn btn-primary lg">Audit my site now →</a>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="footer-row">
+    <div class="brand"><span class="brand-mark">CA</span><span>ConvertAudit</span></div>
+    <div class="footer-links">
+      <a href="../index.html">Audit my site</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="legal.html">Legal notice</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+    <div>© 2026 ConvertAudit</div>
+  </div>
+</footer>
+
+<script>
+  const LEMONSQUEEZY = {
+    pack1:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK1-VARIANT-ID",
+    pack5:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK5-VARIANT-ID",
+    pack20: "https://YOUR-STORE.lemonsqueezy.com/buy/PACK20-VARIANT-ID",
+  };
+  document.querySelectorAll("a[data-ls]").forEach((a) => {
+    const pack = a.getAttribute("data-ls");
+    if (LEMONSQUEEZY[pack]) { a.href = LEMONSQUEEZY[pack]; a.target = "_blank"; a.rel = "noopener"; }
+  });
+</script>
+</body>
+</html>

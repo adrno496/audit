@@ -242,6 +242,9 @@
       padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
     }
     .pack strong { color: var(--text); }
+    .pack small { color: var(--text-muted); font-weight: 400; font-size: 12px; }
+    a.pack-link { color: var(--text); text-decoration: none; cursor: pointer; transition: border-color .15s, background .15s; }
+    a.pack-link:hover { border-color: var(--accent); background: var(--bg-soft); }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
     .modal-large { max-width: 560px; }
 
@@ -492,15 +495,14 @@
   <div class="modal-backdrop" id="credits-modal">
     <div class="modal">
       <h3>Crédits épuisés</h3>
-      <p>Pour continuer à auditer des pages, achète un pack de crédits. Un crédit = un audit complet.</p>
+      <p>Pour continuer à auditer des pages, achète un pack de crédits. Un crédit = un audit complet. Crédits valables à vie.</p>
       <div class="pack-list">
-        <div class="pack"><span>1 audit</span><strong>2,90 €</strong></div>
-        <div class="pack"><span>5 audits</span><strong>9,90 €</strong></div>
-        <div class="pack"><span>20 audits</span><strong>29,00 €</strong></div>
+        <a class="pack pack-link" id="buy-pack1" target="_blank" rel="noopener"><span>1 audit</span><strong>4,90 €</strong></a>
+        <a class="pack pack-link" id="buy-pack5" target="_blank" rel="noopener"><span>5 audits <small>· 3,80 €/audit</small></span><strong>19,00 €</strong></a>
+        <a class="pack pack-link" id="buy-pack20" target="_blank" rel="noopener"><span>20 audits <small>· 2,45 €/audit</small></span><strong>49,00 €</strong></a>
       </div>
       <div class="modal-actions">
         <button class="btn-secondary" id="modal-close">Fermer</button>
-        <button class="btn-primary" id="modal-buy">Acheter</button>
       </div>
     </div>
   </div>
@@ -511,7 +513,15 @@
     // ============================================================
     const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
     const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
-    const LEMONSQUEEZY_URL = "https://YOUR-STORE.lemonsqueezy.com/checkout/buy/YOUR-VARIANT";
+
+    // Lemonsqueezy : remplace les valeurs par tes vrais checkout URLs.
+    // Exemple : "https://convertaudit.lemonsqueezy.com/buy/abc-123-def"
+    const LEMONSQUEEZY = {
+      pack1:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK1-VARIANT-ID",
+      pack5:  "https://YOUR-STORE.lemonsqueezy.com/buy/PACK5-VARIANT-ID",
+      pack20: "https://YOUR-STORE.lemonsqueezy.com/buy/PACK20-VARIANT-ID",
+    };
+    const LEMONSQUEEZY_URL = LEMONSQUEEZY.pack1; // bouton générique
 
     // ============================================================
     // CONSTANTES
@@ -888,6 +898,38 @@
     function decrementCredits() { setCredits(getCredits() - 1); }
     function refreshCreditsUI() { document.getElementById("credits-count").textContent = String(getCredits()); }
 
+    // ============================================================
+    // CACHE CLIENT-SIDE (1h par URL+lang+provider+model)
+    // ============================================================
+    const CACHE_TTL_MS = 60 * 60 * 1000; // 1 heure
+    const CACHE_KEY = "convertaudit_cache_v1";
+    function cacheKey(url, lang, providerKey) {
+      return url + "|" + lang + "|" + providerKey;
+    }
+    function readCache() {
+      try { return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}"); } catch { return {}; }
+    }
+    function writeCache(obj) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(obj)); } catch { /* quota: ignorer */ }
+    }
+    function getCachedAudit(url, lang, providerKey) {
+      const cache = readCache();
+      const entry = cache[cacheKey(url, lang, providerKey)];
+      if (!entry) return null;
+      if (Date.now() - entry.ts > CACHE_TTL_MS) return null;
+      return { data: entry.data, ageMs: Date.now() - entry.ts };
+    }
+    function setCachedAudit(url, lang, providerKey, data) {
+      const cache = readCache();
+      // GC : supprime les entrées expirées avant d'écrire
+      const now = Date.now();
+      for (const k of Object.keys(cache)) {
+        if (now - cache[k].ts > CACHE_TTL_MS) delete cache[k];
+      }
+      cache[cacheKey(url, lang, providerKey)] = { ts: now, data };
+      writeCache(cache);
+    }
+
     function showCreditsModal() {
       document.getElementById("credits-modal").classList.add("open");
     }
@@ -895,9 +937,9 @@
       document.getElementById("credits-modal").classList.remove("open");
     }
     document.getElementById("modal-close").addEventListener("click", hideCreditsModal);
-    document.getElementById("modal-buy").addEventListener("click", () => {
-      window.open(LEMONSQUEEZY_URL, "_blank", "noopener");
-    });
+    document.getElementById("buy-pack1").href = LEMONSQUEEZY.pack1;
+    document.getElementById("buy-pack5").href = LEMONSQUEEZY.pack5;
+    document.getElementById("buy-pack20").href = LEMONSQUEEZY.pack20;
 
     // ============================================================
     // BYOK (Bring Your Own Key)
@@ -1123,9 +1165,9 @@
     // ============================================================
     // RENDER REPORT
     // ============================================================
-    function renderReport(data) {
+    function renderReport(data, fromCache = false) {
       lastReport = data;
-      document.getElementById("r-domain").textContent = domainOf(data.url);
+      document.getElementById("r-domain").textContent = domainOf(data.url) + (fromCache ? " · résultat depuis le cache (< 1h)" : "");
       document.getElementById("r-title").textContent = data.title || domainOf(data.url);
       document.getElementById("r-summary").textContent = data.summary || "";
 
@@ -1322,11 +1364,21 @@ ${dimSection}
       startLoadingMessages();
 
       try {
-        const data = byok
-          ? await runAuditDirect(url, lang, byok)
-          : await runAudit(url, lang);
-        if (!byok) decrementCredits();
-        renderReport(data);
+        const providerKey = byok ? (byok.provider + ":" + byok.model) : "server:default";
+        const cached = getCachedAudit(url, lang, providerKey);
+        let data, fromCache = false;
+        if (cached) {
+          data = cached.data;
+          fromCache = true;
+          console.log("[ConvertAudit] Audit servi depuis le cache (âge: " + Math.round(cached.ageMs/1000) + "s)");
+        } else {
+          data = byok
+            ? await runAuditDirect(url, lang, byok)
+            : await runAudit(url, lang);
+          setCachedAudit(url, lang, providerKey, data);
+          if (!byok) decrementCredits();
+        }
+        renderReport(data, fromCache);
         setState("report");
       } catch (err) {
         errEl.textContent = err.message || "Erreur inattendue.";

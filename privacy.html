@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politique de confidentialité — ConvertAudit</title>
+  <meta name="description" content="Politique de confidentialité de ConvertAudit : aucun cookie de tracking, pas de stockage des audits, données utilisateur minimales. RGPD-friendly.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://convertaudit.app/privacy.html">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">CA</span>
+      <span>ConvertAudit</span>
+    </a>
+    <nav class="links">
+      <a href="landing.html#how">Comment ça marche</a>
+      <a href="landing.html#pricing">Tarifs</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">À propos</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch">
+        <a href="privacy.html" class="active">FR</a>
+        <a href="en/privacy.html">EN</a>
+      </div>
+      <a href="index.html" class="btn btn-primary">Auditer mon site</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="narrow">
+    <div class="pill">Confidentialité</div>
+    <h1>Politique de confidentialité</h1>
+    <p class="lead">Conforme au Règlement Général sur la Protection des Données (RGPD). En clair : on collecte le strict minimum.</p>
+    <div class="meta">
+      <span>Dernière mise à jour : 10 mai 2026</span>
+      <span>Version 1.0</span>
+    </div>
+  </div>
+</section>
+
+<article class="prose narrow">
+  <div class="callout tip">
+    <strong>Résumé en 30 secondes</strong> — Nous ne stockons pas tes audits sur nos serveurs. Pas de cookie de tracking. Pas de revente de données. Les seules infos persistées sont celles strictement nécessaires à l'achat (Lemonsqueezy s'en charge).
+  </div>
+
+  <h2>1. Identité du responsable du traitement</h2>
+  <p>Le présent site « ConvertAudit » est édité par :</p>
+  <ul>
+    <li><strong>Nom / Raison sociale</strong> : [À COMPLÉTER — nom de l'éditeur]</li>
+    <li><strong>Adresse</strong> : [À COMPLÉTER]</li>
+    <li><strong>Email contact</strong> : <a href="mailto:contact@convertaudit.app">contact@convertaudit.app</a></li>
+  </ul>
+  <p>Le responsable du traitement des données à caractère personnel collectées via ConvertAudit est l'éditeur ci-dessus.</p>
+
+  <h2>2. Données collectées</h2>
+  <p>ConvertAudit collecte le minimum de données nécessaires à son fonctionnement.</p>
+
+  <h3>Données stockées sur nos serveurs</h3>
+  <p><strong>Aucune donnée d'audit n'est stockée sur nos serveurs.</strong> L'analyse est effectuée à la volée : la page est récupérée, envoyée à un fournisseur d'IA (voir §4), le rapport te revient, puis les données transitent uniquement dans la mémoire éphémère de notre Edge Function.</p>
+
+  <h3>Données stockées sur ton navigateur (localStorage)</h3>
+  <ul>
+    <li><strong>Compteur de crédits</strong> (<code>convertaudit_credits</code>) : un nombre, utilisé pour suivre tes crédits restants</li>
+    <li><strong>Cache audit 1 heure</strong> (<code>convertaudit_cache_v1</code>) : les rapports récents pour éviter de relancer un audit identique. Expire automatiquement après 1 h.</li>
+    <li><strong>Configuration BYOK</strong> (<code>convertaudit_byok</code>, optionnel) : si tu utilises ta propre clé API, elle est stockée localement dans ton navigateur. <strong>Elle n'est jamais envoyée à nos serveurs</strong> ; en mode BYOK, elle va directement du navigateur au fournisseur d'IA choisi.</li>
+  </ul>
+  <p>Tu peux supprimer ces données à tout moment via les outils de développement de ton navigateur (DevTools → Application → Local Storage) ou en vidant le cache du site.</p>
+
+  <h3>Données collectées lors d'un achat (Lemonsqueezy)</h3>
+  <p>Si tu achètes un pack de crédits, l'achat est traité par <a href="https://www.lemonsqueezy.com/legal/privacy" target="_blank" rel="noopener">Lemonsqueezy</a>, notre partenaire de paiement, qui collecte :</p>
+  <ul>
+    <li>Email</li>
+    <li>Nom et adresse de facturation (le cas échéant)</li>
+    <li>Informations de paiement (carte ou autre moyen)</li>
+    <li>Pays (pour TVA / Sales Tax applicable)</li>
+  </ul>
+  <p>ConvertAudit n'a accès qu'à ton email d'achat, transmis pour livraison du produit. Lemonsqueezy est la société émettrice du reçu (<em>merchant of record</em>) et applique sa propre politique RGPD.</p>
+
+  <h2>3. Cookies</h2>
+  <p>ConvertAudit n'utilise <strong>aucun cookie de tracking</strong>, aucun cookie publicitaire, aucun pixel Facebook / Google Ads. Aucune solution analytics tierce n'est intégrée.</p>
+  <p>Lemonsqueezy peut utiliser ses propres cookies au moment du checkout, conformément à sa politique.</p>
+
+  <h2>4. Sous-traitants & transferts</h2>
+  <p>ConvertAudit s'appuie sur les sous-traitants suivants pour son fonctionnement :</p>
+
+  <table>
+    <thead>
+      <tr><th>Sous-traitant</th><th>Rôle</th><th>Localisation données</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase</a></td><td>Hébergement Edge Function (relais IA)</td><td>UE (région choisie)</td></tr>
+      <tr><td><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic</a></td><td>Fournisseur IA (mode payant)</td><td>États-Unis (clauses contractuelles types)</td></tr>
+      <tr><td>OpenAI / Groq / Mistral / xAI / OpenRouter</td><td>Fournisseurs IA optionnels (mode BYOK uniquement)</td><td>Variable selon le fournisseur</td></tr>
+      <tr><td><a href="https://r.jina.ai/" target="_blank" rel="noopener">Jina Reader</a></td><td>Proxy CORS pour récupération des pages auditées (mode BYOK)</td><td>Singapour / UE</td></tr>
+      <tr><td><a href="https://www.lemonsqueezy.com/legal/privacy" target="_blank" rel="noopener">Lemonsqueezy</a></td><td>Paiement (<em>merchant of record</em>)</td><td>États-Unis</td></tr>
+    </tbody>
+  </table>
+
+  <p>Les transferts de données hors UE sont encadrés par les <strong>clauses contractuelles types</strong> (CCT) de la Commission européenne, lorsque c'est applicable.</p>
+
+  <h2>5. Durée de conservation</h2>
+  <ul>
+    <li><strong>Audits</strong> : non stockés sur nos serveurs (durée 0). Le cache navigateur expire après 1 heure.</li>
+    <li><strong>Crédits</strong> : conservés tant que tu n'effaces pas le localStorage de ton navigateur. Aucun lien serveur n'existe.</li>
+    <li><strong>Email d'achat (Lemonsqueezy)</strong> : conservé selon la politique Lemonsqueezy (généralement 7 ans pour conformité comptable).</li>
+  </ul>
+
+  <h2>6. Tes droits (RGPD)</h2>
+  <p>Conformément au Règlement (UE) 2016/679 et à la loi Informatique et Libertés, tu disposes des droits suivants :</p>
+  <ul>
+    <li><strong>Droit d'accès</strong> à tes données</li>
+    <li><strong>Droit de rectification</strong> en cas d'inexactitude</li>
+    <li><strong>Droit à l'effacement</strong> (« droit à l'oubli »)</li>
+    <li><strong>Droit à la limitation</strong> du traitement</li>
+    <li><strong>Droit à la portabilité</strong> de tes données</li>
+    <li><strong>Droit d'opposition</strong> au traitement</li>
+    <li><strong>Droit de retirer ton consentement</strong> à tout moment</li>
+  </ul>
+  <p>Pour exercer ces droits, écris-nous à <a href="mailto:contact@convertaudit.app">contact@convertaudit.app</a>. Nous répondrons dans un délai d'un mois maximum.</p>
+  <p>Tu disposes également du droit d'introduire une réclamation auprès de la <a href="https://www.cnil.fr/" target="_blank" rel="noopener">CNIL</a> (Commission Nationale de l'Informatique et des Libertés) si tu estimes que tes droits ne sont pas respectés.</p>
+
+  <h2>7. Sécurité</h2>
+  <p>Nous mettons en œuvre les mesures techniques et organisationnelles raisonnables pour protéger tes données :</p>
+  <ul>
+    <li>Connexion HTTPS (TLS) systématique</li>
+    <li>Clés API stockées en secrets Supabase (jamais dans le code source ni les logs)</li>
+    <li>Aucun stockage prolongé d'informations sensibles côté serveur</li>
+    <li>En mode BYOK : ta clé reste dans ton navigateur et ne transite que vers le fournisseur que tu as choisi</li>
+  </ul>
+
+  <h2>8. Modifications de cette politique</h2>
+  <p>Cette politique peut être mise à jour pour refléter des évolutions de notre service ou de la législation. La date de dernière mise à jour est indiquée en tête de page. Si les modifications sont substantielles, nous t'en informerons par email (si tu es client·e Lemonsqueezy) ou via une bannière sur le site.</p>
+
+  <h2>9. Contact</h2>
+  <p>Pour toute question relative à cette politique ou à l'usage de tes données : <a href="mailto:contact@convertaudit.app">contact@convertaudit.app</a></p>
+</article>
+
+<footer class="site">
+  <div class="footer-row">
+    <div class="brand">
+      <span class="brand-mark">CA</span>
+      <span>ConvertAudit</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Auditer mon site</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">À propos</a>
+      <a href="legal.html">Mentions légales</a>
+      <a href="privacy.html">Confidentialité</a>
+    </div>
+    <div>© 2026 ConvertAudit</div>
+  </div>
+</footer>
+
+</body>
+</html>
