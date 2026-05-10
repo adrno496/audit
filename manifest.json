@@ -5,16 +5,16 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0d9488",
+  "theme_color": "#0a8478",
   "lang": "fr-FR",
   "categories": ["business", "productivity", "marketing"],
   "icons": [
-    {
-      "src": "/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "any",
-      "purpose": "any maskable"
-    }
+    { "src": "/favicon-32.png",        "type": "image/png", "sizes": "32x32" },
+    { "src": "/favicon.png",           "type": "image/png", "sizes": "64x64" },
+    { "src": "/apple-touch-icon.png",  "type": "image/png", "sizes": "180x180" },
+    { "src": "/icon-192.png",          "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "/icon-512.png",          "type": "image/png", "sizes": "512x512", "purpose": "any maskable" },
+    { "src": "/favicon.svg",           "type": "image/svg+xml", "sizes": "any" }
   ],
   "screenshots": [
     {

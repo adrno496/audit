@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Audit ConvertAudit — alpha-terminal-sepia.vercel.app — 10/05/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #0a8478;
+  --accent-deep: #065e55;
+  --accent-hot: #c8f04b;
+  --accent-soft: #e8f8f5;
+  --ink: #0d1117;
+  --ink-2: #1f2937;
+  --ink-3: #6b7280;
+  --ink-4: #9ca3af;
+  --paper: #ffffff;
+  --paper-2: #f9fafb;
+  --paper-3: #f3f4f6;
+  --b: 1px solid #e5e7eb;
+  --hs: 4px 4px 0 0 #0d1117;
+  --good: #16a34a;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --info: #2563eb;
+  --f-display: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--f-display);
+  background: var(--paper-2);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+}
+a { color: var(--ink); text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* ===== Header ===== */
+.ca-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--ink); color: var(--paper);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.ca-header-inner {
+  display: flex; align-items: center; gap: 16px;
+  max-width: 1100px; margin: 0 auto;
+  padding: 12px 24px;
+}
+.ca-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--paper); flex-shrink: 0; }
+.ca-brand-mark {
+  width: 30px; height: 30px; border-radius: 6px;
+  background: var(--accent); color: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px;
+}
+.ca-brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+.ca-url {
+  flex: 1; min-width: 0;
+  font-family: var(--f-mono); font-size: 12px;
+  color: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.05);
+  padding: 6px 12px; border-radius: 6px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ca-header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.ca-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 8px 14px; border-radius: 8px;
+  font-weight: 600; font-size: 13px; border: 0;
+  transition: opacity .15s;
+}
+.ca-btn-primary { background: var(--accent-hot); color: var(--ink); }
+.ca-btn-primary:hover { opacity: .9; }
+.ca-btn-ghost {
+  background: transparent; color: var(--paper);
+  border: 1px solid rgba(255,255,255,.2);
+}
+.ca-btn-ghost:hover { background: rgba(255,255,255,.06); }
+
+/* ===== Hero score ===== */
+.ca-hero {
+  background: var(--ink); color: var(--paper);
+  padding: 48px 0 56px;
+}
+.ca-hero-inner {
+  display: grid; gap: 40px;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px;
+}
+.ca-gauge { position: relative; width: 200px; height: 200px; flex-shrink: 0; }
+.ca-gauge svg { display: block; }
+#ca-gauge-progress {
+  transition: stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.ca-gauge-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+}
+.ca-gauge-num {
+  font-family: var(--f-display); font-weight: 800;
+  font-size: 64px; line-height: 1; letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.ca-gauge-max {
+  font-family: var(--f-mono); font-size: 13px;
+  color: rgba(255,255,255,.5); letter-spacing: 0.05em;
+}
+.ca-hero-meta { min-width: 0; }
+.ca-hero-title {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 28px; line-height: 1.2; letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ca-mention {
+  display: inline-block;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+}
+.ca-mention-bad  { background: var(--bad);  color: var(--paper); }
+.ca-mention-mid  { background: var(--warn); color: var(--paper); }
+.ca-mention-ok   { background: #84cc16; color: var(--ink); }
+.ca-mention-good { background: var(--good); color: var(--paper); }
+.ca-hero-summary {
+  color: rgba(255,255,255,.75); margin: 0 0 16px;
+  font-size: 15px; line-height: 1.55; max-width: 64ch;
+}
+.ca-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.ca-pill {
+  display: inline-flex; align-items: center;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.ca-pill-bad  { background: rgba(220,38,38,.18); color: #fca5a5; }
+.ca-pill-warn { background: rgba(217,119,6,.18); color: #fcd34d; }
+.ca-pill-info { background: rgba(37,99,235,.18); color: #93c5fd; }
+
+/* ===== Sections génériques ===== */
+.ca-section { padding: 56px 0; }
+.ca-section-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.ca-h2 {
+  font-family: var(--f-display); font-weight: 800;
+  font-size: 28px; line-height: 1.2; letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+.ca-section-sub { color: var(--ink-3); font-size: 15px; margin: 0 0 24px; }
+
+/* ===== Quick wins (fond accent-hot) ===== */
+.ca-quickwins { background: var(--accent-hot); color: var(--ink); border-bottom: 1px solid var(--ink); border-top: 1px solid var(--ink); }
+.ca-quickwin-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.ca-quickwin {
+  background: var(--paper);
+  border: 1px solid var(--ink); border-radius: 12px;
+  box-shadow: var(--hs);
+}
+.ca-quickwin label {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 20px; cursor: pointer;
+}
+.ca-quickwin input[type="checkbox"] {
+  margin: 4px 0 0; width: 20px; height: 20px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.ca-quickwin-num {
+  font-family: var(--f-mono); font-weight: 700; font-size: 13px;
+  color: var(--accent-deep); letter-spacing: 0.04em;
+  flex-shrink: 0; padding-top: 2px;
+}
+.ca-quickwin-text { font-size: 16px; line-height: 1.5; }
+.ca-quickwin input:checked ~ label .ca-quickwin-text,
+.ca-quickwin label:has(input:checked) .ca-quickwin-text {
+  text-decoration: line-through;
+}
+.ca-quickwin:has(input:checked) { opacity: .55; }
+
+/* ===== Scores grid ===== */
+.ca-scores-grid {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.ca-score-cell {
+  display: block;
+  background: var(--paper);
+  border: var(--b); border-radius: 12px;
+  padding: 16px 18px;
+  transition: transform .15s, border-color .15s;
+}
+.ca-score-cell:hover { transform: translateY(-2px); border-color: var(--ink-3); }
+.ca-score-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; margin-bottom: 4px;
+}
+.ca-score-label { font-weight: 600; font-size: 15px; color: var(--ink); }
+.ca-score-num {
+  font-family: var(--f-display); font-weight: 800; font-size: 22px;
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.ca-score-max { color: var(--ink-3); font-size: 14px; font-weight: 500; }
+.ca-score-meta {
+  font-family: var(--f-mono); font-size: 11px; color: var(--ink-3);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.ca-bar {
+  height: 8px; background: var(--paper-3);
+  border-radius: 999px; overflow: hidden;
+}
+.ca-bar-fill {
+  height: 100%; width: 100%;
+  transform: scaleX(0); transform-origin: left;
+  border-radius: 999px;
+  transition: transform .9s cubic-bezier(.2,.7,.2,1);
+}
+.ca-bar-fill[data-tier="bad"]  { background: var(--bad); }
+.ca-bar-fill[data-tier="mid"]  { background: var(--warn); }
+.ca-bar-fill[data-tier="ok"]   { background: #84cc16; }
+.ca-bar-fill[data-tier="good"] { background: var(--good); }
+
+/* ===== Issues ===== */
+.ca-issues-list { display: grid; gap: 16px; }
+.ca-issue {
+  background: var(--paper);
+  border: 1px solid var(--ink); border-radius: 14px;
+  box-shadow: var(--hs);
+  padding: 22px 24px;
+}
+.ca-issue-head {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.ca-issue-title {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 19px; line-height: 1.3; letter-spacing: -0.015em;
+  margin: 0;
+}
+.ca-issue-desc { color: var(--ink-3); margin: 0 0 14px; font-size: 15px; line-height: 1.55; }
+
+.ca-badge {
+  display: inline-flex; align-items: center;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 999px;
+  letter-spacing: 0.08em;
+}
+.ca-badge-critical { background: var(--bad);  color: var(--paper); }
+.ca-badge-high     { background: var(--warn); color: var(--paper); }
+.ca-badge-medium   { background: var(--info); color: var(--paper); }
+.ca-badge-tier[data-tier="bad"]  { background: var(--bad);  color: var(--paper); }
+.ca-badge-tier[data-tier="mid"]  { background: var(--warn); color: var(--paper); }
+.ca-badge-tier[data-tier="ok"]   { background: #84cc16; color: var(--ink); }
+.ca-badge-tier[data-tier="good"] { background: var(--good); color: var(--paper); }
+
+/* ===== Action list (issues + dimensions) ===== */
+.ca-action-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.ca-action {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 12px; border-radius: 8px;
+  background: var(--paper-2);
+  transition: opacity .15s;
+}
+.ca-action input[type="checkbox"] {
+  margin: 3px 0 0; width: 17px; height: 17px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.ca-action label {
+  flex: 1; cursor: pointer; line-height: 1.5; font-size: 14.5px; color: var(--ink-2);
+}
+.ca-action:has(input:checked) { opacity: .5; }
+.ca-action:has(input:checked) label { text-decoration: line-through; }
+
+/* ===== Strengths ===== */
+.ca-strengths { background: var(--accent-soft); border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent); }
+.ca-strength-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.ca-strength {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--paper);
+  border: 1px solid var(--accent); border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 15.5px; line-height: 1.5;
+}
+.ca-strength-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: var(--paper);
+  font-weight: 800; flex-shrink: 0; margin-top: -2px;
+}
+
+/* ===== Dimensions detail ===== */
+.ca-dim-list { display: grid; gap: 10px; }
+.ca-dim {
+  background: var(--paper);
+  border: var(--b); border-radius: 12px;
+  overflow: hidden;
+}
+.ca-dim[open] { border-color: var(--ink-3); }
+.ca-dim-summary {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; cursor: pointer;
+  list-style: none;
+}
+.ca-dim-summary::-webkit-details-marker { display: none; }
+.ca-dim-label { flex: 1; font-weight: 600; font-size: 16px; }
+.ca-dim-weight { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; }
+.ca-chevron {
+  font-size: 18px; color: var(--ink-3);
+  transition: transform .2s;
+}
+.ca-dim[open] .ca-chevron { transform: rotate(180deg); }
+.ca-dim-body {
+  padding: 0 18px 18px;
+  border-top: var(--b);
+  padding-top: 16px;
+}
+.ca-dim-desc { color: var(--ink-2); margin: 0 0 12px; font-size: 14.5px; line-height: 1.6; }
+
+/* ===== Footer ===== */
+.ca-footer {
+  background: var(--ink); color: var(--paper);
+  padding: 56px 24px;
+}
+.ca-footer-inner {
+  max-width: 600px; margin: 0 auto; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.ca-footer-text { font-family: var(--f-mono); font-size: 13px; color: rgba(255,255,255,.6); margin: 0; letter-spacing: 0.04em; }
+.ca-footer .ca-brand-name { color: var(--paper); }
+.ca-disclaimer {
+  margin-top: 12px;
+  font-size: 12px; color: rgba(255,255,255,.4); max-width: 50ch;
+  line-height: 1.55;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px) {
+  .ca-header-inner { padding: 12px 16px; gap: 10px; }
+  .ca-url { font-size: 11px; padding: 5px 9px; }
+  .ca-btn { padding: 7px 11px; font-size: 12px; }
+  .ca-hero { padding: 32px 0 40px; }
+  .ca-hero-inner { grid-template-columns: 1fr; gap: 24px; padding: 0 16px; }
+  .ca-gauge { width: 160px; height: 160px; margin: 0 auto; }
+  .ca-gauge svg { width: 160px; height: 160px; }
+  .ca-gauge-num { font-size: 52px; }
+  .ca-hero-title { font-size: 22px; }
+  .ca-section { padding: 40px 0; }
+  .ca-section-inner { padding: 0 16px; }
+  .ca-h2 { font-size: 22px; }
+  .ca-scores-grid { grid-template-columns: 1fr; }
+  .ca-issue { padding: 18px 16px; }
+  .ca-issue-title { font-size: 17px; }
+}
+
+/* ===== Print ===== */
+@media print {
+  body { background: white; color: black; font-size: 11pt; }
+  .ca-header, .btn-print, .btn-new-audit, .ca-footer .ca-btn { display: none !important; }
+  .ca-hero { background: white !important; color: black !important; padding: 24px 0; border-bottom: 2px solid black; }
+  .ca-hero-summary, .ca-gauge-max { color: #444 !important; }
+  .ca-pill { border: 1px solid currentColor; background: transparent !important; }
+  .ca-pill-bad  { color: var(--bad); }
+  .ca-pill-warn { color: var(--warn); }
+  .ca-pill-info { color: var(--info); }
+  .ca-quickwins { background: white !important; border: 2px solid black; }
+  .ca-strengths { background: white !important; }
+  .ca-issue, .ca-quickwin, .ca-strength, .ca-dim { box-shadow: none !important; page-break-inside: avoid; }
+  .ca-bar-fill { transform: scaleX(1) !important; transition: none !important; }
+  .ca-dim { open: open !important; }
+  .ca-dim-body { display: block !important; }
+  .ca-footer { background: white !important; color: black !important; border-top: 2px solid black; padding-top: 24px; }
+  .ca-disclaimer { color: #666 !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #666; }
+  .ca-action:has(input:checked) { opacity: 1; }
+  .ca-action:has(input:checked) label { text-decoration: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="ca-header">
+  <div class="ca-header-inner">
+    <a class="ca-brand" href="https://convertaudit.app">
+      <span class="ca-brand-mark">CA</span>
+      <span class="ca-brand-name">ConvertAudit</span>
+    </a>
+    <code class="ca-url">alpha-terminal-sepia.vercel.app</code>
+    <div class="ca-header-actions">
+      <button type="button" class="ca-btn ca-btn-ghost btn-print" onclick="window.print()" aria-label="Imprimer le rapport">Imprimer</button>
+      <a class="ca-btn ca-btn-primary btn-new-audit" href="https://convertaudit.app">Nouvel audit</a>
+    </div>
+  </div>
+</header>
+
+<section class="ca-hero" data-score="41" data-tier="mid">
+  <div class="ca-hero-inner">
+    <div class="ca-gauge">
+      <svg width="200" height="200" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="12"/>
+        <circle id="ca-gauge-progress" cx="100" cy="100" r="80" fill="none"
+                stroke="var(--warn)" stroke-width="12" stroke-linecap="round"
+                stroke-dasharray="502.6548245743669 502.6548245743669" stroke-dashoffset="502.6548245743669"
+                transform="rotate(-90 100 100)"/>
+      </svg>
+      <div class="ca-gauge-text">
+        <span class="ca-gauge-num" id="ca-gauge-num">0</span>
+        <span class="ca-gauge-max">/100</span>
+      </div>
+    </div>
+    <div class="ca-hero-meta">
+      <h1 class="ca-hero-title">Alpha — Terminal d&#39;analyse financière IA (46+ modules, 14 LLMs, BYOK)</h1>
+      <span class="ca-mention ca-mention-mid">Moyen</span>
+      <p class="ca-hero-summary">Alpha est un terminal d&#39;analyse financière IA positionné comme alternative Bloomberg. La page souffre de surcharge informationnelle, d&#39;une absence totale de preuve sociale et d&#39;un CTA peu visible.</p>
+      <div class="ca-pills">
+        <span class="ca-pill ca-pill-bad">2 critiques</span>
+        <span class="ca-pill ca-pill-warn">2 priorité haute</span>
+        <span class="ca-pill ca-pill-info">2 améliorations</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ca-section ca-quickwins">
+  <div class="ca-section-inner">
+    <h2 class="ca-h2">⚡ 3 actions immédiates</h2>
+    <p class="ca-section-sub">Ces 3 corrections peuvent améliorer ton taux de conversion dès cette semaine.</p>
+    <ol class="ca-quickwin-list">
+      
+      <li class="ca-quickwin">
+        <input type="checkbox" id="ca_YWxwaGEt_qw0" class="ca-check"/>
+        <label for="ca_YWxwaGEt_qw0">
+          <span class="ca-quickwin-num">01</span>
+          <span class="ca-quickwin-text">Corriger les 3 clés de traduction non résolues (mod.risk-dashboard, mod.geo-risk, mod.news-feed) visibles en production</span>
+        </label>
+      </li>
+      <li class="ca-quickwin">
+        <input type="checkbox" id="ca_YWxwaGEt_qw1" class="ca-check"/>
+        <label for="ca_YWxwaGEt_qw1">
+          <span class="ca-quickwin-num">02</span>
+          <span class="ca-quickwin-text">Ajouter un CTA primaire visible dans le hero avec prix et garantie</span>
+        </label>
+      </li>
+      <li class="ca-quickwin">
+        <input type="checkbox" id="ca_YWxwaGEt_qw2" class="ca-check"/>
+        <label for="ca_YWxwaGEt_qw2">
+          <span class="ca-quickwin-num">03</span>
+          <span class="ca-quickwin-text">Choisir une langue principale et supprimer les doublons bilingues</span>
+        </label>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="ca-section ca-scores">
+  <div class="ca-section-inner">
+    <h2 class="ca-h2">Scores par dimension</h2>
+    <div class="ca-scores-grid">
+      
+      <a class="ca-score-cell" href="#dim-hero" data-tier="mid">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Accroche (Hero)</span>
+          <span class="ca-score-num">5<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×2</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="mid" data-pct="50.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-copy" data-tier="mid">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Copywriting</span>
+          <span class="ca-score-num">4<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1.5</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="mid" data-pct="40.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-cta" data-tier="mid">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Call-to-Action</span>
+          <span class="ca-score-num">4<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×2</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="mid" data-pct="40.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-social" data-tier="bad">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Preuve sociale</span>
+          <span class="ca-score-num">2<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="bad" data-pct="20.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-structure" data-tier="mid">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Structure visuelle</span>
+          <span class="ca-score-num">4<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="mid" data-pct="40.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-trust" data-tier="mid">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Signaux de confiance</span>
+          <span class="ca-score-num">4<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="mid" data-pct="40.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-urgency" data-tier="bad">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Urgence / Rareté</span>
+          <span class="ca-score-num">2<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="bad" data-pct="20.0"></div>
+        </div>
+      </a>
+      <a class="ca-score-cell" href="#dim-mobile" data-tier="bad">
+        <div class="ca-score-head">
+          <span class="ca-score-label">Mobile &amp; Vitesse</span>
+          <span class="ca-score-num">3<span class="ca-score-max">/10</span></span>
+        </div>
+        <div class="ca-score-meta">
+          <span class="ca-score-weight">Poids ×1</span>
+        </div>
+        <div class="ca-bar">
+          <div class="ca-bar-fill" data-tier="bad" data-pct="30.0"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="ca-section ca-issues">
+  <div class="ca-section-inner">
+    <h2 class="ca-h2">Problèmes à corriger</h2>
+    <div class="ca-issues-list">
+      
+      <article class="ca-issue ca-issue-critical">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-critical">CRITIQUE</span>
+          <h3 class="ca-issue-title">Absence totale de preuve sociale</h3>
+        </header>
+        <p class="ca-issue-desc">Aucun témoignage, métrique ou logo pour un outil financier demandant confiance et paiement récurrent.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss0_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss0_0">Ajouter 3 témoignages courts et authentiques avec profil</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss0_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss0_1">Intégrer une métrique de traction visible</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss0_2" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss0_2">Afficher les logos des providers API officiels</label>
+          </li>
+        </ul>
+      </article>
+      <article class="ca-issue ca-issue-critical">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-critical">CRITIQUE</span>
+          <h3 class="ca-issue-title">Page bilingue avec bugs de traduction en production</h3>
+        </header>
+        <p class="ca-issue-desc">Clés non résolues (mod.risk-dashboard.label, mod.geo-risk.label) visibles. Contenu doublé surcharge cognitivement.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss1_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss1_0">Corriger immédiatement les clés de traduction non résolues</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss1_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss1_1">Créer /fr et /en séparés avec hreflang</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss1_2" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss1_2">Supprimer les doublons &#39;AVANT / BEFORE&#39; inline</label>
+          </li>
+        </ul>
+      </article>
+      <article class="ca-issue ca-issue-high">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-high">HAUTE</span>
+          <h3 class="ca-issue-title">CTA principal absent au-dessus de la ligne de flottaison</h3>
+        </header>
+        <p class="ca-issue-desc">L&#39;utilisateur ne sait pas quoi faire pour commencer sans scroller.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss2_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss2_0">Bouton CTA primaire dans le hero (couleur contrastante)</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss2_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss2_1">CTA sticky bas de page avec prix + garantie</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss2_2" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss2_2">Section pricing avec CTA centré</label>
+          </li>
+        </ul>
+      </article>
+      <article class="ca-issue ca-issue-high">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-high">HAUTE</span>
+          <h3 class="ca-issue-title">Ticker crypto distrait du message principal</h3>
+        </header>
+        <p class="ca-issue-desc">Le ticker scrollant au-dessus du hero crée une distraction visuelle avant la lecture de la proposition de valeur.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss3_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss3_0">Supprimer ou déplacer le ticker hors du hero</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss3_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss3_1">Si conservé : le miniaturiser à un bandeau discret sous la nav</label>
+          </li>
+        </ul>
+      </article>
+      <article class="ca-issue ca-issue-medium">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-medium">MOYEN</span>
+          <h3 class="ca-issue-title">Liste des 46 modules trop exhaustive</h3>
+        </header>
+        <p class="ca-issue-desc">La liste complète noie les messages clés et crée une fatigue de lecture.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss4_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss4_0">Regrouper en 6-8 catégories avec lien &#39;Voir tous les modules&#39;</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss4_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss4_1">Mettre en avant les 5 modules phares en hero-features</label>
+          </li>
+        </ul>
+      </article>
+      <article class="ca-issue ca-issue-medium">
+        <header class="ca-issue-head">
+          <span class="ca-badge ca-badge-medium">MOYEN</span>
+          <h3 class="ca-issue-title">Urgence et rareté absentes</h3>
+        </header>
+        <p class="ca-issue-desc">Aucun mécanisme de déclenchement d&#39;action immédiate.</p>
+        
+        <ul class="ca-action-list">
+          
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss5_0" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss5_0">Offre de lancement avec date limite</label>
+          </li>
+          <li class="ca-action">
+            <input type="checkbox" id="ca_YWxwaGEt_iss5_1" class="ca-check"/>
+            <label for="ca_YWxwaGEt_iss5_1">Compteur d&#39;analyses ou d&#39;utilisateurs actifs</label>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ca-section ca-strengths">
+  <div class="ca-section-inner">
+    <h2 class="ca-h2">Points forts</h2>
+    <ul class="ca-strength-list">
+      
+      <li class="ca-strength">
+        <span class="ca-strength-icon" aria-hidden="true">✓</span>
+        <span>Positionnement &#39;hedge fund analyst in the browser&#39; vs Bloomberg 24 000€/an très percutant</span>
+      </li>
+      <li class="ca-strength">
+        <span class="ca-strength-icon" aria-hidden="true">✓</span>
+        <span>Modèle BYOK avec transparence sur les coûts — différenciateur fort</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="ca-section ca-dimensions">
+  <div class="ca-section-inner">
+    <h2 class="ca-h2">Détail par dimension</h2>
+    <div class="ca-dim-list">
+      
+      <details class="ca-dim" id="dim-hero">
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="mid">5/10</span>
+          <span class="ca-dim-label">Accroche (Hero)</span>
+          <span class="ca-dim-weight">×2</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Le headline est fort mais noyé par un ticker crypto. Aucun CTA au-dessus de la ligne de flottaison.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimhero_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimhero_0">Supprimer ou miniaturiser le ticker de cours dans le hero</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimhero_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimhero_1">Ajouter un sous-titre orienté bénéfice : &#39;Prenez des décisions pro en 30s&#39;</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimhero_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimhero_2">Ajouter une capture d&#39;écran ou GIF du terminal sous le headline</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-copy" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="mid">4/10</span>
+          <span class="ca-dim-label">Copywriting</span>
+          <span class="ca-dim-weight">×1.5</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Page bilingue avec contenu doublé. Bugs de traduction non résolus en production. Ton feature-oriented plutôt que benefit-oriented.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcopy_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcopy_0">Créer /fr et /en séparés plutôt que tout afficher en double</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcopy_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcopy_1">Corriger les clés non résolues (mod.risk-dashboard.label, etc.)</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcopy_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcopy_2">Transformer les descriptions modules en bénéfices concrets</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-cta" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="mid">4/10</span>
+          <span class="ca-dim-label">Call-to-Action</span>
+          <span class="ca-dim-weight">×2</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Pas de CTA dominant au-dessus de la fold. Le prix est mentionné dans la section BYOK sans bouton attaché.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcta_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcta_0">Ajouter un bouton CTA primaire dans le hero (couleur contrastante)</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcta_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcta_1">Ajouter un CTA sticky bas de page avec prix et garantie</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimcta_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimcta_2">Créer une section pricing avec CTA centré avant &#39;Comment ça marche&#39;</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-social" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="bad">2/10</span>
+          <span class="ca-dim-label">Preuve sociale</span>
+          <span class="ca-dim-weight">×1</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Aucun témoignage, aucune métrique, aucun logo. Absence critique pour un outil financier payant.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimsocial_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimsocial_0">Ajouter 3 témoignages courts avec profil utilisateur</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimsocial_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimsocial_1">Intégrer une métrique de traction (nb d&#39;utilisateurs, analyses générées)</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimsocial_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimsocial_2">Afficher les logos des providers API (Anthropic, OpenAI, Google)</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-structure" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="mid">4/10</span>
+          <span class="ca-dim-label">Structure visuelle</span>
+          <span class="ca-dim-weight">×1</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Page extrêmement longue avec 46 modules listés exhaustivement. Hiérarchie visuelle faible.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimstructure_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimstructure_0">Condenser les 46 modules en 6-8 catégories thématiques</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimstructure_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimstructure_1">Réorganiser : Problème → Solution → Preuve → Modules → Pricing → FAQ</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimstructure_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimstructure_2">Ajouter des ancres de navigation en haut de page</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-trust" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="mid">4/10</span>
+          <span class="ca-dim-label">Signaux de confiance</span>
+          <span class="ca-dim-weight">×1</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Garantie 14j bien placée, mais bugs de traduction et bilingue chaotique dégradent le sérieux perçu.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimtrust_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimtrust_0">Ajouter FAQ courte pour les objections principales</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimtrust_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimtrust_1">Ajouter un encart fondateur avec photo pour humaniser</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimtrust_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimtrust_2">Badge visuel &#39;Aucune donnée stockée&#39; avec lien privacy</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-urgency" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="bad">2/10</span>
+          <span class="ca-dim-label">Urgence / Rareté</span>
+          <span class="ca-dim-weight">×1</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Aucun mécanisme d&#39;urgence ni de rareté. La garantie n&#39;est pas utilisée comme levier d&#39;action.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimurgency_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimurgency_0">Offre de lancement avec date limite explicite</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimurgency_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimurgency_1">Utiliser la garantie 14j comme déclencheur d&#39;urgence positive</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimurgency_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimurgency_2">Indicateur de traction actif (X analyses ce mois)</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+      <details class="ca-dim" id="dim-mobile" open>
+        <summary class="ca-dim-summary">
+          <span class="ca-badge ca-badge-tier" data-tier="bad">3/10</span>
+          <span class="ca-dim-label">Mobile &amp; Vitesse</span>
+          <span class="ca-dim-weight">×1</span>
+          <span class="ca-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <div class="ca-dim-body">
+          <p class="ca-dim-desc">Ticker, 46 modules en double colonne et contenu bilingue = charge très lourde sur mobile.</p>
+          
+          <ul class="ca-action-list">
+            
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimmobile_0" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimmobile_0">Modules en accordéon par catégorie sur mobile</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimmobile_1" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimmobile_1">Réduire le ticker à 4-5 actifs max sur mobile</label>
+            </li>
+            <li class="ca-action">
+              <input type="checkbox" id="ca_YWxwaGEt_dimmobile_2" class="ca-check"/>
+              <label for="ca_YWxwaGEt_dimmobile_2">Tester sur iPhone SE (320px) — CTA visible sans scroll</label>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="ca-footer">
+  <div class="ca-footer-inner">
+    <a class="ca-brand" href="https://convertaudit.app">
+      <span class="ca-brand-mark">CA</span>
+      <span class="ca-brand-name">ConvertAudit</span>
+    </a>
+    <p class="ca-footer-text">Généré par ConvertAudit · 10/05/2026</p>
+    <a class="ca-btn ca-btn-primary" href="https://convertaudit.app">Auditer une autre page →</a>
+    <p class="ca-disclaimer">Ce rapport est généré par IA. Les recommandations sont indicatives et ne se substituent pas à l'expertise d'un professionnel.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  // 1. Anim jauge SVG
+  var progress = document.getElementById('ca-gauge-progress');
+  var num = document.getElementById('ca-gauge-num');
+  var target = 41;
+  var C = 502.6548245743669;
+  if (progress) {
+    requestAnimationFrame(function () {
+      progress.style.strokeDashoffset = (C - C * target / 100).toFixed(2);
+    });
+  }
+  // Anim compteur synchro
+  if (num) {
+    var start = performance.now();
+    var dur = 1200;
+    function tick(t) {
+      var p = Math.min(1, (t - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      num.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(tick);
+      else num.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // 2. Anim barres dimensions au scroll
+  var bars = document.querySelectorAll('.ca-bar-fill[data-pct]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var pct = parseFloat(e.target.getAttribute('data-pct')) / 100;
+          e.target.style.transform = 'scaleX(' + pct.toFixed(3) + ')';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    bars.forEach(function (b) { io.observe(b); });
+  } else {
+    bars.forEach(function (b) {
+      var pct = parseFloat(b.getAttribute('data-pct')) / 100;
+      b.style.transform = 'scaleX(' + pct.toFixed(3) + ')';
+    });
+  }
+
+  // 3. Persistence checkboxes
+  var checks = document.querySelectorAll('input.ca-check[type="checkbox"]');
+  checks.forEach(function (c) {
+    var id = c.id;
+    if (!id) return;
+    try {
+      if (localStorage.getItem(id) === '1') c.checked = true;
+    } catch (e) {}
+    c.addEventListener('change', function () {
+      try { localStorage.setItem(id, c.checked ? '1' : '0'); } catch (e) {}
+    });
+  });
+
+  // 4. Smooth scroll vers les sections détail
+  document.querySelectorAll('a[href^="#dim-"]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) {
+        ev.preventDefault();
+        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Ouvre le <details> cible
+        if (t.tagName === 'DETAILS' && !t.open) t.open = true;
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
