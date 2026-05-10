@@ -243,6 +243,86 @@
     }
     .pack strong { color: var(--text); }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .modal-large { max-width: 560px; }
+
+    /* Settings (gear) icon button */
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg-soft); border: 1px solid var(--border); color: var(--text);
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background .15s;
+      padding: 0;
+    }
+    .icon-btn:hover { background: #e5e7eb; }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    /* BYOK banner above the form */
+    .byok-banner {
+      display: none;
+      max-width: 640px; margin: 0 auto 16px;
+      padding: 10px 14px; background: #ecfeff; color: #155e75;
+      border: 1px solid #a5f3fc; border-radius: 10px;
+      font-size: 14px; gap: 10px; align-items: center; justify-content: space-between;
+    }
+    body[data-byok="on"] .byok-banner { display: flex; }
+    body[data-byok="on"] .credits-pill { display: none; }
+    .byok-banner .key { font-weight: 600; }
+    .byok-banner button {
+      background: transparent; border: 0; color: #0e7490; font-weight: 600;
+      padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    }
+    .byok-banner button:hover { background: #cffafe; }
+
+    /* Settings modal — fields */
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field label { font-size: 13px; font-weight: 600; color: var(--text); }
+    .field input[type="text"],
+    .field input[type="password"],
+    .field select {
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 14px; background: var(--bg); font-family: inherit;
+    }
+    .field input:focus, .field select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(13,148,136,0.12);
+    }
+    .field .helper { font-size: 12px; color: var(--text-muted); }
+    .field .helper a { color: var(--accent-dark); }
+    .key-row { position: relative; }
+    .key-row input { padding-right: 64px; width: 100%; }
+    .key-row .toggle {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      background: transparent; border: 0; color: var(--text-muted);
+      font-size: 12px; padding: 4px 8px; cursor: pointer;
+    }
+    .switch-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px; background: var(--bg-soft); border-radius: 10px;
+      margin-bottom: 18px;
+    }
+    .switch-row .label { font-weight: 600; }
+    .switch-row .label small { display: block; font-weight: 400; color: var(--text-muted); font-size: 12px; }
+    /* iOS-style switch */
+    .switch { position: relative; width: 42px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch .slider {
+      position: absolute; inset: 0; cursor: pointer; background: #cbd5e1;
+      border-radius: 999px; transition: background .2s;
+    }
+    .switch .slider::before {
+      content: ""; position: absolute; height: 18px; width: 18px;
+      left: 3px; top: 3px; background: white; border-radius: 50%;
+      transition: transform .2s; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+    .switch input:checked + .slider { background: var(--accent); }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+    .modal-warning {
+      font-size: 12px; color: var(--text-muted); background: #fffbeb;
+      border: 1px solid #fde68a; padding: 8px 10px; border-radius: 8px;
+      margin-bottom: 14px; line-height: 1.4;
+    }
+    .byok-fields[hidden] { display: none !important; }
   </style>
 </head>
 <body>
@@ -252,7 +332,15 @@
       <span class="brand-mark">CA</span>
       <span>ConvertAudit</span>
     </div>
-    <div class="credits-pill">Crédits restants : <strong id="credits-count">1</strong></div>
+    <div class="header-actions">
+      <div class="credits-pill">Crédits restants : <strong id="credits-count">1</strong></div>
+      <button class="icon-btn" id="btn-settings" aria-label="Paramètres IA" title="Configurer une clé API personnelle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <main class="container" data-state="form">
@@ -262,6 +350,11 @@
       <div class="hero-form">
         <h1>Analysez le potentiel de conversion<br>de n'importe quelle landing page en 30 s</h1>
         <p class="lead">Score sur 100, 8 dimensions, actions concrètes — rapport HTML téléchargeable.</p>
+
+        <div class="byok-banner" id="byok-banner">
+          <span>🔑 Mode test — <span class="key" id="byok-summary">…</span></span>
+          <button type="button" id="byok-banner-edit">Modifier</button>
+        </div>
 
         <form id="audit-form" autocomplete="off" novalidate>
           <div class="form-row">
@@ -336,6 +429,65 @@
 
   </main>
 
+  <!-- Modal paramètres IA (BYOK) -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal modal-large">
+      <h3>Paramètres IA</h3>
+      <p>Utilise ta propre clé API pour tester gratuitement avec le fournisseur de ton choix. Aucun crédit n'est consommé.</p>
+
+      <div class="switch-row">
+        <div class="label">Utiliser ma propre clé API
+          <small>Désactivé = clé serveur (1 crédit par audit)</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="byok-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="byok-fields" id="byok-fields" hidden>
+        <div class="modal-warning">
+          ⚠ Ta clé est envoyée en HTTPS à l'Edge Function pour relayer l'appel au provider. Elle n'est jamais loggée côté serveur, mais reste stockée dans le <code>localStorage</code> de ton navigateur.
+        </div>
+
+        <div class="field">
+          <label for="byok-provider">Fournisseur</label>
+          <select id="byok-provider">
+            <option value="anthropic">Anthropic (Claude)</option>
+            <option value="openai">OpenAI</option>
+            <option value="groq">Groq</option>
+            <option value="grok">xAI (Grok)</option>
+            <option value="mistral">Mistral</option>
+            <option value="openrouter">OpenRouter</option>
+          </select>
+          <span class="helper" id="byok-provider-help"></span>
+        </div>
+
+        <div class="field">
+          <label for="byok-key">Clé API</label>
+          <div class="key-row">
+            <input type="password" id="byok-key" placeholder="sk-...">
+            <button type="button" class="toggle" id="byok-key-toggle">Afficher</button>
+          </div>
+          <span class="helper" id="byok-key-help"></span>
+        </div>
+
+        <div class="field">
+          <label for="byok-model">Modèle</label>
+          <input type="text" id="byok-model" list="byok-model-list" placeholder="ex: claude-sonnet-4-6">
+          <datalist id="byok-model-list"></datalist>
+          <span class="helper">Tu peux saisir n'importe quel ID de modèle supporté par le fournisseur.</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="settings-clear">Effacer</button>
+        <button class="btn-secondary" id="settings-cancel">Annuler</button>
+        <button class="btn-primary" id="settings-save">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal crédits épuisés -->
   <div class="modal-backdrop" id="credits-modal">
     <div class="modal">
@@ -382,6 +534,54 @@
     ];
 
     // ============================================================
+    // PROVIDERS BYOK
+    // ============================================================
+    const PROVIDER_INFO = {
+      anthropic: {
+        label: "Anthropic (Claude)",
+        keyPrefix: "sk-ant-",
+        keyHelp: 'Clé sur <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>',
+        models: ["claude-sonnet-4-6", "claude-opus-4-7", "claude-haiku-4-5"],
+        default: "claude-sonnet-4-6",
+      },
+      openai: {
+        label: "OpenAI",
+        keyPrefix: "sk-",
+        keyHelp: 'Clé sur <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>',
+        models: ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini", "o4-mini"],
+        default: "gpt-4o",
+      },
+      groq: {
+        label: "Groq",
+        keyPrefix: "gsk_",
+        keyHelp: 'Clé sur <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a> — très rapide, gratuit pour tester',
+        models: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768", "qwen-3-32b"],
+        default: "llama-3.3-70b-versatile",
+      },
+      grok: {
+        label: "xAI (Grok)",
+        keyPrefix: "xai-",
+        keyHelp: 'Clé sur <a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a>',
+        models: ["grok-4", "grok-3", "grok-3-mini"],
+        default: "grok-4",
+      },
+      mistral: {
+        label: "Mistral",
+        keyPrefix: "",
+        keyHelp: 'Clé sur <a href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">console.mistral.ai</a>',
+        models: ["mistral-large-latest", "mistral-small-latest", "pixtral-large-latest"],
+        default: "mistral-large-latest",
+      },
+      openrouter: {
+        label: "OpenRouter",
+        keyPrefix: "sk-or-",
+        keyHelp: 'Clé sur <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai</a> — accès unifié à 100+ modèles',
+        models: ["anthropic/claude-sonnet-4", "openai/gpt-4o", "google/gemini-2.5-pro", "meta-llama/llama-3.3-70b-instruct"],
+        default: "anthropic/claude-sonnet-4",
+      },
+    };
+
+    // ============================================================
     // STATE
     // ============================================================
     const main = document.querySelector("main");
@@ -421,6 +621,116 @@
     document.getElementById("modal-close").addEventListener("click", hideCreditsModal);
     document.getElementById("modal-buy").addEventListener("click", () => {
       window.open(LEMONSQUEEZY_URL, "_blank", "noopener");
+    });
+
+    // ============================================================
+    // BYOK (Bring Your Own Key)
+    // ============================================================
+    const BYOK_KEY = "convertaudit_byok";
+
+    function getByok() {
+      try {
+        const raw = localStorage.getItem(BYOK_KEY);
+        if (!raw) return null;
+        const cfg = JSON.parse(raw);
+        if (!cfg || !cfg.enabled) return null;
+        if (!PROVIDER_INFO[cfg.provider]) return null;
+        if (!cfg.apiKey || !cfg.model) return null;
+        return cfg;
+      } catch { return null; }
+    }
+    function setByok(cfg) {
+      if (!cfg) localStorage.removeItem(BYOK_KEY);
+      else localStorage.setItem(BYOK_KEY, JSON.stringify(cfg));
+      refreshByokUI();
+    }
+    function refreshByokUI() {
+      const cfg = getByok();
+      const auditBtn = document.getElementById("audit-btn");
+      const summary = document.getElementById("byok-summary");
+      if (cfg) {
+        document.body.dataset.byok = "on";
+        auditBtn.textContent = "Analyser cette page — gratuit (clé personnelle)";
+        summary.textContent = `${PROVIDER_INFO[cfg.provider].label} · ${cfg.model}`;
+      } else {
+        document.body.dataset.byok = "off";
+        auditBtn.textContent = "Analyser cette page — 1 crédit";
+      }
+    }
+
+    // === Settings modal ===
+    const settingsModal = document.getElementById("settings-modal");
+    const byokToggle = document.getElementById("byok-toggle");
+    const byokFields = document.getElementById("byok-fields");
+    const byokProvider = document.getElementById("byok-provider");
+    const byokKey = document.getElementById("byok-key");
+    const byokModel = document.getElementById("byok-model");
+    const byokModelList = document.getElementById("byok-model-list");
+    const byokProviderHelp = document.getElementById("byok-provider-help");
+    const byokKeyHelp = document.getElementById("byok-key-help");
+
+    function refreshProviderHints(preserveModel = false) {
+      const info = PROVIDER_INFO[byokProvider.value];
+      byokProviderHelp.innerHTML = "";
+      byokKeyHelp.innerHTML = info.keyHelp;
+      byokKey.placeholder = info.keyPrefix ? info.keyPrefix + "..." : "Ta clé API";
+      byokModelList.innerHTML = info.models.map((m) => `<option value="${m}"></option>`).join("");
+      if (!preserveModel || !byokModel.value) byokModel.value = info.default;
+    }
+
+    function openSettings() {
+      const cfg = getByok();
+      const enabled = !!cfg;
+      byokToggle.checked = enabled;
+      byokFields.hidden = !enabled;
+      if (cfg) {
+        byokProvider.value = cfg.provider;
+        byokKey.value = cfg.apiKey;
+        byokModel.value = cfg.model;
+      } else if (!byokProvider.value) {
+        byokProvider.value = "anthropic";
+      }
+      refreshProviderHints(true);
+      settingsModal.classList.add("open");
+    }
+    function closeSettings() { settingsModal.classList.remove("open"); }
+
+    document.getElementById("btn-settings").addEventListener("click", openSettings);
+    document.getElementById("settings-cancel").addEventListener("click", closeSettings);
+    document.getElementById("byok-banner-edit").addEventListener("click", openSettings);
+
+    byokToggle.addEventListener("change", () => {
+      byokFields.hidden = !byokToggle.checked;
+    });
+    byokProvider.addEventListener("change", () => refreshProviderHints(false));
+    document.getElementById("byok-key-toggle").addEventListener("click", () => {
+      const t = byokKey.type === "password" ? "text" : "password";
+      byokKey.type = t;
+      document.getElementById("byok-key-toggle").textContent = t === "password" ? "Afficher" : "Masquer";
+    });
+    document.getElementById("settings-clear").addEventListener("click", () => {
+      byokToggle.checked = false;
+      byokFields.hidden = true;
+      byokKey.value = "";
+      byokModel.value = "";
+      setByok(null);
+    });
+    document.getElementById("settings-save").addEventListener("click", () => {
+      if (!byokToggle.checked) {
+        setByok(null);
+        closeSettings();
+        return;
+      }
+      const provider = byokProvider.value;
+      const apiKey = byokKey.value.trim();
+      const model = byokModel.value.trim();
+      if (!apiKey) { byokKey.focus(); return; }
+      if (!model) { byokModel.focus(); return; }
+      setByok({ enabled: true, provider, apiKey, model });
+      closeSettings();
+    });
+    settingsModal.addEventListener("click", (ev) => {
+      if (ev.target === settingsModal) closeSettings();
     });
 
     // ============================================================
@@ -500,6 +810,9 @@
     // RUN AUDIT
     // ============================================================
     async function runAudit(url, lang) {
+      const byok = getByok();
+      const body = { url, lang };
+      if (byok) body.byok = { provider: byok.provider, apiKey: byok.apiKey, model: byok.model };
       const res = await fetch(SUPABASE_URL + "/functions/v1/audit-url", {
         method: "POST",
         headers: {
@@ -507,7 +820,7 @@
           "Authorization": "Bearer " + SUPABASE_ANON_KEY,
           "apikey": SUPABASE_ANON_KEY,
         },
-        body: JSON.stringify({ url, lang }),
+        body: JSON.stringify(body),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -521,7 +834,11 @@
         case "invalid_url": return "URL invalide.";
         case "unreachable": return "Page inaccessible.";
         case "ai_unavailable": return "Analyse IA indisponible, réessaie.";
+        case "ai_auth_failed": return "Clé API invalide ou refusée par le fournisseur.";
         case "parse_failed": return "Réponse IA non exploitable.";
+        case "invalid_provider": return "Fournisseur IA non supporté.";
+        case "missing_api_key": return "Clé API manquante.";
+        case "missing_model": return "Modèle manquant.";
         case "server_misconfigured": return "Service mal configuré (clé API absente).";
         default: return null;
       }
@@ -718,7 +1035,8 @@ ${dimSection}
         errEl.hidden = false;
         return;
       }
-      if (getCredits() <= 0) {
+      const byok = getByok();
+      if (!byok && getCredits() <= 0) {
         showCreditsModal();
         return;
       }
@@ -729,7 +1047,7 @@ ${dimSection}
 
       try {
         const data = await runAudit(url, lang);
-        decrementCredits();
+        if (!byok) decrementCredits();
         renderReport(data);
         setState("report");
       } catch (err) {
@@ -765,6 +1083,7 @@ ${dimSection}
 
     // Init
     refreshCreditsUI();
+    refreshByokUI();
   </script>
 </body>
 </html>

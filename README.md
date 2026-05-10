@@ -5,8 +5,8 @@ MVP SaaS « pay-per-audit » : analyse automatique du potentiel de conversion d'
 ## Stack
 
 - **Frontend** : `index.html` standalone (HTML + CSS + Vanilla JS, zéro framework, zéro build)
-- **Backend** : Supabase Edge Function (Deno/TypeScript) — fetch URL + appel Claude (cache la clé API, contourne le CORS)
-- **IA** : Claude `claude-sonnet-4-6` via [Anthropic API](https://docs.claude.com)
+- **Backend** : Supabase Edge Function (Deno/TypeScript) — fetch URL + relais multi-provider (cache les clés API, contourne le CORS)
+- **IA** : 6 fournisseurs supportés en mode BYOK (Bring Your Own Key) — Anthropic, OpenAI, Groq, xAI (Grok), Mistral, OpenRouter. Mode payant = `claude-sonnet-4-6` côté serveur.
 - **Parsing HTML** : [`deno-dom`](https://deno.land/x/deno_dom) côté Edge Function
 - **Monétisation** : [Lemonsqueezy](https://lemonsqueezy.com) (1 crédit = 1 audit, packs prépayés ; v1 : crédits stockés en `localStorage`, hooks UI seulement)
 
@@ -93,15 +93,58 @@ Vérifier le secret est bien set côté Supabase Dashboard → Project Settings 
 
 > En v1, **les crédits ne sont pas synchronisés** avec Lemonsqueezy. Après paiement, l'utilisateur doit ajouter ses crédits manuellement (ou tu mets à jour `localStorage.convertaudit_credits` à la main pour la démo). En v2 : webhook Supabase + table `users`.
 
+## Mode BYOK (Bring Your Own Key)
+
+Chaque utilisateur peut configurer sa propre clé API via le bouton ⚙ en haut à droite. Quand le mode BYOK est actif :
+
+- **Aucun crédit n'est consommé** (l'utilisateur paie son fournisseur directement)
+- L'Edge Function relaie la requête vers le provider choisi sans logger la clé
+- La clé est stockée dans `localStorage` du navigateur (avertissement explicite à l'utilisateur)
+
+### Fournisseurs supportés
+
+| Fournisseur | Endpoint | Format | Modèles suggérés |
+|---|---|---|---|
+| **Anthropic** | `api.anthropic.com/v1/messages` | Claude Messages | `claude-sonnet-4-6`, `claude-opus-4-7`, `claude-haiku-4-5` |
+| **OpenAI** | `api.openai.com/v1/chat/completions` | OpenAI Chat | `gpt-4o`, `gpt-4o-mini`, `gpt-4.1`, `o4-mini` |
+| **Groq** | `api.groq.com/openai/v1/chat/completions` | OpenAI-compat | `llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, `mixtral-8x7b-32768` |
+| **xAI (Grok)** | `api.x.ai/v1/chat/completions` | OpenAI-compat | `grok-4`, `grok-3`, `grok-3-mini` |
+| **Mistral** | `api.mistral.ai/v1/chat/completions` | OpenAI-compat | `mistral-large-latest`, `mistral-small-latest` |
+| **OpenRouter** | `openrouter.ai/api/v1/chat/completions` | OpenAI-compat | `anthropic/claude-sonnet-4`, `openai/gpt-4o`, `google/gemini-2.5-pro` |
+
+Tous les providers sauf Anthropic utilisent le format OpenAI Chat Completions et sont configurés avec `response_format: { type: "json_object" }` quand supporté pour fiabiliser le JSON. Le système prompt impose un retour JSON strict ; en cas d'échec de parsing, un retry automatique est lancé.
+
+### Sécurité BYOK
+
+- ✅ Clé envoyée en HTTPS (TLS 1.3) à l'Edge Function, qui la relaie au provider et la jette
+- ✅ Aucun log côté serveur ne contient la clé (les `console.error` se limitent au code HTTP et à 200 chars de réponse, pas à la requête)
+- ⚠ Stockée en `localStorage` du navigateur — vulnérable à un XSS si tu héberges l'app sur un domaine compromis
+- ⚠ Toute personne ayant accès à l'Edge Function peut potentiellement intercepter les clés en transit (à toi de mettre des règles d'auth/RLS si nécessaire)
+
 ## API Edge Function
 
 ### `POST /functions/v1/audit-url`
 
-**Request**
+**Request (mode payant — clé serveur)**
 ```json
 { "url": "https://example.com", "lang": "fr" }
 ```
+
+**Request (mode BYOK)**
+```json
+{
+  "url": "https://example.com",
+  "lang": "fr",
+  "byok": {
+    "provider": "openai",
+    "apiKey": "sk-...",
+    "model": "gpt-4o"
+  }
+}
+```
+
 - `lang` : `"fr"` ou `"en"` (défaut `"fr"`)
+- `byok.provider` : `anthropic` · `openai` · `groq` · `grok` · `mistral` · `openrouter`
 
 **Response 200**
 ```json
@@ -123,7 +166,8 @@ Vérifier le secret est bien set côté Supabase Dashboard → Project Settings 
   "global_mention": "Bon",
   "quick_wins": ["...", "...", "..."],
   "strengths": ["...", "..."],
-  "critical_issues": ["...", "..."]
+  "critical_issues": ["...", "..."],
+  "meta": { "provider": "openai", "model": "gpt-4o" }
 }
 ```
 
@@ -133,9 +177,13 @@ Vérifier le secret est bien set côté Supabase Dashboard → Project Settings 
 | 400 | `invalid_url` | URL malformée ou non-http(s) |
 | 400 | `unreachable` | Page inaccessible (timeout, 4xx, redirect bloquant) |
 | 400 | `invalid_body` | Body JSON invalide |
-| 500 | `server_misconfigured` | `ANTHROPIC_API_KEY` absent |
-| 502 | `ai_unavailable` | Claude API timeout / 5xx |
-| 502 | `parse_failed` | Réponse Claude non parseable même après retry |
+| 400 | `invalid_provider` | `byok.provider` non supporté |
+| 400 | `missing_api_key` | `byok.apiKey` vide |
+| 400 | `missing_model` | `byok.model` vide |
+| 500 | `server_misconfigured` | `ANTHROPIC_API_KEY` absent côté serveur (et pas de BYOK fourni) |
+| 502 | `ai_auth_failed` | Provider a refusé la clé (401/403) |
+| 502 | `ai_unavailable` | Provider timeout / 5xx |
+| 502 | `parse_failed` | Réponse IA non parseable même après retry |
 
 ## Limitations v1 connues
 
